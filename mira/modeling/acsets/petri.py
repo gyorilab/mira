@@ -11,57 +11,11 @@ __all__ = ["PetriNetModel"]
 import json
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
 import sympy
 
 from mira.modeling import Model
 from mira.metamodel import expression_to_mathml
 from mira.metamodel.utils import safe_parse_expr
-
-
-class State(BaseModel):
-    sname: str
-    sprop: Optional[Dict] = None
-    #mira_ids: str
-    #mira_context: str
-    #mira_initial_value: Optional[float]
-
-
-class Transition(BaseModel):
-    tname: str
-    rate: Optional[float] = None
-    tprop: Optional[Dict] = None
-    #template_type: str
-    #parameter_name: Optional[str]
-    #parameter_value: Optional[str]
-    #parameter_distribution: Optional[str]
-    #mira_parameters: Optional[str]
-    #mira_parameter_distributions: Optional[str]
-
-
-class Input(BaseModel):
-    source: int = Field(alias="is")
-    transition: int = Field(alias="it")
-
-
-class Output(BaseModel):
-    source: int = Field(alias="os")
-    transition: int = Field(alias="ot")
-
-
-#class Observable(BaseModel):
-#    concept: str
-#    expression: str
-#    mira_parameters: str
-#    mira_parameter_distributions: str
-
-
-class PetriNetResponse(BaseModel):
-    S: List[State] = Field(..., description="A list of states")
-    T: List[Transition] = Field(..., description="A list of transitions")
-    I: List[Input] = Field(..., description="A list of inputs")
-    O: List[Output] = Field(..., description="A list of outputs")
-    #B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -94,7 +48,7 @@ class PetriNetModel:
                     'is_observable': False,
                     'mira_ids': ids,
                     'mira_context': context,
-                    'mira_concept': var.concept.model_dump_json(),
+                    'mira_concept': json.dumps(var.concept.to_json()),
                 }
             }
             initial_expr = var.data.get('expression')
@@ -102,7 +56,7 @@ class PetriNetModel:
                 parameters_dict = {param_name: param_object.value for param_name, param_object in
                                    model.parameters.items() if not param_object.placeholder}
 
-                state_data['concentration'] = float(initial_expr.subs(parameters_dict).args[0])
+                state_data['concentration'] = float(initial_expr.subs(parameters_dict))
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)
@@ -114,7 +68,7 @@ class PetriNetModel:
                 pname = f"p_petri_{idx + 1}"
             else:
                 pname = transition.rate.key
-            distr = transition.rate.distribution.model_dump_json() \
+            distr = json.dumps(transition.rate.distribution.to_json()) \
                 if transition.rate.distribution else None
             pvalue = transition.rate.value
             transition_dict = {
@@ -124,14 +78,14 @@ class PetriNetModel:
                     'parameter_name': pname,
                     'parameter_value': pvalue,
                     'parameter_distribution': distr,
-                    'mira_template': transition.template.model_dump_json(),
+                    'mira_template': json.dumps(transition.template.to_json()),
                 }
             }
             transition_dict["rate"] = pvalue
 
             # Include rate law
             if transition.template.rate_law:
-                rate_law = transition.template.rate_law.args[0]
+                rate_law = transition.template.rate_law
                 transition_dict["tprop"].update(
                     mira_rate_law=str(rate_law),
                     mira_rate_law_mathml=expression_to_mathml(rate_law),
@@ -148,7 +102,7 @@ class PetriNetModel:
                         continue
                     key = p.key if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
-                    _distributions[key] = p.distribution.model_dump() \
+                    _distributions[key] = p.distribution.to_json() \
                         if p.distribution else None
                 transition_dict["tprop"]["mira_parameters"] = \
                     json.dumps(_parameters, sort_keys=True)
@@ -186,7 +140,7 @@ class PetriNetModel:
                 key = sanitize_parameter_name(
                     p.key) if p.key else f"p_petri_{idx + 1}"
                 _parameters[key] = p.value
-                _distributions[key] = p.distribution.model_dump() \
+                _distributions[key] = p.distribution.to_json() \
                     if p.distribution else None
             obs_dict = {
                 'concept': json.dumps(concept_data),
@@ -214,9 +168,6 @@ class PetriNetModel:
             'O': self.outputs,
             # 'B': self.observables,
         }
-
-    def to_pydantic(self):
-        return PetriNetResponse(**self.to_json())
 
     def to_json_str(self):
         """Return a JSON string representation of the Petri net model."""

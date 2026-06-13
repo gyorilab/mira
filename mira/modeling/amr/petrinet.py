@@ -2,17 +2,15 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AMRPetriNetModel", "ModelSpecification",
-           "template_model_to_petrinet_json"]
+__all__ = ["AMRPetriNetModel", "template_model_to_petrinet_json"]
 
 import json
 import logging
 from copy import deepcopy
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field, ConfigDict
-
-from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
+import sympy
+from mira.metamodel import expression_to_mathml, TemplateModel
 from mira.sources.amr import sanity_check_amr
 
 from .. import Model
@@ -84,7 +82,7 @@ class AMRPetriNetModel:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        var.concept.units.expression.args[0]
+                        var.concept.units.expression
                     ),
                 }
 
@@ -113,7 +111,7 @@ class AMRPetriNetModel:
                 'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression.args[0]),
+                    observable.observable.expression),
             }
             self.observables.append(obs_data)
 
@@ -123,7 +121,7 @@ class AMRPetriNetModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]),
+                        model.template_model.time.units.expression),
                 }
         else:
             self.time = None
@@ -163,7 +161,7 @@ class AMRPetriNetModel:
 
             # Include rate law
             if transition.template.rate_law:
-                rate_law = transition.template.rate_law.args[0]
+                rate_law = transition.template.rate_law
                 self.rates.append({
                     'target': tid,
                     'expression': str(rate_law),
@@ -193,9 +191,9 @@ class AMRPetriNetModel:
             else:
                 serialized_distr_parameters = {}
                 for param_key, param_value in param.distribution.parameters.items():
-                    if isinstance(param_value, SympyExprStr):
+                    if isinstance(param_value, sympy.Expr):
                         serialized_distr_parameters[param_key] = \
-                            str(param_value.args[0])
+                            str(param_value)
                     else:
                         serialized_distr_parameters[param_key] = param_value
                 param_dict['distribution'] = {
@@ -206,7 +204,7 @@ class AMRPetriNetModel:
                 param_dict['units'] = {
                     'expression': str(param.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        param.concept.units.expression.args[0]),
+                        param.concept.units.expression),
                 }
             self.parameters.append(param_dict)
 
@@ -265,50 +263,6 @@ class AMRPetriNetModel:
         except Exception as e:
             logger.warning("Error in AMR sanity check: %s", str(e))
         return json_data
-
-    def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
-        """Return a Pydantic model representation of the Petri net model.
-
-        Parameters
-        ----------
-        name :
-            The name of the model. Defaults to the name of the original
-            template model that produced the input Model instance or, if not
-            available, 'Model'.
-        description :
-            A description of the model. Defaults to the description of the
-            original template model that produced the input Model instance or,
-            if not available, the name of the model.
-        model_version :
-            The version of the model. Defaults to '0.1'.
-
-        Returns
-        -------
-        :
-            A Pydantic model representation of the Petri net model.
-        """
-        return ModelSpecification(
-            header=Header(
-                name=name or self.model_name,
-                schema=SCHEMA_URL,
-                schema_name='petrinet',
-                description=description or self.model_description,
-                model_version=model_version or '0.1',
-            ),
-            properties=self.properties,
-            model=PetriModel(
-                states=[State.model_validate(s) for s in self.states],
-                transitions=[Transition.model_validate(t) for t in self.transitions],
-            ),
-            semantics=Ode(ode=OdeSemantics(
-                rates=[Rate.model_validate(r) for r in self.rates],
-                initials=[Initial.model_validate(i) for i in self.initials],
-                parameters=[Parameter.model_validate(p) for p in self.parameters],
-                observables=[Observable.model_validate(o) for o in self.observables],
-                time=Time.model_validate(self.time) if self.time else Time(id='t')
-            )),
-            metadata=self.metadata,
-        )
 
     def to_json_str(self, **kwargs) -> str:
         """Return a JSON string representation of the Petri net model.
@@ -377,107 +331,3 @@ def template_model_to_petrinet_json_file(tm: TemplateModel, fname):
     AMRPetriNetModel(Model(tm)).to_json_file(fname)
 
 
-class Initial(BaseModel):
-    target: str
-    expression: str
-    expression_mathml: str
-
-
-class TransitionProperties(BaseModel):
-    name: Optional[str] = None
-    grounding: Optional[Dict] = None
-
-
-class Rate(BaseModel):
-    target: str
-    expression: str
-    expression_mathml: str
-
-
-class Distribution(BaseModel):
-    type: str
-    parameters: Dict
-
-
-class Units(BaseModel):
-    expression: str
-    expression_mathml: str
-
-
-class State(BaseModel):
-    id: str
-    name: Optional[str] = None
-    description: Optional[str] = None
-    grounding: Optional[Dict] = None
-    units: Optional[Units] = None
-
-
-class Transition(BaseModel):
-    id: str
-    input: List[str]
-    output: List[str]
-    grounding: Optional[Dict] = None
-    properties: Optional[TransitionProperties] = None
-
-
-class Parameter(BaseModel):
-    id: str
-    description: Optional[str] = None
-    value: Optional[float] = None
-    grounding: Optional[Dict] = None
-    distribution: Optional[Distribution] = None
-    units: Optional[Units] = None
-
-    @classmethod
-    def from_dict(cls, d):
-        d = deepcopy(d)
-        d['id'] = str(d['id'])
-        return cls.model_validate(d)
-
-
-class Time(BaseModel):
-    id: str
-    units: Optional[Units] = None
-
-
-class Observable(BaseModel):
-    id: str
-    name: Optional[str] = None
-    grounding: Optional[Dict] = None
-    expression: str
-    expression_mathml: str
-
-
-class PetriModel(BaseModel):
-    states: List[State]
-    transitions: List[Transition]
-
-
-class OdeSemantics(BaseModel):
-    rates: List[Rate]
-    initials: List[Initial]
-    parameters: List[Parameter]
-    time: Optional[Time] = None
-    observables: List[Observable]
-
-
-class Ode(BaseModel):
-    ode: Optional[OdeSemantics] = None
-
-
-class Header(BaseModel):
-    model_config = ConfigDict(protected_namespaces=())
-    name: str
-    schema_url: str = Field(..., alias='schema')
-    schema_name: str
-    description: str
-    model_version: str
-
-
-class ModelSpecification(BaseModel):
-    """A Pydantic model corresponding to the PetriNet JSON schema."""
-    header: Header
-    properties: Optional[Dict] = None
-    model: PetriModel
-    semantics: Optional[Ode] = None
-    metadata: Optional[Dict] = None

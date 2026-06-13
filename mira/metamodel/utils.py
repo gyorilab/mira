@@ -1,5 +1,5 @@
 __all__ = ['get_parseable_expression', 'revert_parseable_expression',
-           'safe_parse_expr', 'SympyExprStr', 'sanity_check_tm']
+           'safe_parse_expr', 'sanity_check_tm']
 
 import sympy
 import re
@@ -9,9 +9,6 @@ from typing import Any, Optional
 from functools import lru_cache
 
 import requests
-
-from pydantic import GetCoreSchemaHandler
-from pydantic_core import core_schema
 
 
 # Pre-compile the regular expression for performance
@@ -53,45 +50,6 @@ def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:
                             evaluate=False)
 
 
-class SympyExprStr(sympy.Expr):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> core_schema.CoreSchema:
-        return handler.resolve_ref_schema(core_schema.union_schema([
-            core_schema.is_instance_schema(cls),
-            core_schema.no_info_plain_validator_function(cls.validate)
-        ]))
-
-
-    @classmethod
-    def validate(cls, v):
-        if isinstance(v, cls):
-            return v
-        elif isinstance(v, float):
-            return cls(sympy.Float(v))
-        elif isinstance(v, int):
-            return cls(sympy.Integer(v))
-        return cls(v)
-
-    @classmethod
-    def __get_pydantic_json_schema__(cls, core_schema, handler):
-        json_schema = handler(core_schema)
-        json_schema.update(type="string", format="sympy-expr")
-        return json_schema
-        #field_schema.update(type="string", example="2*x")
-
-    def __str__(self):
-        return super().__str__()[len(self.__class__.__name__)+1:-1]
-
-    def __repr__(self):
-        return str(self)
-
-
 def sanity_check_tm(tm):
     """Apply a short sanity check to a template model."""
     assert tm.templates
@@ -100,7 +58,7 @@ def sanity_check_tm(tm):
     all_symbols = all_concept_names | all_parameter_names | ({tm.time.name} if tm.time else set())
     for template in tm.templates:
         assert template.rate_law
-        symbols = template.rate_law.args[0].free_symbols
+        symbols = template.rate_law.free_symbols
         for symbol in symbols:
             assert symbol.name in all_symbols, f"missing symbol: {symbol.name}"
     all_initial_names = {init.concept.name for init in tm.initials.values()}
@@ -125,7 +83,8 @@ def is_ontological_child(child_curie: str, parent_curie: str,
     endpoint_url = base_url + '/is_ontological_child'
 
     res = requests.post(endpoint_url, json={"child_curie": child_curie,
-                                            "parent_curie": parent_curie})
+                                            "parent_curie": parent_curie},
+                        timeout=30)
 
     res.raise_for_status()
     res_json = res.json()

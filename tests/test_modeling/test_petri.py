@@ -1,3 +1,4 @@
+import json
 from copy import deepcopy
 
 from mira.metamodel import Distribution
@@ -45,4 +46,4 @@ def test_petri_parameterized():
     assert js
     assert js['S'][0]['concentration'] == 1
     assert js['T'][0]['rate'] == 0.1
-    assert js['T'][0]['tprop']['parameter_distribution'] == distr.model_dump_json()
+    assert js['T'][0]['tprop']['parameter_distribution'] == json.dumps(distr.to_json())

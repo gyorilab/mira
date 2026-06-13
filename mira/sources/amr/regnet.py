@@ -4,6 +4,7 @@ https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 __all__ = ["model_from_url", "model_from_json_file", "template_model_from_amr_json"]
 
 
+import datetime
 import json
 
 import sympy
@@ -26,7 +27,7 @@ def model_from_url(url: str) -> TemplateModel:
     :
         A TemplateModel object.
     """
-    res = requests.get(url)
+    res = requests.get(url, timeout=30)
     model_json = res.json()
     return template_model_from_amr_json(model_json)
 
@@ -100,7 +101,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             rate_obj = rates.get(vertex['id'], {})
             if rate_obj:
                 rate_law = get_sympy(rate_obj, local_dict=symbols)
-                template.rate_law = SympyExprStr(rate_law)
+                template.rate_law = rate_law
             elif vertex.get('rate_constant') is not None:
                 template.set_mass_action_rate_law(vertex['rate_constant'])
             templates.append(template)
@@ -143,7 +144,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         rate_obj = rates.get(edge_id, {})
         if rate_obj:
             rate_law = get_sympy(rate_obj, local_dict=symbols)
-            template.rate_law = SympyExprStr(rate_law)
+            template.rate_law = rate_law
         else:
             rate_constant = props.get('rate_constant')
             if rate_constant is not None:
@@ -185,6 +186,11 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             val = [Author(name=author_dict["name"]) for author_dict in val]
         annotation_attributes[key] = val
 
+    for key in ("time_start", "time_end"):
+        if key in annotation_attributes and \
+                isinstance(annotation_attributes[key], str):
+            annotation_attributes[key] = \
+                datetime.datetime.fromisoformat(annotation_attributes[key])
     anns = Annotations(**annotation_attributes)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,

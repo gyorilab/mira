@@ -1,7 +1,6 @@
 """Tests for MIRA."""
 import json
-
-from mira.metamodel import SympyExprStr
+import sympy
 
 
 def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str:
@@ -25,7 +24,7 @@ def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str
         if skip_empty and not json_dict:
             return ""
         return json_dict
-    elif isinstance(json_dict, (int, float, SympyExprStr)):
+    elif isinstance(json_dict, (int, float, sympy.Expr)):
         if skip_empty and not json_dict and json_dict != 0 and json_dict != 0.0:
             return ""
         return str(json_dict)

@@ -1,6 +1,4 @@
 import pandas as pd
-from pydantic import Field, ConfigDict
-from typing_extensions import Annotated
 
 __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "TemplateModelDelta", "RefinementClosure",
@@ -8,21 +6,17 @@ __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "get_concept_comparison_table"]
 
 from collections import defaultdict
-from itertools import combinations, count, product, chain
-from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
-    Union, Set
+from itertools import combinations, count, product
+from typing import Literal, Optional, List, Tuple, Dict, Callable, Union, Set
 
 import networkx as nx
-import sympy
-from pydantic import BaseModel, Field
 from tqdm import tqdm
 import pandas as pd
 
-from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \
-    REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME, SpecifiedTemplate
-from .template_model import Initial, TemplateModel, get_concept_graph_key, \
+from .templates import Concept, Template, IS_EQUAL, \
+    REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME
+from .template_model import TemplateModel, get_concept_graph_key, \
     get_template_graph_key
-from .utils import safe_parse_expr
 
 
 TAG1_COLOR = "blue"
@@ -30,93 +24,76 @@ TAG2_COLOR = "green"
 MERGE_COLOR = "orange"
 
 
-class DataNode(BaseModel):
-    """A node in a ModelComparisonGraphdata"""
+class ModelComparisonGraphdata:
+    """A graph representation of TemplateModel delta.
 
-    model_config = ConfigDict(protected_namespaces=())
-    node_type: Literal["template", "concept"]
-    model_id: Annotated[int, Field(ge=0, strict=True)]
+    Attributes
+    ----------
+    template_models : Dict[int, TemplateModel]
+        A mapping of template model keys to template models.
+    concept_nodes : Dict[int, Dict[int, Concept]]
+        A mapping of model identifiers to a mapping of node identifiers to
+        concept nodes. Node identifiers have the structure of 'mXnY'
+        where X is the model id and Y is the node id within the model.
+    template_nodes : Dict[int, Dict[int, Template]]
+        Same structure as concept_nodes but for template nodes.
+    inter_model_edges : list of tuple
+        List of edges as tuples of (source node lookup, target node
+        lookup, role) where role describes if the edge is a refinement
+        of or equal to another node in another model. Edges are directed
+        for refinements and undirected for equalities. Node lookups are tuples
+        of (model id, node id).
+    intra_model_edges : list of tuple
+        List of edges as tuples of (source node lookup, target node lookup,
+        role) where role describes if the edge is incoming to, outgoing from
+        or controls a template/process in the same model. Edges are directed.
+        Node lookups are tuples of (model id, node id).
+    """
 
+    def __init__(self, template_models,
+                 concept_nodes=None,
+                 template_nodes=None,
+                 inter_model_edges=None,
+                 intra_model_edges=None):
+        self.template_models = template_models
+        self.concept_nodes = concept_nodes if concept_nodes is not None else {}
+        self.template_nodes = template_nodes \
+            if template_nodes is not None else {}
+        self.inter_model_edges = inter_model_edges \
+            if inter_model_edges is not None else []
+        self.intra_model_edges = intra_model_edges \
+            if intra_model_edges is not None else []
 
-class TemplateNode(DataNode):
-    """A node in a ModelComparisonGraphdata representing a Template"""
-
-    model_config = ConfigDict(protected_namespaces=())
-    type: str
-    rate_law: Optional[SympyExprStr] = \
-        Field(default=None, description="The rate law of this template")
-    initials: Optional[Mapping[str, Initial]] = \
-        Field(default=None, description="The initial conditions associated "
-                                        "with the rate law for this template")
-    provenance: List[Provenance] = Field(default_factory=list)
-
-
-class ConceptNode(Concept, DataNode):
-    """A node in a ModelComparisonGraphdata representing a Concept"""
-
-    curie: str
-
-
-DataNodeKey = Tuple[str, ...]
-
-
-class DataEdge(BaseModel):
-    """An edge in a ModelComparisonGraphdata"""
-
-    source_id: DataNodeKey
-    target_id: DataNodeKey
-
-
-class InterModelEdge(DataEdge):
-    role: Literal["refinement_of", "is_equal"]
-
-
-class IntraModelEdge(DataEdge):
-    role: Literal["subject", "outcome", "controller"]
-
-
-class ModelComparisonGraphdata(BaseModel):
-    """A data structure holding a graph representation of TemplateModel delta"""
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    template_models: Dict[int, TemplateModel] = Field(
-        ..., description="A mapping of template model keys to template models"
-    )
-    concept_nodes: Dict[int, Dict[int, Concept]] = Field(
-        default_factory=list,
-        description="A mapping of model identifiers to a mapping of node "
-        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
-        "where X is the model id and Y is the node id within the model.",
-    )
-    template_nodes: Dict[int, Dict[int, SpecifiedTemplate]] = Field(
-        default_factory=list,
-        description="A mapping of model identifiers to a mapping of node "
-        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
-        "where X is the model id and Y is the node id within the model.",
-    )
-    # nodes are tuples of (model id, node id) for look
-    inter_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = \
-        Field(
-        default_factory=list,
-        description="List of edges. Each edge is a tuple of"
-        "(source node lookup, target node lookup, role) where role describes "
-        "if the edge is a refinement of or equal to another node in another "
-        "model (inter model edge). The edges are considered directed for "
-        "refinements and undirected for equalities. The node lookup is a "
-        "tuple of (model id, node id) that defines the lookup of the node "
-        "in the nodes mapping.",
-    )
-    intra_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = Field(
-        default_factory=list,
-        description="List of edges. Each edge is a tuple of"
-        "(source node lookup, target node lookup, role) where role describes "
-        "if the edge incoming to, outgoing from or controls a "
-        "template/process in the same model (intra model edge). The edges "
-        "are considered directed. The node lookup is a tuple of "
-        "(model id, node id) that defines the lookup of the node in the "
-        "nodes mapping.",
-    )
+    def to_json(self):
+        """Return a JSON-compatible dict representation."""
+        return {
+            "template_models": {
+                k: v.to_json() if hasattr(v, 'to_json') else v
+                for k, v in self.template_models.items()
+            },
+            "concept_nodes": {
+                mid: {
+                    nid: node.to_json() if hasattr(node, 'to_json') else node
+                    for nid, node in nodes.items()
+                }
+                for mid, nodes in self.concept_nodes.items()
+            },
+            "template_nodes": {
+                mid: {
+                    nid: node.to_json() if hasattr(node, 'to_json') else node
+                    for nid, node in nodes.items()
+                }
+                for mid, nodes in self.template_nodes.items()
+            },
+            "inter_model_edges": [
+                [list(e[0]), list(e[1]), e[2]]
+                for e in self.inter_model_edges
+            ],
+            "intra_model_edges": [
+                [list(e[0]), list(e[1]), e[2]]
+                for e in self.intra_model_edges
+            ],
+        }
 
     def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
         """Get the similarity score of the model comparison

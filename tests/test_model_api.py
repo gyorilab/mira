@@ -18,14 +18,14 @@ from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web, \
     get_entity_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
+    TemplateModel, Distribution, Annotations, Time, Observable
 from mira.metamodel.ops import stratify
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.amr.petrinet import template_model_from_amr_json
 from mira.sources.bilayer import template_model_from_bilayer
@@ -150,18 +150,17 @@ class TestModelApi(unittest.TestCase):
         """Test the petrinet endpoint."""
         sir_model_templ = _get_sir_templatemodel()
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=sir_model_templ.model_dump()
+            "/api/to_petrinet_acsets", json=sir_model_templ.to_json()
         )
         self.assertEqual(response.status_code, 200, msg=response.content)
-        response_petri_net = PetriNetResponse.model_validate(response.json())
+        response_json = response.json()
         model = Model(sir_model_templ)
         petri_net = PetriNetModel(model)
-        self.assertEqual(petri_net.to_pydantic(), response_petri_net)
+        self.assertEqual(petri_net.to_json(), response_json)
 
     def test_petri_parameterized(self):
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=json.loads(
-                sir_parameterized.model_dump_json())
+            "/api/to_petrinet_acsets", json=sir_parameterized.to_json()
         )
         self.assertEqual(200, response.status_code, msg=response.content)
 
@@ -171,14 +170,14 @@ class TestModelApi(unittest.TestCase):
                              parameters={'minimum': 0.01, 'maximum': 0.5})
         sir_distribution.parameters['beta'].distribution = distr
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=json.loads(
-                sir_distribution.model_dump_json())
+            "/api/to_petrinet_acsets",
+            json=sir_distribution.to_json()
         )
         pm = response.json()
         assert (pm['T'][0]['tprop']['parameter_distribution'] ==
-                distr.model_dump_json())
+                json.dumps(distr.to_json()))
         assert json.loads(pm['T'][0]['tprop']['mira_parameter_distributions']) == \
-               {'beta': distr.model_dump()}
+               {'beta': distr.to_json()}
         self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_petri_to_template_model(self):
@@ -187,7 +186,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
-        tm_json_str = sorted_json_str(tm.model_dump())
+        tm_json_str = sorted_json_str(tm.to_json())
         self.assertEqual(resp_json_str, tm_json_str)
 
     def test_petri_to_template_model_parameterized(self):
@@ -196,7 +195,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
-        tm_json_str = sorted_json_str(tm.model_dump())
+        tm_json_str = sorted_json_str(tm.to_json())
         self.assertEqual(resp_json_str, tm_json_str)
 
     def test_askenet_to_template_model(self):
@@ -219,7 +218,7 @@ class TestModelApi(unittest.TestCase):
 
     def test_askenet_from_template_model(self):
         response = self.client.post("/api/to_petrinet", json=json.loads(
-            sir_parameterized.model_dump_json()))
+            json.dumps(sir_parameterized.to_json())))
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = template_model_from_amr_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
@@ -234,7 +233,7 @@ class TestModelApi(unittest.TestCase):
             "geonames:4930956": "Boston",
         }
         query_json = {
-            "template_model": sir_templ_model.model_dump(),
+            "template_model": sir_templ_model.to_json(),
             "key": key,
             "strata": strata,
             "strata_name_map": strata_name_map,
@@ -249,13 +248,13 @@ class TestModelApi(unittest.TestCase):
             strata=strata,
             strata_curie_to_name=strata_name_map,
         )
-        strat_str = sorted_json_str(strat_templ_model.model_dump())
+        strat_str = sorted_json_str(strat_templ_model.to_json())
 
         self.assertEqual(strat_str, resp_json_str)
 
         # Test directed True, also skip the name map
         query_json = {
-            "template_model": sir_templ_model.model_dump(),
+            "template_model": sir_templ_model.to_json(),
             "key": key,
             "strata": strata,
             "directed": True,
@@ -270,7 +269,7 @@ class TestModelApi(unittest.TestCase):
             strata=set(strata),
             directed=query_json["directed"],
         )
-        strat_str = sorted_json_str(strat_templ_model.model_dump())
+        strat_str = sorted_json_str(strat_templ_model.to_json())
 
         self.assertEqual(strat_str, resp_json_str)
 
@@ -279,12 +278,12 @@ class TestModelApi(unittest.TestCase):
 
     def test_stratify_observable_api(self):
         from mira.examples.sir import sir_parameterized
-        tm = sir_parameterized.model_copy(deep=True)
+        tm = copy.deepcopy(sir_parameterized)
         symbols = set(tm.get_concepts_name_map().keys())
         expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
         tm.observables = {'half_population': Observable(
             name='half_population',
-            expression=SympyExprStr(expr / 2))
+            expression=expr / 2)
         }
 
         strata_options = dict(key='age',
@@ -292,7 +291,7 @@ class TestModelApi(unittest.TestCase):
                               structure=[],
                               cartesian_control=True)
 
-        query_json = {"template_model": json.loads(tm.model_dump_json())}
+        query_json = {"template_model": tm.to_json()}
         query_json.update(strata_options)
 
         response = self.client.post("/api/stratify", json=query_json)
@@ -302,7 +301,7 @@ class TestModelApi(unittest.TestCase):
     def test_to_dot_file(self):
         sir_templ_model = _get_sir_templatemodel()
         response = self.client.post(
-            "/api/viz/to_dot_file", json=sir_templ_model.model_dump()
+            "/api/viz/to_dot_file", json=sir_templ_model.to_json()
         )
         self.assertEqual(200, response.status_code)
         self.assertIn(
@@ -320,7 +319,7 @@ class TestModelApi(unittest.TestCase):
     def test_to_graph_image(self):
         sir_templ_model = _get_sir_templatemodel()
         response = self.client.post(
-            "/api/viz/to_image", json=sir_templ_model.model_dump()
+            "/api/viz/to_image", json=sir_templ_model.to_json()
         )
         self.assertEqual(200, response.status_code)
         self.assertIn(
@@ -354,8 +353,8 @@ class TestModelApi(unittest.TestCase):
         # less restrictive than the string comparison below
         assert_template_model_equality(tm, local)
         self.assertEqual(
-            sorted_json_str(tm.model_dump()), sorted_json_str(
-                local.model_dump())
+            sorted_json_str(tm.to_json()), sorted_json_str(
+                local.to_json())
         )
 
     @skip_in_ci
@@ -393,7 +392,7 @@ class TestModelApi(unittest.TestCase):
         bj = BilayerModel(Model(tm)).bilayer
 
         response = self.client.post("/api/model_to_bilayer",
-                                    json=json.loads(tm.model_dump_json()))
+                                    json=tm.to_json())
         self.assertEqual(response.status_code, 200)
         bj_res = response.json()
 
@@ -415,8 +414,8 @@ class TestModelApi(unittest.TestCase):
         # less restrictive than the string comparison below
         assert_template_model_equality(tm_res, local)
         self.assertEqual(
-            sorted_json_str(tm_res.model_dump()), sorted_json_str(
-                local.model_dump())
+            sorted_json_str(tm_res.to_json()), sorted_json_str(
+                local.to_json())
         )
 
     def test_models_to_templatemodel_delta_graph_json(self):
@@ -431,8 +430,8 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/models_to_delta_graph",
             json={
-                "template_model1": sir_templ_model.model_dump(),
-                "template_model2": sir_templ_model_ctx.model_dump(),
+                "template_model1": sir_templ_model.to_json(),
+                "template_model2": sir_templ_model_ctx.to_json(),
             },
         )
         self.assertEqual(200, response.status_code)
@@ -461,8 +460,8 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/models_to_delta_image",
             json={
-                "template_model1": sir_templ_model.model_dump(),
-                "template_model2": sir_templ_model_ctx.model_dump(),
+                "template_model1": sir_templ_model.to_json(),
+                "template_model2": sir_templ_model_ctx.to_json(),
             },
         )
         self.assertEqual(200, response.status_code)
@@ -493,7 +492,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/add_transition",
             json={
-                "template_model": sir_templ_model.model_dump(),
+                "template_model": sir_templ_model.to_json(),
                 "subject_concept": s,
                 "outcome_concept": x,
                 "parameter": {'name': 's_to_x', 'value': 0.1}}
@@ -512,7 +511,7 @@ class TestModelApi(unittest.TestCase):
 
         response = self.client.post(
             "/api/model_comparison",
-            json={"template_models": [m.model_dump() for m in mmts]},
+            json={"template_models": [m.to_json() for m in mmts]},
         )
         self.assertEqual(200, response.status_code)
 
@@ -526,7 +525,7 @@ class TestModelApi(unittest.TestCase):
         )
         model_comparson_graph_data = local.model_comparison
         local_response = ModelComparisonResponse(
-            graph_comparison_data=model_comparson_graph_data,
+            graph_comparison_data=model_comparson_graph_data.to_json(),
             similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
         self.assertEqual(
@@ -547,17 +546,17 @@ class TestModelApi(unittest.TestCase):
         # Copy parameters, annotations, initials and observables from the
         # original model
         sir_parameterized_ctx.parameters = {
-            k: v.model_copy(deep=True)
+            k: copy.deepcopy(v)
             for k, v in sir_templ_model.parameters.items()
         }
         sir_parameterized_ctx.annotations = \
-            sir_templ_model.annotations.model_copy(deep=True)
+            copy.deepcopy(sir_templ_model.annotations)
         sir_parameterized_ctx.observables = {
-            k: v.model_copy(deep=True)
+            k: copy.deepcopy(v)
             for k, v in sir_templ_model.observables.items()
         }
         sir_parameterized_ctx.initials = {
-            k: v.model_copy(deep=True) for k, v in
+            k: copy.deepcopy(v) for k, v in
             sir_templ_model.initials.items()
         }
         sir_parameterized_ctx.time = copy.deepcopy(sir_templ_model.time)
@@ -565,7 +564,7 @@ class TestModelApi(unittest.TestCase):
         for sp in [sir_templ_model, sir_parameterized_ctx]:
             for idx, template in enumerate(sp.templates):
                 template.name = f"t{idx + 1}"
-            sp.time = Time(id='t')
+            sp.time = Time(name='t')
             askenet_list.append(
                 AMRPetriNetModel(Model(sp)).to_json()
             )
@@ -579,9 +578,8 @@ class TestModelApi(unittest.TestCase):
         # See if the response json can be parsed with ModelComparisonResponse
         resp_json = response.json()
         resp_model = ModelComparisonResponse(
-            graph_comparison_data=ModelComparisonGraphdata(**resp_json["graph_comparison_data"]),
+            graph_comparison_data=resp_json["graph_comparison_data"],
             similarity_scores=resp_json["similarity_scores"],
-
         )
 
         # Check that the response is the same as the local version
@@ -591,7 +589,7 @@ class TestModelApi(unittest.TestCase):
         )
         model_comparson_graph_data = local.model_comparison
         local_response = ModelComparisonResponse(
-            graph_comparison_data=model_comparson_graph_data,
+            graph_comparison_data=model_comparson_graph_data.to_json(),
             similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
 
@@ -600,12 +598,8 @@ class TestModelApi(unittest.TestCase):
             "exclude_unset": True,
             "exclude_none": True,
         }
-        # Compare the ModelComparisonResponse models
-        # If assertion fails the diff is printed
-        # Use model dump as Pydantic objects have an attribute
-        # "model_fields_set" that contain explicitly set attributes even if
-        # are None
-        assert local_response.model_dump() == resp_model.model_dump()
+        # Compare the ModelComparisonResponse models via JSON
+        # round-trip to normalize int vs string keys
         local_sorted_str = sorted_json_str(
             json.loads(local_response.model_dump_json(**dict_options)),
             skip_empty=True
@@ -623,7 +617,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
-                "model": json.loads(sir_parameterized_init.model_dump_json()),
+                "model": sir_parameterized_init.to_json(),
                 "counts_unit": "person",
                 "norm_factor": sir_init_val_norm,
             },
@@ -635,23 +629,23 @@ class TestModelApi(unittest.TestCase):
 
         for template in tm_dimless.templates:
             for concept in template.get_concepts():
-                assert concept.units.expression.args[0].equals(1), \
+                assert concept.units.expression.equals(1), \
                     concept.units
 
-        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+        assert tm_dimless.parameters['beta'].units.expression.equals(
             1 / sympy.Symbol('day'))
         assert tm_dimless.parameters['beta'].value == \
                old_beta * sir_init_val_norm
 
-        assert tm_dimless.initials['susceptible_population'].expression.args[0].\
+        assert tm_dimless.initials['susceptible_population'].expression.\
             equals((sir_init_val_norm - 1) / sir_init_val_norm)
 
-        assert SympyExprStr(1 / sir_init_val_norm).equals(
-            SympyExprStr(float(tm_dimless.initials['infected_population'].expression.args[0])))
-        assert SympyExprStr(0).equals(tm_dimless.initials['immune_population'].expression)
+        assert sympy.Float(1 / sir_init_val_norm).equals(
+            tm_dimless.initials['infected_population'].expression)
+        assert sympy.Float(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
-            assert initial.concept.units.expression.args[0].equals(1)
+            assert initial.concept.units.expression.equals(1)
 
     def test_counts_to_dimensionless_amr(self):
         # Same test as test_counts_to_dimensionless_mira but with sending
@@ -679,21 +673,21 @@ class TestModelApi(unittest.TestCase):
 
         for template in tm_dimless.templates:
             for concept in template.get_concepts():
-                assert concept.units.expression.args[0].equals(1), \
+                assert concept.units.expression.equals(1), \
                     concept.units
 
-        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+        assert tm_dimless.parameters['beta'].units.expression.equals(
             1 / sympy.Symbol('day'))
         assert tm_dimless.parameters['beta'].value == old_beta * norm
 
-        # These assertion statements work when the equal method is called by the created SympyExprStr object but not
+        # These assertion statements work when the equal method is called by the created sympy object but not
         # fails to evaluate when the expression from the template model calls the equal method
-        assert SympyExprStr((norm - 1) / norm).equals(tm_dimless.initials['susceptible_population'].expression)
-        assert SympyExprStr(1 / norm).equals(tm_dimless.initials['infected_population'].expression)
-        assert SympyExprStr(0).equals(tm_dimless.initials['immune_population'].expression)
+        assert sympy.Float((norm - 1) / norm).equals(tm_dimless.initials['susceptible_population'].expression)
+        assert sympy.Float(1 / norm).equals(tm_dimless.initials['infected_population'].expression)
+        assert sympy.Float(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
-            assert initial.concept.units.expression.args[0].equals(1)
+            assert initial.concept.units.expression.equals(1)
 
     def test_reconstruct_ode_semantics_endpoint(self):
         # Load test file
@@ -717,25 +711,50 @@ class TestModelApi(unittest.TestCase):
         assert all(t.rate_law for t in flux_span_tm.templates)
 
 
+def _assert_values_equal(val_0, val_1):
+    """Compare two values, using is_equal_to for Concepts
+    and .equals for sympy expressions."""
+    if isinstance(val_0, Concept):
+        assert val_0.is_equal_to(val_1, with_context=True), \
+            f"{val_0} != {val_1}"
+    elif isinstance(val_0, sympy.Expr):
+        assert val_0.equals(val_1), \
+            f"{val_0} != {val_1}"
+    elif isinstance(val_0, list):
+        assert len(val_0) == len(val_1)
+        for v0, v1 in zip(val_0, val_1):
+            _assert_values_equal(v0, v1)
+    elif isinstance(val_0, dict):
+        assert set(val_0.keys()) == set(val_1.keys())
+        for k in val_0:
+            _assert_values_equal(val_0[k], val_1[k])
+    elif hasattr(val_0, '__dict__') and \
+            not isinstance(val_0, type):
+        for attr in vars(val_0):
+            if not attr.startswith('_'):
+                _assert_values_equal(
+                    getattr(val_0, attr),
+                    getattr(val_1, attr))
+    else:
+        assert val_0 == val_1, f"{val_0} != {val_1}"
+
+
 def assert_template_model_equality(tm_0, tm_1):
-    # Helper method to compare template models now
-    # The equality for rate-laws between templates cannot be tested with "=="
-    # Using "==" tests for structural inequality, we need to use
-    # expr.equals(expr1) to test for symbolic equality.
-    # This logic compares two template models using "==" for equality at every
-    # level except for template rate laws.
-    # TODO: this could be extended to other expressions appearing in models
+    # Compare two template models attribute by attribute,
+    # using symbolic equality for sympy expressions and
+    # is_equal_to for Concepts.
     for attr in vars(tm_0):
+        if attr.startswith('_'):
+            continue
         tm_0_val = getattr(tm_0, attr)
         tm_1_val = getattr(tm_1, attr)
         if attr == "templates":
-            for tm_0_template, tm_1_template in zip(tm_0_val, tm_1_val):
-                for template_attr in vars(tm_0_template):
-                    tm_0_template_value = getattr(tm_0_template, template_attr)
-                    tm_1_template_value = getattr(tm_1_template, template_attr)
-                    if template_attr == "rate_law":
-                        assert tm_0_template_value.equals(tm_1_template_value)
-                    else:
-                        assert tm_0_template_value == tm_1_template_value
+            for t0, t1 in zip(tm_0_val, tm_1_val):
+                for t_attr in vars(t0):
+                    if t_attr.startswith('_'):
+                        continue
+                    _assert_values_equal(
+                        getattr(t0, t_attr),
+                        getattr(t1, t_attr))
         else:
-            assert tm_0_val == tm_1_val
+            _assert_values_equal(tm_0_val, tm_1_val)

@@ -82,11 +82,11 @@ def web_client(
     if method == "post":
         if query_json is None:
             raise ValueError(f"POST request to endpoint {endpoint} requires query data")
-        res = requests.post(endpoint_url, json=query_json)
+        res = requests.post(endpoint_url, json=query_json, timeout=30)
     elif method == "get":
         # Add query_json as params if present
         kw = dict() if query_json is None else {"params": query_json}
-        res = requests.get(endpoint_url, **kw)
+        res = requests.get(endpoint_url, timeout=30, **kw)
     else:
         raise ValueError("Method must be one of 'get' and 'post'")
 

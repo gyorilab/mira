@@ -164,8 +164,8 @@ def template_model_from_pysd_model(
     ):
         if initials_map and (mapped_value := initials_map.get(state_id)):
             initial = Initial(
-                concept=concepts[state_id].model_copy(deep=True),
-                expression=SympyExprStr(sympy.Float(mapped_value)),
+                concept=copy.deepcopy(concepts[state_id]),
+                expression=sympy.Float(mapped_value),
             )
         # if the state value is not a number
         elif not isinstance(state_initial_value, int) and not isinstance(
@@ -175,13 +175,13 @@ def template_model_from_pysd_model(
                 f"got non-numeric state value for {state_id}: {state_initial_value}"
             )
             initial = Initial(
-                concept=concepts[state_id].model_copy(deep=True),
-                expression=SympyExprStr(sympy.Float("0")),
+                concept=copy.deepcopy(concepts[state_id]),
+                expression=sympy.Float("0"),
             )
         else:
             initial = Initial(
-                concept=concepts[state_id].model_copy(deep=True),
-                expression=SympyExprStr(sympy.Float(state_initial_value)),
+                concept=copy.deepcopy(concepts[state_id]),
+                expression=sympy.Float(state_initial_value),
             )
         mira_initials[initial.concept.name] = initial
 
@@ -322,15 +322,15 @@ def template_model_from_pysd_model(
         templates_.extend(
             transition_to_templates(
                 input_concepts=[
-                    concepts[input_name].model_copy(deep=True)
+                    copy.deepcopy(concepts[input_name])
                     for input_name in transition.get("inputs")
                 ],
                 output_concepts=[
-                    concepts[output_name].model_copy(deep=True)
+                    copy.deepcopy(concepts[output_name])
                     for output_name in transition.get("outputs")
                 ],
                 controller_concepts=[
-                    concepts[controller_name].model_copy(deep=True)
+                    copy.deepcopy(concepts[controller_name])
                     for controller_name in transition.get("controllers")
                 ],
                 transition_rate=(

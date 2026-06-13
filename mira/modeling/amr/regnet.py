@@ -2,16 +2,13 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 """
 
-__all__ = ["AMRRegNetModel", "ModelSpecification",
-           "template_model_to_regnet_json"]
+__all__ = ["AMRRegNetModel", "template_model_to_regnet_json"]
 
 import json
 import logging
 from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, List, Optional, Union
-
-from pydantic import BaseModel, Field, ConfigDict
 
 from mira.metamodel import *
 
@@ -71,11 +68,10 @@ class AMRRegNetModel:
             }
             initial = var.data.get('expression')
             if initial is not None:
-                # Here, initial is a SympyExprStr, and if its
-                # value is a float, we export it as a float,
-                # otherwise we export it as a string
+                # If the initial value is a float, we export it
+                # as a float, otherwise we export it as a string
                 try:
-                    initial_float = float(initial.args[0])
+                    initial_float = float(initial)
                     state_data['initial'] = initial_float
                 except TypeError:
                     state_data['initial'] = str(initial)
@@ -123,7 +119,7 @@ class AMRRegNetModel:
                     state_for_var['sign'] = sign
 
                 if transition.template.rate_law:
-                    rate_law = transition.template.rate_law.args[0]
+                    rate_law = transition.template.rate_law
                     intrinsic_by_var[var].append(rate_law)
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
@@ -229,7 +225,7 @@ class AMRRegNetModel:
                 'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression.args[0]),
+                    observable.observable.expression),
             }
             self.observables.append(obs_data)
 
@@ -239,7 +235,7 @@ class AMRRegNetModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]),
+                        model.template_model.time.units.expression),
                 }
         else:
             self.time = None
@@ -274,7 +270,7 @@ class AMRRegNetModel:
         #
         if transition.template.rate_law:
             # If we are processing a duplicate rate, set the rate to 0
-            rate_law = transition.template.rate_law.args[0] if not duplicate \
+            rate_law = transition.template.rate_law if not duplicate \
                 else safe_parse_expr('0')
             pnames = transition.template.get_parameter_names()
             # We just choose an arbitrary one deterministically
@@ -341,55 +337,6 @@ class AMRRegNetModel:
             'metadata': self.metadata,
         }
 
-    def to_pydantic(
-        self,
-        name: str = None,
-        description: str = None,
-        model_version: str = None
-    ) -> "ModelSpecification":
-        """Return a Pydantic model specification of the Petri net model.
-
-        Parameters
-        ----------
-        name :
-            The name of the model. Defaults to the model name of the original
-            template model of the input Model instance, or "Model" if no name
-            is available.
-        description :
-            The description of the model. Defaults to the description of the
-            original template model of the input Model instance, or the model
-            name if no description is available.
-        model_version :
-            The version of the model. Defaults to 0.1
-
-        Returns
-        -------
-        :
-            A Pydantic model specification of the Petri net model.
-        """
-        return ModelSpecification(
-            header=Header(
-                name=name or self.model_name,
-                schema=SCHEMA_URL,
-                schema_name='regnet',
-                description=description or self.model_description,
-                model_version=model_version or '0.1',
-            ),
-            model=RegNetModel(
-                vertices=[State.model_validate(s) for s in self.states],
-                edges=[Transition.model_validate(t) for t in self.transitions],
-                parameters=[Parameter.from_dict(p) for p in self.parameters],
-            ),
-            semantics=Ode(
-                ode=OdeSemantics(
-                    rates=[Rate.model_validate(r) for r in self.rates],
-                    observables=[Observable.model_validate(o) for o in self.observables],
-                    time=Time.model_validate(self.time) if self.time else Time(id='t')
-                )
-            ),
-            metadata=self.metadata,
-        )
-
     def to_json_str(self, **kwargs):
         """Return a JSON string representation of the Petri net model.
 
@@ -453,82 +400,3 @@ def template_model_to_regnet_json(tm: TemplateModel):
     return AMRRegNetModel(Model(tm)).to_json()
 
 
-class Initial(BaseModel):
-    expression: Union[str, float]
-    expression_mathml: str
-
-
-class TransitionProperties(BaseModel):
-    name: Optional[str] = None
-    grounding: Optional[Dict] = None
-    rate: Optional[Dict] = None
-
-
-class Rate(BaseModel):
-    expression: str
-    expression_mathml: str
-
-
-class Distribution(BaseModel):
-    type: str
-    parameters: Dict
-
-
-class State(BaseModel):
-    id: str
-    name: str
-    initial: Optional[Initial] = None
-
-
-class Transition(BaseModel):
-    id: str
-    input: List[str]
-    output: List[str]
-    properties: Optional[TransitionProperties] = None
-
-
-class Parameter(BaseModel):
-    id: str
-    value: Optional[float] = None
-    description: Optional[str] = None
-    distribution: Optional[Distribution] = None
-
-    @classmethod
-    def from_dict(cls, d):
-        d = deepcopy(d)
-        d['id'] = str(d['id'])
-        return cls.model_validate(d)
-
-
-class RegNetModel(BaseModel):
-    vertices: List[State]
-    edges: List[Transition]
-    parameters: List[Parameter]
-
-
-class Header(BaseModel):
-    model_config = ConfigDict(protected_namespaces=())
-    name: str
-    schema_name: str
-    schema_url: str = Field(..., alias='schema')
-    description: str
-    model_version: str
-
-
-class OdeSemantics(BaseModel):
-    rates: List[Rate]
-    time: Optional[Time] = None
-    observables: List[Observable]
-
-
-class Ode(BaseModel):
-    ode: Optional[OdeSemantics] = None
-
-
-class ModelSpecification(BaseModel):
-    """A Pydantic model specification of the model."""
-    header: Header
-    properties: Optional[Dict] = None
-    model: RegNetModel
-    semantics: Optional[Ode] = None
-    metadata: Optional[Dict] = None

@@ -4,6 +4,9 @@ https://github.com/DARPA-ASKEM/Model-Representations/tree/main/stockflow.
 __all__ = ["template_model_from_amr_json",
            "stock_to_concept", "model_from_url"]
 
+import datetime
+from copy import deepcopy
+
 import sympy
 import requests
 
@@ -67,7 +70,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             continue
         try:
             initial = Initial(
-                concept=concepts[initial_state['target']].model_copy(deep=True),
+                concept=deepcopy(concepts[initial_state['target']]),
                 expression=initial_expr
             )
             initials[initial.concept.name] = initial
@@ -114,10 +117,10 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             and link['source'] in concepts
             and link['source'] not in aux_expressions)]
 
-        input_concepts = [concepts[input].model_copy(deep=True)] if input \
+        input_concepts = [deepcopy(concepts[input])] if input \
             else []
-        output_concepts = [concepts[output].model_copy(deep=True)] if output else []
-        controller_concepts = [concepts[i].model_copy(deep=True) for i in controllers]
+        output_concepts = [deepcopy(concepts[output])] if output else []
+        controller_concepts = [deepcopy(concepts[i]) for i in controllers]
 
         if 'rate_expression' in flow:
             rate_expr = safe_parse_expr(flow['rate_expression'],
@@ -134,7 +137,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
 
     static_stocks = all_stocks - used_stocks
     for state in static_stocks:
-        concept = concepts[state].model_copy(deep=True)
+        concept = deepcopy(concepts[state])
         templates.append(StaticConcept(subject=concept))
 
         # Finally, we gather some model-level annotations
@@ -149,6 +152,11 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             val = [Author(name=author_dict["name"]) for author_dict in val]
         annotation_attributes[key] = val
 
+    for key in ("time_start", "time_end"):
+        if key in annotation_attributes and \
+                isinstance(annotation_attributes[key], str):
+            annotation_attributes[key] = \
+                datetime.datetime.fromisoformat(annotation_attributes[key])
     anns = Annotations(**annotation_attributes)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
@@ -201,7 +209,7 @@ def model_from_url(url: str) -> TemplateModel:
     :
         A TemplateModel object.
     """
-    res = requests.get(url)
+    res = requests.get(url, timeout=30)
     model_json = res.json()
     return template_model_from_amr_json(model_json)
 

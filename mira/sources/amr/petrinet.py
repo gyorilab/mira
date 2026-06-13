@@ -14,8 +14,8 @@ __all__ = [
     "template_model_from_amr_json",
 ]
 
+import datetime
 import json
-from typing import Optional
 from copy import deepcopy
 
 import sympy
@@ -39,7 +39,7 @@ def model_from_url(url: str) -> TemplateModel:
     :
         A TemplateModel object.
     """
-    res = requests.get(url)
+    res = requests.get(url, timeout=30)
     model_json = res.json()
     return template_model_from_amr_json(model_json)
 
@@ -128,7 +128,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             continue
         try:
             initial = Initial(
-                concept=concepts[initial_state['target']].model_copy(deep=True),
+                concept=deepcopy(concepts[initial_state['target']]),
                 expression=initial_expr
             )
             initials[initial.concept.name] = initial
@@ -201,10 +201,9 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             both = set(inputs) & set(outputs)
 
         # We can now get the appropriate concepts for each group
-        input_concepts = [concepts[i].model_copy(deep=True) for i in inputs]
-        output_concepts = [concepts[i].model_copy(deep=True) for i in outputs]
-        controller_concepts = [concepts[i].model_copy(deep=True) for i in
-                               controllers]
+        input_concepts = [deepcopy(concepts[i]) for i in inputs]
+        output_concepts = [deepcopy(concepts[i]) for i in outputs]
+        controller_concepts = [deepcopy(concepts[i]) for i in controllers]
         transition_id = transition['id']
 
         rate_law = get_sympy(rate_obj, local_dict=symbols)
@@ -216,7 +215,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     # Handle static states
     static_states = all_states - used_states
     for state in static_states:
-        concept = concepts[state].model_copy(deep=True)
+        concept = deepcopy(concepts[state])
         templates.append(StaticConcept(subject=concept))
 
     # Finally, we gather some model-level annotations
@@ -231,6 +230,11 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             val = [Author(name=author_dict["name"]) for author_dict in val]
         annotation_attributes[key] = val
 
+    for key in ("time_start", "time_end"):
+        if key in annotation_attributes and \
+                isinstance(annotation_attributes[key], str):
+            annotation_attributes[key] = \
+                datetime.datetime.fromisoformat(annotation_attributes[key])
     anns = Annotations(**annotation_attributes)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,

@@ -5,9 +5,6 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.schema``.
 """
 import copy
 
-from pydantic import ConfigDict
-from typing import Literal
-
 __all__ = [
     "Concept",
     "Template",
@@ -26,7 +23,6 @@ __all__ = [
     "ControlledReplication",
     "ReversibleFlux",
     "StaticConcept",
-    "SpecifiedTemplate",
     "templates_equal",
     "context_refinement",
     "match_concepts",
@@ -50,10 +46,8 @@ from copy import deepcopy
 from itertools import product
 from typing import (
     Callable,
-    ClassVar,
     Dict,
     List,
-    Literal,
     Mapping,
     Optional,
     Set,
@@ -62,17 +56,10 @@ from typing import (
 )
 
 import networkx as nx
-import pydantic
 import sympy
-from pydantic import BaseModel, Field, field_serializer
-
-try:
-    from typing import Annotated  # py39+
-except ImportError:
-    from typing_extensions import Annotated
 
 from .units import Unit, UNIT_SYMBOLS
-from .utils import safe_parse_expr, SympyExprStr
+from .utils import safe_parse_expr
 
 
 IS_EQUAL = "is_equal"
@@ -85,17 +72,28 @@ SUBJECT = "subject"
 logger = logging.getLogger(__name__)
 
 
-class Config(BaseModel):
-    """Config determining how keys are generated"""
+class Config:
+    """Config determining how keys are generated.
 
-    prefix_priority: List[str] = Field(
-        default_factory=list,
-        description="The priority list of prefixes for identifiers."
-    )
-    prefix_exclusions: List[str] = Field(
-        default_factory=list,
-        description="The list of prefixes to exclude."
-    )
+    Attributes
+    ----------
+    prefix_priority : list of str
+        The priority list of prefixes for identifiers.
+    prefix_exclusions : list of str
+        The list of prefixes to exclude.
+    """
+
+    def __init__(self, prefix_priority=None,
+                 prefix_exclusions=None):
+        self.prefix_priority = (
+            prefix_priority if prefix_priority is not None
+            else []
+        )
+        self.prefix_exclusions = (
+            prefix_exclusions
+            if prefix_exclusions is not None
+            else []
+        )
 
 
 DEFAULT_CONFIG = Config(
@@ -108,30 +106,72 @@ DEFAULT_CONFIG = Config(
 )
 
 
-class Concept(BaseModel):
-    """A concept is specified by its identifier(s), name, and - optionally -
-    its context.
+class Concept:
+    """A concept is specified by its identifier(s), name,
+    and - optionally - its context.
+
+    Attributes
+    ----------
+    name : str
+        The name of the concept.
+    display_name : Optional[str]
+        An optional display name for the concept. If not
+        provided, the name can be used for display purposes.
+    description : Optional[str]
+        An optional description of the concept.
+    identifiers : dict
+        A mapping of namespaces to identifiers.
+    context : dict
+        A mapping of context keys to values.
+    units : Optional[Unit]
+        The units of the concept.
     """
 
-    name: str = Field(..., description="The name of the concept.")
-    display_name: Optional[str]= \
-        Field(None, description="An optional display name for the concept. "
-                                "If not provided, the name can be used for "
-                                "display purposes.")
-    description: Optional[str] = \
-        Field(None, description="An optional description of the concept.")
-    identifiers: Mapping[str, str] = Field(
-        default_factory=dict, description="A mapping of namespaces to identifiers."
-    )
-    context: Mapping[str, Union[str,int]] = Field(
-        default_factory=dict, description="A mapping of context keys to values."
-    )
-    units: Optional[Unit] = Field(
-        None, description="The units of the concept."
-    )
-    _base_name: str = pydantic.PrivateAttr(None)
+    def __init__(self, name, display_name=None,
+                 description=None, identifiers=None,
+                 context=None, units=None):
+        self.name = name
+        self.display_name = display_name
+        self.description = description
+        self.identifiers = (
+            identifiers if identifiers is not None
+            else {}
+        )
+        self.context = (
+            context if context is not None else {}
+        )
+        self.units = units
+        self._base_name = None
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    def __repr__(self):
+        parts = [repr(self.name)]
+        if self.display_name:
+            parts.append(f"display_name='{self.display_name}'")
+        if self.identifiers:
+            parts.append(f"identifiers={self.identifiers}")
+        if self.context:
+            parts.append(f"context={self.context}")
+        if self.units:
+            parts.append(f"units={self.units}")
+        return f"Concept({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"name": self.name}
+        if self.display_name is not None:
+            d["display_name"] = self.display_name
+        if self.description is not None:
+            d["description"] = self.description
+        if self.identifiers:
+            d["identifiers"] = dict(self.identifiers)
+        if self.context:
+            d["context"] = dict(self.context)
+        if self.units is not None:
+            d["units"] = self.units.to_json()
+        return d
 
     def with_context(self, do_rename=False, curie_to_name_map=None,
                      inplace=False, **context) -> "Concept":
@@ -385,20 +425,38 @@ class Concept(BaseModel):
         return cls(**data)
 
 
-class Template(BaseModel):
-    """The Template is a parent class for model processes"""
+class Template:
+    """The Template is a parent class for model processes.
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    Attributes
+    ----------
+    rate_law : Optional[sympy.Expr]
+        The rate law for the template.
+    name : Optional[str]
+        The name of the template.
+    display_name : Optional[str]
+        The display name of the template.
+    """
 
-    rate_law: Optional[SympyExprStr] = Field(
-        default=None, description="The rate law for the template."
-    )
-    name: Optional[str] = Field(
-        default=None, description="The name of the template."
-    )
-    display_name: Optional[str] = Field(
-        default=None, description="The display name of the template."
-    )
+    def __init__(self, rate_law=None, name=None,
+                 display_name=None, **kwargs):
+        self.rate_law = rate_law
+        self.name = name
+        self.display_name = display_name
+
+    def __repr__(self):
+        parts = []
+        for key in self.concept_keys:
+            val = getattr(self, key)
+            parts.append(f"{key}={val}")
+        if self.rate_law is not None:
+            parts.append(f"rate_law={self.rate_law}")
+        if self.name is not None:
+            parts.append(f"name='{self.name}'")
+        return f"{self.type}({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
 
     @classmethod
     def from_json(cls, data, rate_symbols=None) -> "Template":
@@ -451,9 +509,24 @@ class Template(BaseModel):
                            if k not in {'rate_law', 'type'}},
                         rate_law=rate)
 
-    @field_serializer('rate_law', when_used="unless-none")
-    def serialize_expression(self, rate_law):
-        return str(rate_law)
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"type": self.type}
+        if self.rate_law is not None:
+            d["rate_law"] = str(self.rate_law)
+        if self.name is not None:
+            d["name"] = self.name
+        if self.display_name is not None:
+            d["display_name"] = self.display_name
+        for key in self.concept_keys:
+            val = getattr(self, key)
+            if isinstance(val, list):
+                d[key] = [c.to_json() for c in val]
+            else:
+                d[key] = val.to_json()
+        if hasattr(self, 'provenance') and self.provenance:
+            d["provenance"] = self.provenance
+        return d
 
     def is_equal_to(self, other: "Template", with_context: bool = False,
                     config: Config = None) -> bool:
@@ -750,49 +823,57 @@ class Template(BaseModel):
         independent :
             If True, the controllers will assume independent action.
         """
-        self.rate_law = SympyExprStr(
-            self.get_mass_action_rate_law(parameter, independent=independent))
+        self.rate_law = self.get_mass_action_rate_law(
+            parameter, independent=independent
+        )
 
-    def with_mass_action_rate_law(self, parameter, independent=False) -> "Template":
-        """Return a copy of this template with a mass action rate law.
+    def with_mass_action_rate_law(
+        self, parameter, independent=False
+    ) -> "Template":
+        """Return a copy of this template with a mass
+        action rate law.
 
         Parameters
         ----------
         parameter :
             The parameter to use for the mass-action rate.
         independent :
-            If True, the controllers will assume independent action.
+            If True, the controllers will assume independent
+            action.
 
         Returns
         -------
         :
-            A copy of this template with the mass action rate law.
+            A copy of this template with the mass action
+            rate law.
         """
-        template = self.model_copy(deep=True)
-        template.set_mass_action_rate_law(parameter, independent=independent)
+        template = deepcopy(self)
+        template.set_mass_action_rate_law(
+            parameter, independent=independent
+        )
         return template
 
-    def set_rate_law(self, rate_law: Union[str, sympy.Expr, SympyExprStr],
-                     local_dict=None):
-        """Set the rate law of this template to the given rate law."""
-        if isinstance(rate_law, SympyExprStr):
+    def set_rate_law(self, rate_law, local_dict=None):
+        """Set the rate law of this template."""
+        if isinstance(rate_law, sympy.Expr):
             self.rate_law = rate_law
-        elif isinstance(rate_law, sympy.Expr):
-            self.rate_law = SympyExprStr(rate_law)
         elif isinstance(rate_law, str):
             try:
-                rate = SympyExprStr(safe_parse_expr(rate_law,
-                                                    local_dict=local_dict))
+                rate = safe_parse_expr(
+                    rate_law, local_dict=local_dict
+                )
             except Exception as e:
-                logger.warning(f"Could not parse rate law into "
-                               f"symbolic expression: {rate_law}. "
-                               f"Not setting rate law.")
+                logger.warning(
+                    f"Could not parse rate law into "
+                    f"symbolic expression: {rate_law}."
+                    f" Not setting rate law."
+                )
                 return
             self.rate_law = rate
 
-    def with_rate_law(self, rate_law: Union[str, sympy.Expr, SympyExprStr],
+    def with_rate_law(self, rate_law,
                       local_dict=None) -> "Template":
-        template = self.model_copy(deep=True)
+        template = deepcopy(self)
         template.set_rate_law(rate_law, local_dict=local_dict)
         return template
 
@@ -807,11 +888,12 @@ class Template(BaseModel):
         if not self.rate_law:
             return set()
         return (
-            {s.name for s in self.rate_law.args[0].free_symbols}
+            {s.name for s in self.rate_law.free_symbols}
             - self.get_concept_names()
         )
 
-    def update_parameter_name(self, old_name: str, new_name: str):
+    def update_parameter_name(self, old_name: str,
+                              new_name: str):
         """Update the name of a parameter in the rate law.
 
         Parameters
@@ -822,18 +904,20 @@ class Template(BaseModel):
             The new name of the parameter.
         """
         if self.rate_law:
-            self.rate_law = self.rate_law.subs(sympy.Symbol(old_name),
-                                               sympy.Symbol(new_name))
+            self.rate_law = self.rate_law.subs(
+                sympy.Symbol(old_name),
+                sympy.Symbol(new_name)
+            )
 
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
-        """Get the symbol for the parameter associated with this template's rate law,
-        assuming it's mass action.
+        """Get the symbol for the mass action rate parameter.
 
         Returns
         -------
         :
-            The symbol for the parameter associated with this template's rate law,
-            assuming it's mass action. Returns None if the rate law is not
+            The symbol for the parameter associated with
+            this template's rate law, assuming it's mass
+            action. Returns None if the rate law is not
             mass action or if there is no rate law.
         """
         if not self.rate_law:
@@ -843,10 +927,13 @@ class Template(BaseModel):
             return None
         if len(results) == 1:
             return sympy.Symbol(results[0])
-        raise ValueError("recovered multiple parameters - not mass action")
+        raise ValueError(
+            "recovered multiple parameters - not mass action"
+        )
 
     def substitute_parameter(self, name: str, value):
-        """Substitute a parameter in this template's rate law.
+        """Substitute a parameter in this template's rate
+        law.
 
         Parameters
         ----------
@@ -857,13 +944,15 @@ class Template(BaseModel):
         """
         if not self.rate_law:
             return
-        self.rate_law = SympyExprStr(
-            self.rate_law.args[0].subs(sympy.Symbol(name), value))
+        self.rate_law = self.rate_law.subs(
+            sympy.Symbol(name), value
+        )
 
     def deactivate(self):
-        """Deactivate this template by setting its rate law to zero."""
+        """Deactivate this template by setting its rate
+        law to zero."""
         if self.rate_law:
-            self.rate_law = SympyExprStr(self.rate_law.args[0] * 0)
+            self.rate_law = self.rate_law * 0
 
     def get_key(self, config: Optional[Config] = None) -> Tuple:
         """Get the key for this template.
@@ -881,21 +970,37 @@ class Template(BaseModel):
         raise NotImplementedError("This method can only be called on subclasses")
 
 
-class Provenance(BaseModel):
+class Provenance:
     pass
 
 
 class ControlledConversion(Template):
-    """Specifies a process of controlled conversion from subject to outcome,
-    controlled by the controller."""
+    """Controlled conversion from subject to outcome.
 
-    type: Literal["ControlledConversion"] = "ControlledConversion"
-    controller: Concept = Field(..., description="The controller of the conversion.")
-    subject: Concept = Field(..., description="The subject of the conversion.")
-    outcome: Concept = Field(..., description="The outcome of the conversion.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
+    Attributes
+    ----------
+    controller : Concept
+        The controller of the conversion.
+    subject : Concept
+        The subject of the conversion.
+    outcome : Concept
+        The outcome of the conversion.
+    provenance : list of Provenance
+        The provenance of the conversion.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
+    type = "ControlledConversion"
+    concept_keys = ["controller", "subject", "outcome"]
+
+    def __init__(self, controller, subject, outcome,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controller = controller
+        self.subject = subject
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def with_context(
         self,
@@ -975,13 +1080,32 @@ class ControlledConversion(Template):
 
 
 class GroupedControlledConversion(Template):
-    type: Literal["GroupedControlledConversion"] = "GroupedControlledConversion"
-    controllers: List[Concept] = Field(..., description="The controllers of the conversion.")
-    subject: Concept = Field(..., description="The subject of the conversion.")
-    outcome: Concept = Field(..., description="The outcome of the conversion.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
+    """Conversion controlled by multiple controllers.
 
-    concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
+    Attributes
+    ----------
+    controllers : list of Concept
+        The controllers of the conversion.
+    subject : Concept
+        The subject of the conversion.
+    outcome : Concept
+        The outcome of the conversion.
+    provenance : list of Provenance
+        The provenance of the conversion.
+    """
+
+    type = "GroupedControlledConversion"
+    concept_keys = ["controllers", "subject", "outcome"]
+
+    def __init__(self, controllers, subject, outcome,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controllers = controllers
+        self.subject = subject
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def with_context(
         self,
@@ -1063,14 +1187,29 @@ class GroupedControlledConversion(Template):
 
 
 class GroupedControlledProduction(Template):
-    """Specifies a process of production controlled by several controllers"""
+    """Production controlled by several controllers.
 
-    type: Literal["GroupedControlledProduction"] = "GroupedControlledProduction"
-    controllers: List[Concept] = Field(..., description="The controllers of the production.")
-    outcome: Concept = Field(..., description="The outcome of the production.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
+    Attributes
+    ----------
+    controllers : list of Concept
+        The controllers of the production.
+    outcome : Concept
+        The outcome of the production.
+    provenance : list of Provenance
+        The provenance of the production.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controllers", "outcome"]
+    type = "GroupedControlledProduction"
+    concept_keys = ["controllers", "outcome"]
+
+    def __init__(self, controllers, outcome,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controllers = controllers
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1149,20 +1288,29 @@ class GroupedControlledProduction(Template):
 
 
 class ControlledProduction(Template):
-    """Specifies a process of production controlled by one controller"""
+    """Production controlled by one controller.
 
-    type: Literal["ControlledProduction"] = "ControlledProduction"
-    controller: Concept = Field(
-        ..., description="The controller of the production."
-    )
-    outcome: Concept = Field(
-        ..., description="The outcome of the production."
-    )
-    provenance: List[Provenance] = Field(
-        default_factory=list, description="Provenance of the template"
-    )
+    Attributes
+    ----------
+    controller : Concept
+        The controller of the production.
+    outcome : Concept
+        The outcome of the production.
+    provenance : list of Provenance
+        Provenance of the template.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controller", "outcome"]
+    type = "ControlledProduction"
+    concept_keys = ["controller", "outcome"]
+
+    def __init__(self, controller, outcome,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controller = controller
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1235,14 +1383,29 @@ class ControlledProduction(Template):
 
 
 class NaturalConversion(Template):
-    """Specifies a process of natural conversion from subject to outcome"""
+    """Natural conversion from subject to outcome.
 
-    type: Literal["NaturalConversion"] = "NaturalConversion"
-    subject: Concept = Field(..., description="The subject of the conversion.")
-    outcome: Concept = Field(..., description="The outcome of the conversion.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
+    Attributes
+    ----------
+    subject : Concept
+        The subject of the conversion.
+    outcome : Concept
+        The outcome of the conversion.
+    provenance : list of Provenance
+        The provenance of the conversion.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
+    type = "NaturalConversion"
+    concept_keys = ["subject", "outcome"]
+
+    def __init__(self, subject, outcome,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.subject = subject
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def with_context(
         self,
@@ -1273,14 +1436,29 @@ class NaturalConversion(Template):
 
 
 class MultiConversion(Template):
-    """Specifies a conversion process of multiple subjects and outcomes."""
+    """Conversion of multiple subjects and outcomes.
 
-    type: Literal["MultiConversion"] = "MultiConversion"
-    subjects: List[Concept] = Field(..., description="The subjects of the conversion.")
-    outcomes: List[Concept] = Field(..., description="The outcomes of the conversion.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
+    Attributes
+    ----------
+    subjects : list of Concept
+        The subjects of the conversion.
+    outcomes : list of Concept
+        The outcomes of the conversion.
+    provenance : list of Provenance
+        The provenance of the conversion.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["subjects", "outcomes"]
+    type = "MultiConversion"
+    concept_keys = ["subjects", "outcomes"]
+
+    def __init__(self, subjects, outcomes,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.subjects = subjects
+        self.outcomes = outcomes
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1320,14 +1498,29 @@ class MultiConversion(Template):
 
 
 class ReversibleFlux(Template):
-    """Specifies a reversible flux between a left and right side."""
+    """A reversible flux between a left and right side.
 
-    type: Literal["ReversibleFlux"] = "ReversibleFlux"
-    left: List[Concept] = Field(..., description="The left hand side of the flux.")
-    right: List[Concept] = Field(..., description="The right hand side of the flux.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the flux.")
+    Attributes
+    ----------
+    left : list of Concept
+        The left hand side of the flux.
+    right : list of Concept
+        The right hand side of the flux.
+    provenance : list of Provenance
+        The provenance of the flux.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["left", "right"]
+    type = "ReversibleFlux"
+    concept_keys = ["left", "right"]
+
+    def __init__(self, left, right,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.left = left
+        self.right = right
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_concepts(self):
         return self.left + self.right
@@ -1367,13 +1560,25 @@ class ReversibleFlux(Template):
 
 
 class NaturalProduction(Template):
-    """A template for the production of a species at a constant rate."""
+    """Production of a species at a constant rate.
 
-    type: Literal["NaturalProduction"] = "NaturalProduction"
-    outcome: Concept = Field(..., description="The outcome of the production.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
+    Attributes
+    ----------
+    outcome : Concept
+        The outcome of the production.
+    provenance : list of Provenance
+        The provenance of the production.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["outcome"]
+    type = "NaturalProduction"
+    concept_keys = ["outcome"]
+
+    def __init__(self, outcome, provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.outcome = outcome
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1401,13 +1606,26 @@ class NaturalProduction(Template):
 
 
 class NaturalDegradation(Template):
-    """A template for the degradataion of a species at a proportional rate to its amount."""
+    """Degradation of a species at a rate proportional
+    to its amount.
 
-    type: Literal["NaturalDegradation"] = "NaturalDegradation"
-    subject: Concept = Field(..., description="The subject of the degradation.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
+    Attributes
+    ----------
+    subject : Concept
+        The subject of the degradation.
+    provenance : list of Provenance
+        The provenance of the degradation.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["subject"]
+    type = "NaturalDegradation"
+    concept_keys = ["subject"]
+
+    def __init__(self, subject, provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1434,14 +1652,29 @@ class NaturalDegradation(Template):
 
 
 class ControlledDegradation(Template):
-    """Specifies a process of degradation controlled by one controller"""
+    """Degradation controlled by one controller.
 
-    type: Literal["ControlledDegradation"] = "ControlledDegradation"
-    controller: Concept = Field(..., description="The controller of the degradation.")
-    subject: Concept = Field(..., description="The subject of the degradation.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
+    Attributes
+    ----------
+    controller : Concept
+        The controller of the degradation.
+    subject : Concept
+        The subject of the degradation.
+    provenance : list of Provenance
+        The provenance of the degradation.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controller", "subject"]
+    type = "ControlledDegradation"
+    concept_keys = ["controller", "subject"]
+
+    def __init__(self, controller, subject,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controller = controller
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1513,14 +1746,29 @@ class ControlledDegradation(Template):
 
 
 class GroupedControlledDegradation(Template):
-    """Specifies a process of degradation controlled by several controllers"""
+    """Degradation controlled by several controllers.
 
-    type: Literal["GroupedControlledDegradation"] = "GroupedControlledDegradation"
-    controllers: List[Concept] = Field(..., description="The controllers of the degradation.")
-    subject: Concept = Field(..., description="The subject of the degradation.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
+    Attributes
+    ----------
+    controllers : list of Concept
+        The controllers of the degradation.
+    subject : Concept
+        The subject of the degradation.
+    provenance : list of Provenance
+        The provenance of the degradation.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controllers", "subject"]
+    type = "GroupedControlledDegradation"
+    concept_keys = ["controllers", "subject"]
+
+    def __init__(self, controllers, subject,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controllers = controllers
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1597,13 +1845,25 @@ class GroupedControlledDegradation(Template):
 
 
 class NaturalReplication(Template):
-    """Specifies a process of natural replication of a subject."""
+    """Natural replication of a subject.
 
-    type: Literal["NaturalReplication"] = "NaturalReplication"
-    subject: Concept = Field(..., description="The subject of the replication.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the template.")
+    Attributes
+    ----------
+    subject : Concept
+        The subject of the replication.
+    provenance : list of Provenance
+        The provenance of the template.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["subject"]
+    type = "NaturalReplication"
+    concept_keys = ["subject"]
+
+    def __init__(self, subject, provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def with_context(
         self,
@@ -1630,14 +1890,29 @@ class NaturalReplication(Template):
 
 
 class ControlledReplication(Template):
-    """Specifies a process of replication controlled by one controller"""
+    """Replication controlled by one controller.
 
-    type: Literal["ControlledReplication"] = "ControlledReplication"
-    controller: Concept = Field(..., description="The controller of the replication.")
-    subject: Concept = Field(..., description="The subject of the replication.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the replication.")
+    Attributes
+    ----------
+    controller : Concept
+        The controller of the replication.
+    subject : Concept
+        The subject of the replication.
+    provenance : list of Provenance
+        The provenance of the replication.
+    """
 
-    concept_keys: ClassVar[List[str]] = ["controller", "subject"]
+    type = "ControlledReplication"
+    concept_keys = ["controller", "subject"]
+
+    def __init__(self, controller, subject,
+                 provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.controller = controller
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1690,12 +1965,25 @@ class ControlledReplication(Template):
 
 
 class StaticConcept(Template):
-    """Specifies a standalone Concept that is not part of a process."""
+    """A standalone Concept that is not part of a process.
 
-    type: Literal["StaticConcept"] = "StaticConcept"
-    subject: Concept = Field(..., description="The subject.")
-    provenance: List[Provenance] = Field(default_factory=list, description="The provenance.")
-    concept_keys: ClassVar[List[str]] = ["subject"]
+    Attributes
+    ----------
+    subject : Concept
+        The subject.
+    provenance : list of Provenance
+        The provenance.
+    """
+
+    type = "StaticConcept"
+    concept_keys = ["subject"]
+
+    def __init__(self, subject, provenance=None, **kwargs):
+        super().__init__(**kwargs)
+        self.subject = subject
+        self.provenance = (
+            provenance if provenance is not None else []
+        )
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -1857,26 +2145,6 @@ def context_refinement(refined_context, other_context) -> bool:
     return True
 
 
-# Needed for proper parsing by FastAPI
-SpecifiedTemplate = Annotated[
-    Union[
-        NaturalConversion,
-        MultiConversion,
-        ControlledConversion,
-        NaturalDegradation,
-        ControlledDegradation,
-        GroupedControlledDegradation,
-        NaturalProduction,
-        ControlledProduction,
-        GroupedControlledConversion,
-        GroupedControlledProduction,
-        NaturalReplication,
-        ControlledReplication,
-        StaticConcept,
-        ReversibleFlux,
-    ],
-    Field(description="Any child class of a Template", discriminator="type"),
-]
 
 
 def has_specific_controller(template: Template, controller: Concept) -> bool:

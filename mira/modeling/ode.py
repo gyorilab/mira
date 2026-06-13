@@ -7,7 +7,6 @@ import scipy.integrate
 import sympy
 
 from . import Model
-from ..metamodel import SympyExprStr
 
 
 class OdeModel:
@@ -48,7 +47,7 @@ class OdeModel:
         for transition in model.transitions.values():
             # Use rate if available which is a symbolic expression
             if transition.template.rate_law:
-                rate = deepcopy(transition.template.rate_law.args[0])
+                rate = deepcopy(transition.template.rate_law)
                 for symbol in rate.free_symbols:
                     sym_str = str(symbol)
                     if sym_str in concept_map:
@@ -80,7 +79,7 @@ class OdeModel:
 
         observables = []
         for obs_name, model_obs in model.observables.items():
-            expr = deepcopy(model_obs.observable.expression).args[0]
+            expr = deepcopy(model_obs.observable.expression)
             for symbol in expr.free_symbols:
                 sym_str = str(symbol)
                 if sym_str in concept_map:
@@ -216,7 +215,7 @@ class OdeModel:
                 # Only substitute if this is an expression. Once the model
                 # has been simulated, this is actually a float.
                 if isinstance(expression, sympy.Expr):
-                    initials[index] = float(expression.subs(parameters).args[0])
+                    initials[index] = float(expression.subs(parameters))
 
         self.set_parameters(parameters)
         solver = scipy.integrate.ode(f=rhs)

@@ -149,14 +149,17 @@ class TestOperations(unittest.TestCase):
         )
         self.assertEqual(
             {
-                f"{susceptible.name}_vaccinated": SympyExprStr(2.5),
-                f"{susceptible.name}_unvaccinated": SympyExprStr(2.5),
-                f"{infected.name}_vaccinated": SympyExprStr(3.5),
-                f"{infected.name}_unvaccinated": SympyExprStr(3.5),
+                f"{susceptible.name}_vaccinated": sympy.Float(2.5),
+                f"{susceptible.name}_unvaccinated": sympy.Float(2.5),
+                f"{infected.name}_vaccinated": sympy.Float(3.5),
+                f"{infected.name}_unvaccinated": sympy.Float(3.5),
             },
             {k: i.expression for k, i in actual.initials.items()}
         )
-        self.assertEqual(tm_stratified.parameters, actual.parameters)
+        self.assertEqual(
+            {k: p.value for k, p in tm_stratified.parameters.items()},
+            {k: p.value for k, p in actual.parameters.items()}
+        )
         self.assertTrue(actual.initials['infected_population_vaccinated'].expression.equals(
             tm_stratified.initials['infected_population_vaccinated'].expression))
 
@@ -204,10 +207,9 @@ class TestOperations(unittest.TestCase):
         for city in cities:
             key = f"{original_name}_{city}".replace(':', '_')
             self.assertIn(key, actual.initials, msg="")
-            # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
-                float(Fraction(actual.initials[key].expression.__str__())),
+                float(sir_parameterized.initials[original_name].expression) / len(cities),
+                float(Fraction(str(actual.initials[key].expression))),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -240,10 +242,9 @@ class TestOperations(unittest.TestCase):
             city_name = city_name_map.get(city_curie, city_curie)
             key = f"{original_name}_{city_name}".replace(':', '_')
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
-            # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
-                float(Fraction(actual.initials[key].expression.__str__())),
+                float(sir_parameterized.initials[original_name].expression) / len(cities),
+                float(Fraction(str(actual.initials[key].expression))),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -276,10 +277,9 @@ class TestOperations(unittest.TestCase):
             city_name = city_name_map.get(city, city)
             key = f"{original_name}_{city_name}".replace(':', '_')
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
-            # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
-                float(Fraction(actual.initials[key].expression.__str__())),
+                float(sir_parameterized.initials[original_name].expression) / len(cities),
+                float(Fraction(str(actual.initials[key].expression))),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -419,9 +419,9 @@ class TestOperations(unittest.TestCase):
                                                          value=2.0)})
         assert len(templates) == 2, templates
         assert all(t.type == 'ControlledConversion' for t in templates)
-        assert templates[0].rate_law.args[0].equals(
+        assert templates[0].rate_law.equals(
             (1 - _s('alpha')) * _s('S') * _s('A'))
-        assert templates[1].rate_law.args[0].equals(
+        assert templates[1].rate_law.equals(
             (1 - _s('alpha')) * _s('beta') * _s('S') * _s('B'))
 
 
@@ -433,9 +433,9 @@ def test_counts_to_dimensionless():
     for template in tm.templates:
         for concept in template.get_concepts():
             concept.units = Unit(expression=sympy.Symbol('person'))
-    tm.initials['susceptible_population'].expression = SympyExprStr(1e5 - 1)
-    tm.initials['infected_population'].expression = SympyExprStr(1)
-    tm.initials['immune_population'].expression = SympyExprStr(0)
+    tm.initials['susceptible_population'].expression = sympy.Float(1e5 - 1)
+    tm.initials['infected_population'].expression = sympy.Float(1)
+    tm.initials['immune_population'].expression = sympy.Float(0)
 
     tm.parameters['beta'].units = \
         Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
@@ -447,17 +447,17 @@ def test_counts_to_dimensionless():
     tm = counts_to_dimensionless(tm, 'person', 1e5)
     for template in tm.templates:
         for concept in template.get_concepts():
-            assert concept.units.expression.args[0].equals(1), concept.units
+            assert concept.units.expression.equals(1), concept.units
 
-    assert tm.parameters['beta'].units.expression.args[0].equals(1 / sympy.Symbol('day'))
+    assert tm.parameters['beta'].units.expression.equals(1 / sympy.Symbol('day'))
     assert tm.parameters['beta'].value == old_beta * 1e5
 
-    assert SympyExprStr((1e5 - 1) / 1e5).equals(tm.initials['susceptible_population'].expression)
-    assert SympyExprStr(1 / 1e5).equals(tm.initials['infected_population'].expression)
-    assert SympyExprStr(0).equals(tm.initials['immune_population'].expression)
+    assert sympy.Float((1e5 - 1) / 1e5).equals(tm.initials['susceptible_population'].expression)
+    assert sympy.Float(1 / 1e5).equals(tm.initials['infected_population'].expression)
+    assert sympy.Float(0).equals(tm.initials['immune_population'].expression)
 
     for initial in tm.initials.values():
-        assert initial.concept.units.expression.args[0].equals(1)
+        assert initial.concept.units.expression.equals(1)
 
 
 def test_stratify_observable():
@@ -466,14 +466,14 @@ def test_stratify_observable():
     expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
     tm.observables = {'half_population': Observable(
         name='half_population',
-        expression=SympyExprStr(expr / 2))
+        expression=expr / 2)
     }
     tm = stratify(tm,
                   key='age',
                   strata=['y', 'o'],
                   structure=[],
                   cartesian_control=True)
-    print(tm.observables['half_population'].expression.args[0])
+    print(tm.observables['half_population'].expression)
 
 
 def test_stratify_initials():
@@ -498,7 +498,7 @@ def test_stratify_initials():
         'N': Parameter(name='N', value=5_600_000, units=person_units()),
         'beta_s': Parameter(name='beta_s', value=1, units=per_day_units()),
         'beta_c': Parameter(name='beta_c', value=0.4, units=per_day_units()),
-        't_0': Parameter(name='t_0', value=89, unts=day_units, units=day_units()),
+        't_0': Parameter(name='t_0', value=89, units=day_units()),
         # D=11, gamma = 1/D, R_0 = 5 and
         # beta = R_0 * gamma * mask(t) so kappa = 5/11
         'kappa': Parameter(name='kappa', value=5 / 11, units=per_day_units()),
@@ -517,7 +517,7 @@ def test_stratify_initials():
         sympy.symbols('S E I R D N kappa beta_s beta_c k t_0 t alpha delta rho gamma')
 
     observables = {
-        'infected': Observable(name='infected', expression=SympyExprStr(I))
+        'infected': Observable(name='infected', expression=I)
     }
 
     m_1 = (beta_s - beta_c) / (1 + sympy.exp(-k * (t_0 - t))) + beta_c
@@ -583,7 +583,7 @@ def test_deactivate():
     deactivate_templates(tm, condition)
 
     assert len(tm.templates) == 2
-    assert tm.templates[1].rate_law.args[0] == sympy.core.numbers.Zero()
+    assert tm.templates[1].rate_law == sympy.core.numbers.Zero()
 
 
 def test_stratify_excluded_species():
@@ -631,7 +631,7 @@ def test_get_observable_for_concepts():
     ]
     obs = get_observable_for_concepts(concepts, 'obs')
     assert obs.name == 'obs'
-    assert obs.expression.args[0] == sum([sympy.Symbol(c.name) for c in concepts])
+    assert obs.expression == sum([sympy.Symbol(c.name) for c in concepts])
 
 
 def test_add_observable_pattern():
@@ -647,12 +647,12 @@ def test_add_observable_pattern():
     add_observable_pattern(tm, name='A', identifiers={'ido': '0000514'})
     assert 'A' in tm.observables
     obs = tm.observables['A']
-    assert obs.expression.args[0] == sympy.Symbol('A_old') + sympy.Symbol('A_young')
+    assert obs.expression == sympy.Symbol('A_old') + sympy.Symbol('A_young')
 
     add_observable_pattern(tm, 'young', context={'age': 'young'})
     assert 'young' in tm.observables
     obs = tm.observables['young']
-    assert obs.expression.args[0] == sympy.Symbol('A_young') + sympy.Symbol('B_young')
+    assert obs.expression == sympy.Symbol('A_young') + sympy.Symbol('B_young')
 
 
 def test_stratify_initials_parameters():
@@ -667,9 +667,9 @@ def test_stratify_initials_parameters():
     tm1 = stratify(tm, key='age', strata=['young', 'old'], structure=[],
                    param_renaming_uses_strata_names=True)
     assert 'S_young' in tm1.initials
-    assert tm1.initials['S_young'].expression.args[0] == sympy.Symbol('S0_young')
+    assert tm1.initials['S_young'].expression == sympy.Symbol('S0_young')
     assert 'S_old' in tm1.initials
-    assert tm1.initials['S_old'].expression.args[0] == sympy.Symbol('S0_old')
+    assert tm1.initials['S_old'].expression == sympy.Symbol('S0_old')
     assert 'S0_young' in tm1.parameters
     assert tm1.parameters['S0_young'].value == 500
     assert 'S0_old' in tm1.parameters
@@ -679,9 +679,9 @@ def test_stratify_initials_parameters():
                    param_renaming_uses_strata_names=True,
                    params_to_preserve={'S0'})
     assert 'S_young' in tm2.initials
-    assert tm2.initials['S_young'].expression.args[0] == sympy.Symbol('S0') / 2
+    assert tm2.initials['S_young'].expression == sympy.Symbol('S0') / 2
     assert 'S_old' in tm2.initials
-    assert tm2.initials['S_old'].expression.args[0] == sympy.Symbol('S0') / 2
+    assert tm2.initials['S_old'].expression == sympy.Symbol('S0') / 2
     assert 'S0' in tm2.parameters
     assert tm2.parameters['S0'].value == 1000
 
@@ -689,7 +689,7 @@ def test_stratify_initials_parameters():
                    param_renaming_uses_strata_names=True,
                    concepts_to_preserve={'S'})
     assert set(tm3.initials) == {'S'}
-    assert tm3.initials['S'].expression.args[0] == \
+    assert tm3.initials['S'].expression == \
         sympy.Symbol('S0_old') + sympy.Symbol('S0_young')
     assert set(tm3.parameters) == {'alpha', 'S0_old', 'S0_young'}
     assert tm3.parameters['S0_old'].value == 500
@@ -703,7 +703,7 @@ def test_check_simplify():
     assert check_simplify_rate_laws(
         TemplateModel(
             templates=[NaturalProduction(outcome=Concept(name='A'),
-                                         rate_law=SympyExprStr(a * A))],
+                                         rate_law=a * A)],
         )
     ) == {'result': 'NO_GROUP_CONTROLLERS'}
 
@@ -711,7 +711,7 @@ def test_check_simplify():
     template = GroupedControlledDegradation(
         subject=Concept(name='A'),
         controllers=[Concept(name='B'), Concept(name='C')],
-        rate_law=SympyExprStr(b * B/C * A + a),
+        rate_law=b * B/C * A + a,
     )
     parameters = {'a': Parameter(name='a', value=1),
                   'b': Parameter(name='b', value=1),
@@ -722,7 +722,7 @@ def test_check_simplify():
     assert res['result'] == 'NO_CHANGE'
 
     # Meaningful simplification with decrease in max controller count
-    template.rate_law = SympyExprStr((b * B + c * C) * A)
+    template.rate_law = (b * B + c * C) * A
     res = check_simplify_rate_laws(tm)
     assert res['result'] == 'MEANINGFUL_CHANGE'
     assert res['max_controller_decrease'] == 1
@@ -734,7 +734,7 @@ def test_check_simplify():
         subject=Concept(name='A'),
         controllers=[Concept(name='B'), Concept(name='C'),
                      Concept(name='D')],
-        rate_law=SympyExprStr(b * B/C*D * A + a),
+        rate_law=b * B/C*D * A + a,
     )
     tm = TemplateModel(templates=[template, template2],
                        parameters=parameters)

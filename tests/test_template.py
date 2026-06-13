@@ -1,4 +1,3 @@
-import json
 import sympy
 from mira.metamodel import *
 from mira.metamodel.templates import Config
@@ -295,15 +294,15 @@ def test_get_curie_custom():
 def test_rate_json():
     t = NaturalDegradation(subject=Concept(name='x'),
                            rate_law=sympy.Mul(2, sympy.Symbol('x')))
-    jj = json.loads(t.model_dump_json())
+    jj = t.to_json()
     assert jj.get('rate_law') == '2*x', jj
     t2 = Template.from_json(jj)
     assert isinstance(t2, NaturalDegradation)
     assert isinstance(t2.rate_law, sympy.Expr)
-    assert t2.rate_law.args[0].args[1].name == 'x'
+    assert t2.rate_law.args[1].name == 'x'
     t3 = Template.from_json(jj, rate_symbols={'x': sympy.Symbol('y')})
     assert isinstance(t3.rate_law, sympy.Expr)
-    assert t3.rate_law.args[0].args[1].name == 'y'
+    assert t3.rate_law.args[1].name == 'y'
 
 
 def test_different_class_refinement():
@@ -361,18 +360,17 @@ def test_set_rate_law():
     t.set_rate_law('beta * s * o', local_dict={'beta': sympy.Symbol('beta'),
                                                's': sympy.Symbol('s'),
                                                'o': sympy.Symbol('o')})
-    assert isinstance(t.rate_law, SympyExprStr)
-    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+    assert isinstance(t.rate_law, sympy.Expr)
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
     rate = sympy.Symbol('beta') * sympy.Symbol('s') * sympy.Symbol('o')
     t.set_rate_law(rate)
-    assert isinstance(t.rate_law, SympyExprStr)
-    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+    assert isinstance(t.rate_law, sympy.Expr)
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
-    rate_s = SympyExprStr(rate)
     t.set_rate_law(rate)
-    assert isinstance(t.rate_law, SympyExprStr)
-    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+    assert isinstance(t.rate_law, sympy.Expr)
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
     tm = TemplateModel(templates=[t])
     tm.set_rate_law('tx', rate_law='beta * s * o',
@@ -380,6 +378,6 @@ def test_set_rate_law():
                                 's': sympy.Symbol('s'),
                                 'o': sympy.Symbol('o')})
 
-    assert isinstance(tm.templates[0].rate_law, SympyExprStr)
-    assert sorted(tm.templates[0].rate_law.args[0].args[0].
-                  free_symbols)[0].name == 'beta'
+    assert isinstance(tm.templates[0].rate_law, sympy.Expr)
+    assert sorted(tm.templates[0].rate_law.
+                  free_symbols, key=str)[0].name == 'beta'

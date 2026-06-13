@@ -71,7 +71,7 @@ for template in sir.templates:
 
 #### Template attributes
 All template objects have 3 optional attributes
-- `rate_law`: `Optional[SympyExprStr]`
+- `rate_law`: `Optional[sympy.Expr]`
   - The rate law that governs the template
 - `name`: `Optional[str]`
   - The name of the template
@@ -81,8 +81,8 @@ All template objects have 3 optional attributes
 #### Creating rate-laws
 The least error-prone way to create a rate-law to be used in a template is to use the 
 `safe_parse_expr` method while passing in a `local_dict` mapping of symbols used in the rate law to
-their sympy equivalent. The returned expression from `safe_parse_expr` can either be used as 
-stand-alone expression to be used in templates or passed to the `SympyExprStr` constructor. 
+their sympy equivalent. The returned expression from `safe_parse_expr` is a plain `sympy.Expr`
+that can be used directly anywhere a rate law or expression is expected. 
 
 - Documentation
   - `safe_parse_expr(s, local_dict)`
@@ -113,31 +113,11 @@ local_dict = {"beta": beta_symbol, "mu": mu_symbol}
 expression = safe_parse_expr(str_expression, local_dict)
 ```
 
-The expression created can now be passed into any method or constructor that requires a rate-law. We can also pass the
-result of `safe_parse_expr` to the `SympyExprStr` constructor which accepts types `str`, `float`,`int`, 
-and `sympy.Expr` to convert it to a `SympyExprStr` object which is a subclass of the `sympy.Expr` class.  
-`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. 
+The expression created can now be passed into any method or constructor that requires a rate-law.
 
 Additionally, there will be code examples used in this document that pass in a `sympy.Symbol`, `sympy.Float`, or `sympy.Integer`
-object to an argument that expects a `sympy.Expr` or `SympyExprStr` object. This is allowed because the three former 
-sympy object classes mentioned are all subclasses of `sympy.Expr`. 
-
-**Creating a rate-law using `safe_parse_expr` and passing it into `SympyExprStr`**
-
-```python
-import sympy
-
-from mira.metamodel.utils import SympyExprStr, safe_parse_expr
-
-beta_symbol = sympy.Symbol("beta")
-mu_symbol = sympy.Symbol("mu")
-str_expression = "5*beta*mu"
-local_dict = {"beta": beta_symbol, "mu": mu_symbol}
-expression = safe_parse_expr(str_expression, local_dict)
-
-# We now have a SympyExprStr expression that can be used interchangeably with the result from safe_parse_expr
-expression = SympyExprStr(expression)
-```
+object to an argument that expects a `sympy.Expr` object. This is allowed because the three former
+sympy object classes mentioned are all subclasses of `sympy.Expr`.
 
 #### Template types
 - Degradation
@@ -220,7 +200,7 @@ We can change the rate law of a template using the template instance method `set
 
 - Documentation
   - `set_rate_law(rate_law, local_dict)`
-    - `rate_law`: `Union[str, sympy.Expr, SympyExprStr]`
+    - `rate_law`: `Union[str, sympy.Expr]`
       - The new rate law to use for a template
     - `local_dict`: `Optional[Dict[str,str]]`
       - An optional mapping of symbols to substitute into the new rate law
@@ -229,16 +209,16 @@ We can change the rate law of a template using the template instance method `set
 ```python
 import sympy 
 
-from mira.metamodel.utils import SympyExprStr,safe_parse_expr
+from mira.metamodel.utils import safe_parse_expr
 from mira.examples.sir import sir_petrinet as sir 
 
 # Define a dictionary of symbols present in the new rate-law to sympy symbol objects
 # for parsing of rate-law strings
 local_dict = {"I": sympy.Symbol("I"), "beta": sympy.Symbol("beta")}
 
-# We can just pass in the return value from safe_parse_expr as well
-# The SympyExprStr constructor can take in a string, int, float, or sympy.Expr object 
-sir.templates[0].set_rate_law(SympyExprStr(safe_parse_expr("I*beta", local_dict)))
+# set_rate_law accepts a sympy.Expr; it also accepts a string, which it parses
+# using local_dict
+sir.templates[0].set_rate_law(safe_parse_expr("I*beta", local_dict))
 ```
 
 ###### Rename a parameter in a template rate-law
@@ -394,7 +374,7 @@ local_dict = {"I_human": sympy.Symbol("I_human"), "I_pet": sympy.Symbol("I_pet")
 # keep track of both human and pet infections for the total number of infected
 new_expression = safe_parse_expr("I_human+I_pet", local_dict)
 
-sir.observables.get(key).expression = SympyExprStr(new_expression)
+sir.observables.get(key).expression = new_expression
 ```
 
 ### Initials
@@ -429,10 +409,9 @@ from mira.examples.sir import sir_petrinet as sir
 susceptible_concept = sir.get_concept("S")
 key_susceptible = susceptible_concept.name
 
-# Though initial values for compartments can be numbers, the Python object type
-# passed into the expression argument for the Initial constructor must be of type
-# (SympyExprStr, sympy.Expr), sympy.Float and sympy.Integer are subclasses of sympy.Expr
-initial_expression = SympyExprStr(sympy.Float(1000))
+# The Initial constructor accepts a sympy.Expr, or a plain float or int (which are
+# converted to sympy.Float / sympy.Integer automatically)
+initial_expression = sympy.Float(1000)
 
 # The Initial constructor takes in a concept object 
 susceptible_initial = Initial(concept=susceptible_concept,
@@ -457,8 +436,8 @@ infected_concept = sir.get_concept("I")
 key_susceptible = susceptible_concept.name
 key_infected = infected_concept.name 
 
-susceptible_initial_expression = SympyExprStr(sympy.Float(1000))
-infected_initial_expression = SympyExprStr(sympy.Float(0))
+susceptible_initial_expression = sympy.Float(1000)
+infected_initial_expression = sympy.Float(0)
 
 susceptible_initial = Initial(concept=susceptible_concept,
                               expression=susceptible_initial_expression)
@@ -491,7 +470,7 @@ from mira.examples.sir import sir_petrinet as sir
 susceptible_concept = sir.get_concept("S")
 key_susceptible = susceptible_concept.name
 
-susceptible_initial_expression = SympyExprStr(sympy.Float(5))
+susceptible_initial_expression = sympy.Float(5)
 susceptible_initial = Initial(concept=susceptible_concept,
                               expression=susceptible_initial_expression)
 
@@ -526,7 +505,7 @@ from mira.examples.sir import sir_petrinet as sir
 susceptible_concept = sir.get_concept("S")
 key_susceptible = susceptible_concept.name
 
-sir.initials.get(key_susceptible).expression = SympyExprStr(sympy.Float(1000))
+sir.initials.get(key_susceptible).expression = sympy.Float(1000)
 ```
 ###### Set an initial expression to an expression
 We can define the expression of an initial to be represented by an actual expression. 
@@ -547,8 +526,8 @@ sir.add_parameter(parameter_id="S0", value=1000)
 local_dict = {"S0": sympy.Symbol("S0")}
 
 # Set the parameter "S0" to represent the initial value for the susceptible compartment
-sir.initials.get(key_susceptible).expression = SympyExprStr(
-  safe_parse_expr("S0", local_dict))
+sir.initials.get(key_susceptible).expression = \
+  safe_parse_expr("S0", local_dict)
 ```
 
 ## Template Model operations
@@ -664,7 +643,7 @@ import sympy
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.templates import *
 from mira.metamodel.template_model import *
-from mira.metamodel.utils import SympyExprStr, safe_parse_expr
+from mira.metamodel.utils import safe_parse_expr
 
 recovered_concept = sir.get_concept("R")
 
@@ -679,7 +658,7 @@ parameter_mapping = {"eta": Parameter(name="eta", value=5)}
 
 # Update the initial for the recovered compartment 
 initial_mapping = {"R": Initial(concept=recovered_concept,
-                                 expression=SympyExprStr(sympy.Float(5)))}
+                                 expression=sympy.Float(5))}
 
 sir = sir.add_template(template, parameter_mapping=parameter_mapping,
                  initial_mapping=initial_mapping)
@@ -697,7 +676,7 @@ the arguments passed and add it to the template model. Currently, this  method o
       - The subject of the template
     - `outcome_concept`: `Optional[Concept]`
       - The outcome of the template
-    - `rate_law_sympy`: `Optional[SympyExprStr]`
+    - `rate_law_sympy`: `Optional[sympy.Expr]`
       - The rate law that governs the template in sympy form
     - `params_dict`: `Optional[Mapping[str, Mapping[str,Any]]]`
       - The mapping of parameter names to their respective attributes to be added to the model
@@ -712,14 +691,14 @@ the arguments passed and add it to the template model. Currently, this  method o
 import sympy 
 
 from mira.examples.sir import sir_petrinet as sir
-from mira.metamodel.utils import SympyExprStr, safe_parse_expr
+from mira.metamodel.utils import safe_parse_expr
 
 recovered_concept = sir.get_concept("I")
 susceptible_concept = sir.get_concept("S")
 
 local_dict = {"eta": sympy.Symbol("eta"), "R": sympy.Symbol("R")}
 
-rate_law_sympy = SympyExprStr(safe_parse_expr("eta*R", local_dict))
+rate_law_sympy = safe_parse_expr("eta*R", local_dict)
 params_dict = {"eta": {"display_name": "eta", "value": 5}}
 
 sir = sir.add_transition(subject_concept=recovered_concept, outcome_concept=susceptible_concept,
@@ -736,7 +715,7 @@ import sympy
 
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.templates import *
-from mira.metamodel.utils import SympyExprStr, safe_parse_expr
+from mira.metamodel.utils import safe_parse_expr
 
 recovered_concept = sir.get_concept("R")
 
@@ -745,8 +724,7 @@ local_dict = {"eta": sympy.Symbol("eta"), "R": sympy.Symbol("R")}
 # Define the template to add 
 template = NaturalConversion(subject=recovered_concept,
                              outcome=sir.get_concept("I"),
-                             rate_law=SympyExprStr(
-                               safe_parse_expr("R*eta", local_dict)))
+                             rate_law=safe_parse_expr("R*eta", local_dict))
 
 sir.templates.append(template)
 

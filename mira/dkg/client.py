@@ -966,7 +966,7 @@ def search_wikidata(text: str) -> List[Entity]:
     headers = {
         "User-Agent": "MIRA-DKG-Client/1.0 (https://github.com/gyorilab/mira)"
     }
-    res = requests.get(WIKIDATA_API, params=payload, headers=headers)
+    res = requests.get(WIKIDATA_API, params=payload, headers=headers, timeout=30)
     res.raise_for_status()
     res_json = res.json()
     results = [_process_result(r) for r in res_json["search"]]

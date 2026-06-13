@@ -69,12 +69,12 @@ def test_branching():
     assert death.subject.name == 'H'
     assert death.outcome.name == 'D'
     # Test for rate law as a sympy expression
-    assert death.rate_law.args[0] == a * b * sympy.Symbol('H')
+    assert death.rate_law == a * b * sympy.Symbol('H')
     assert recovery.type == 'NaturalConversion'
     assert recovery.subject.name == 'H'
     assert recovery.outcome.name == 'R'
     # Test for rate law as a sympy expression
-    assert recovery.rate_law.args[0] == (1 - a) * b * sympy.Symbol('H')
+    assert recovery.rate_law == (1 - a) * b * sympy.Symbol('H')
 
 
 def test_branching_explicit_parentheses():
@@ -131,21 +131,21 @@ def test_branching_implicit():
     assert infection.subject.name == 'S'
     assert infection.outcome.name == 'I'
     assert infection.controller.name == 'I'
-    assert sympy_eq(infection.rate_law.args[0],
+    assert sympy_eq(infection.rate_law,
         sympy.Symbol('b') * sympy.Symbol('S') * sympy.Symbol('I'))
 
     recovery = [t for t in tm.templates
                 if t.type == 'NaturalConversion'
                 and t.outcome.name == 'R'][0]
     assert recovery.subject.name == 'I'
-    assert sympy_eq(recovery.rate_law.args[0],
+    assert sympy_eq(recovery.rate_law,
         sympy.Symbol('k') * sympy.Symbol('g') * sympy.Symbol('I'))
 
     vtransition = [t for t in tm.templates
                    if t.type == 'NaturalConversion'
                    and t.outcome.name == 'V'][0]
     assert vtransition.subject.name == 'I'
-    assert sympy_eq(vtransition.rate_law.args[0],
+    assert sympy_eq(vtransition.rate_law,
            (1 - sympy.Symbol('k')) * sympy.Symbol('g') * sympy.Symbol('I'))
 
 
@@ -187,7 +187,7 @@ def test_negative_term():
         Eq(S(t).diff(t), -mu * S(t)),
     ]
     tm = template_model_from_sympy_odes(equation_output)
-    assert tm.templates[0].rate_law.args[0] == Symbol('mu') * Symbol('S')
+    assert tm.templates[0].rate_law == Symbol('mu') * Symbol('S')
 
 
 def test_ambiguous_edges():

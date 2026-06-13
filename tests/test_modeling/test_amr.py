@@ -41,8 +41,8 @@ def test_export():
             "correct?"
         ) from e
 
-    # Test the pydanctic export
-    pm.to_pydantic()
+    # Test the JSON export
+    pm.to_json()
 
     # Get the template model
     tm = template_model_from_amr_json(pm.to_json())
@@ -64,7 +64,7 @@ def test_export():
 
     # Test initials
     assert 'susceptible_population' in tm.initials
-    assert SympyExprStr(1).equals( tm.initials['susceptible_population'].expression)
+    assert sympy.Integer(1).equals(tm.initials['susceptible_population'].expression)
     assert tm.initials['susceptible_population'].concept.name == \
            "susceptible_population"
     assert 'ido' in tm.initials['susceptible_population'].concept.identifiers

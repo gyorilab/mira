@@ -29,9 +29,9 @@ from mira.metamodel import (
     counts_to_dimensionless
 )
 from mira.modeling import Model
-from mira.modeling.amr.petrinet import AMRPetriNetModel, ModelSpecification
+from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.amr.flux_span import reproduce_ode_semantics, \
     test_file_path, docker_test_file_path
@@ -83,22 +83,21 @@ template_model_example = {
 template_model_example_w_context = TemplateModel(
     templates=[
         t.with_context(location="geonames:5128581")
-        for t in TemplateModel(**template_model_example).templates
+        for t in TemplateModel.from_json(template_model_example).templates
     ]
 )
 
 #: PetriNetModel json example
-petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
-amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_pydantic()
-amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_pydantic()
+petrinet_json = PetriNetModel(Model(sir)).to_json()
+amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_json()
+amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_json()
 amr_petrinet_json_units_values = AMRPetriNetModel(
     Model(sir_parameterized_init)
-).to_pydantic()
+).to_json()
 
 
 @model_blueprint.post(
     "/to_petrinet_acsets",
-    response_model=PetriNetResponse,
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
@@ -117,14 +116,13 @@ def model_to_petri(template_model: Dict[str, Any] = Body(...,
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
     petri_net = PetriNetModel(model)
-    return petri_net.to_pydantic()
+    return petri_net.to_json()
 
 
 # From PetriNetJson
 @model_blueprint.post(
     "/from_petrinet_acsets",
     tags=["modeling"],
-    response_model=TemplateModel,
     description=dedent("""\
         This endpoint consumes a JSON representation of an
         [ACSet petri net](https://github.com/AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py)
@@ -139,12 +137,11 @@ def model_to_petri(template_model: Dict[str, Any] = Body(...,
 def petri_to_model(petri_json: Dict[str, Any] = Body(...,
                                                      examples=[petrinet_json])):
     """Create a TemplateModel from a PetriNet model"""
-    return template_model_from_petri_json(petri_json)
+    return template_model_from_petri_json(petri_json).to_json()
 
 
 @model_blueprint.post(
     "/to_petrinet",
-    response_model=ModelSpecification,
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
@@ -160,13 +157,12 @@ def model_to_amr(template_model: Dict[str, Any] = Body(...,
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
     amr_petrinet_model = AMRPetriNetModel(model)
-    return amr_petrinet_model.to_pydantic()
+    return amr_petrinet_model.to_json()
 
 
 @model_blueprint.post(
     "/from_petrinet",
     tags=["modeling"],
-    response_model=TemplateModel,
     description=dedent("""\
         This endpoint consumes a JSON representation of an
         [ASKEM petri net](https://github.com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json)
@@ -178,7 +174,7 @@ def model_to_amr(template_model: Dict[str, Any] = Body(...,
 def amr_to_model(amr_json: Dict[str, Any] = Body(...,
                                                  examples=[amr_petrinet_json])):
     """Create a TemplateModel from an AMR model."""
-    return template_model_from_amr_json(amr_json)
+    return template_model_from_amr_json(amr_json).to_json()
 
 
 # Model stratification
@@ -299,7 +295,7 @@ class StratificationQuery(BaseModel):
         return ControlledConversion
 
 
-@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/stratify", tags=["modeling"])
 def model_stratification(
     request: Request,
     stratification_query: StratificationQuery = Body(
@@ -348,19 +344,15 @@ def model_stratification(
         concepts_to_preserve=stratification_query.concepts_to_preserve,
         param_renaming_uses_strata_names=stratification_query.param_renaming_uses_strata_names
     )
-    return template_model
+    return template_model.to_json()
 
 
-@model_blueprint.post(
-    "/counts_to_dimensionless_mira",
-    response_model=TemplateModel,
-    tags=["modeling"]
-)
+@model_blueprint.post("/counts_to_dimensionless_mira", tags=["modeling"])
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
             examples=[{
-                "model": sir_parameterized_init,
+                "model": sir_parameterized_init.to_json(),
                 "counts_unit": "person",
                 "norm_factor": 1e5,
             }],
@@ -373,12 +365,11 @@ def dimension_transform(
     # The concepts should have their units' expressions as sympy.Expr,
     # currently they are strings
     tm_dimless = counts_to_dimensionless(tm=tm, **query)
-    return tm_dimless
+    return tm_dimless.to_json()
 
 
 @model_blueprint.post(
     "/counts_to_dimensionless_amr",
-    response_model=ModelSpecification,
     tags=["modeling"]
 )
 def dimension_transform(
@@ -400,12 +391,10 @@ def dimension_transform(
     dimless_model = counts_to_dimensionless(tm=tm, **query)
 
     # Transform back to amr model
-    return AMRPetriNetModel(Model(dimless_model)).to_pydantic()
+    return AMRPetriNetModel(Model(dimless_model)).to_json()
 
 
-@model_blueprint.get(
-    "/biomodels/{model_id}",
-    response_model=TemplateModel,
+@model_blueprint.get("/biomodels/{model_id}",
     tags=["modeling"],
     status_code=200,
     responses={
@@ -445,10 +434,10 @@ def biomodels_id_to_model(
         tm = simplify_rate_laws(tm)
     if aggregate_params:
         tm = aggregate_parameters(tm)
-    return tm
+    return tm.to_json()
 
 
-@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/bilayer_to_model", tags=["modeling"])
 def bilayer_to_template_model(
     bilayer: Dict[str, Any] = Body(
         ...,
@@ -458,7 +447,7 @@ def bilayer_to_template_model(
 ):
     """Transform a bilayer json to a template model"""
     # todo: Create model for bilayer
-    return template_model_from_bilayer(bilayer_json=bilayer)
+    return template_model_from_bilayer(bilayer_json=bilayer).to_json()
 
 
 @model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any], tags=["modeling"])
@@ -480,13 +469,13 @@ class XmlString(BaseModel):
     xml_string: str = Field(..., description="An SBML model as an XML string")
 
 
-@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/sbml_xml_to_model", tags=["modeling"])
 def sbml_xml_to_model(
     xml: XmlString = Body(..., description="An XML string to turn into a template model")
 ):
     """Turn SBML XML into a template model"""
     tm = template_model_from_sbml_string(xml.xml_string)
-    return tm
+    return tm.to_json()
 
 
 # GraphicalModel endpoints
@@ -571,7 +560,7 @@ def model_to_graph_image(
 class TemplateModelDeltaQuery(BaseModel):
     template_model1: Dict[str, Any] = Field(..., examples=[template_model_example])
     template_model2: Dict[str, Any] = Field(
-        ..., examples=[template_model_example_w_context]
+        ..., examples=[template_model_example_w_context.to_json()]
     )
 
 
@@ -646,12 +635,12 @@ class AddTranstitionQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
         ..., description="The template model to add the transition to", examples=[template_model_example]
     )
-    subject_concept: Concept = Field(..., description="The subject concept")
-    outcome_concept: Concept = Field(..., description="The outcome concept")
-    parameter: Optional[Parameter] = Field(default=None, description="The parameter (optional)")
+    subject_concept: Dict[str, Any] = Field(..., description="The subject concept")
+    outcome_concept: Dict[str, Any] = Field(..., description="The outcome concept")
+    parameter: Optional[Dict[str, Any]] = Field(default=None, description="The parameter (optional)")
 
 
-@model_blueprint.post("/add_transition", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/add_transition", tags=["modeling"])
 def add_transition(
     add_transition_query: AddTranstitionQuery = Body(
         ...,
@@ -666,24 +655,28 @@ def add_transition(
 ):
     """Add a transition between two concepts in a template model"""
     tm = TemplateModel.from_json(add_transition_query.template_model)
+    subject = Concept.from_json(add_transition_query.subject_concept)
+    outcome = Concept.from_json(add_transition_query.outcome_concept)
+    param = Parameter(**add_transition_query.parameter) \
+        if add_transition_query.parameter else None
     template_model = tm.add_transition(
-        subject_concept=add_transition_query.subject_concept,
-        outcome_concept=add_transition_query.outcome_concept,
-        mass_action_parameter=add_transition_query.parameter,
+        subject_concept=subject,
+        outcome_concept=outcome,
+        mass_action_parameter=param,
     )
-    return template_model
+    return template_model.to_json()
 
 
 class ModelComparisonQuery(BaseModel):
     template_models: List[Dict[str, Any]] = Field(
         ..., examples=[[
-            template_model_example, template_model_example_w_context
+            template_model_example, template_model_example_w_context.to_json()
         ]]
     )
 
 
 class ModelComparisonResponse(BaseModel):
-    graph_comparison_data: Union[Dict[str, Any], ModelComparisonGraphdata] #ModelComparisonGraphdata
+    graph_comparison_data: Dict[str, Any]
     similarity_scores: List[Dict[str, Union[List[int], float]]] = Field(
         ..., description="A dictionary of similarity scores between all the "
                          "provided models."
@@ -707,7 +700,7 @@ def model_comparison(
         template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.model_dump(),
+        graph_comparison_data=graph_comparison_data.to_json(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -740,7 +733,7 @@ def askepetrinet_model_comparison(
             app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.model_dump(),
+        graph_comparison_data=graph_comparison_data.to_json(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -762,9 +755,7 @@ class FluxSpanQuery(BaseModel):
     )
 
 
-@model_blueprint.post("/reconstruct_ode_semantics",
-                      response_model=ModelSpecification,
-                      tags=["modeling"])
+@model_blueprint.post("/reconstruct_ode_semantics", tags=["modeling"])
 def reproduce_ode_semantics_endpoint(
         query: FluxSpanQuery = Body(
             ...,
@@ -775,4 +766,4 @@ def reproduce_ode_semantics_endpoint(
     """Reproduce ODE semantics from a stratified model (flux span)."""
     tm = reproduce_ode_semantics(query.model)
     am = AMRPetriNetModel(Model(tm))
-    return am.to_pydantic()
+    return am.to_json()

@@ -3,7 +3,6 @@
 from typing import Dict, List, Union
 
 import requests
-from pydantic import BaseModel
 
 from mira.metamodel import TemplateModel
 from mira.modeling import Model
@@ -40,9 +39,10 @@ def associate(*, project_id: str, model_id: str) -> str:
     return res.json()["id"]
 
 
-class TerariumResponse(BaseModel):
-    model_id: str
-    associations: Dict[str, str]
+class TerariumResponse:
+    def __init__(self, model_id, associations):
+        self.model_id = model_id
+        self.associations = associations
 
 
 def post_template_model(
