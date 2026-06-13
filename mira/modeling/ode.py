@@ -169,7 +169,10 @@ class OdeModel:
         """Return the right-hand side of the ODE system."""
 
         def rhs(t, y):
-            return self.kinetics_lmbd(y[:, None])
+            # Flatten to a 1-D array of length NEQ: kinetics_lmbd is a
+            # lambdified sympy Matrix and returns a 2-D (NEQ, 1) array, which
+            # newer scipy's ODE solver rejects.
+            return self.kinetics_lmbd(y[:, None]).flatten()
 
         return rhs
 
@@ -230,9 +233,9 @@ class OdeModel:
         if with_observables:
             for tidx, t in enumerate(times):
                 obs_res = \
-                    self.observables_lmbd(res[tidx, :num_vars][:, None])
+                    self.observables_lmbd(res[tidx, :num_vars][:, None]).flatten()
                 for idx, val in enumerate(obs_res):
-                    res[tidx, num_vars + idx] = obs_res[idx]
+                    res[tidx, num_vars + idx] = val
         return res
 
 
