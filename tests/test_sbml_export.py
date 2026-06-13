@@ -1,6 +1,9 @@
 """Tests to see if we can export SBML models from intermediate TemplateModels
  correctly while preserving a majority of the information stored in the
  TemplateModel."""
+import os
+import unittest
+
 from mira.sources.biomodels import get_template_model
 from mira.sources.sbml import template_model_from_sbml_string
 from mira.modeling.sbml import template_model_to_sbml_string
@@ -14,6 +17,10 @@ BIOMODELS = [
 ]
 
 
+@unittest.skipIf(
+    os.environ.get("GITHUB_ACTIONS") is not None,
+    reason="Requires network access to BioModels, which blocks CI",
+)
 def test_sbml_export():
     for model_id in BIOMODELS:
         tm_from_biomodel = get_template_model(model_id)

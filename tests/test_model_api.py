@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import tempfile
 import unittest
 import uuid
@@ -389,6 +390,10 @@ class TestModelApi(unittest.TestCase):
 
         self.assertEqual(sorted_json_str(bj), sorted_json_str(bj_res))
 
+    @unittest.skipIf(
+        os.environ.get("GITHUB_ACTIONS") is not None,
+        reason="Requires network access to BioModels, which blocks CI",
+    )
     def test_xml_str_to_template_model(self):
         model_id = "BIOMD0000000956"
         xml_string = get_sbml_model(model_id=model_id)
