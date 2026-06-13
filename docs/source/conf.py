@@ -69,7 +69,6 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
-    "sphinxcontrib.autodoc_pydantic",
     "m2r2",
 ]
 
