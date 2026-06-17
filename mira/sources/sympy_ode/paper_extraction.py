@@ -40,7 +40,8 @@ def get_pmid_pmc_download_mapping():
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
-                                 pmid_to_download_mapping=None) -> Tuple[TemplateModel, str]:
+                                 pmid_to_download_mapping=None, client=None) \
+        -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
     PubMed article representing an epidemiological model
@@ -56,6 +57,9 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         equations (i.e. text or images).
     pmid_to_download_mapping :
         A dictionary mapping pmids to their corresponding download paths.
+    client :
+        An instance of the OpenAIClient to use for LLM interactions. If None,
+        a default client will be created.
 
     Returns
     -------
@@ -65,7 +69,8 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         The pipeline result containing the extracted ODEs, corrected ODEs,
         grounded concepts and the path to the file used for extraction.
     """
-    client = OpenAIClient(model="gpt-5.4-mini", temperature=0.2)
+    if client is None:
+        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.2)
 
     paper_base = BASE.join(pmid)
 
