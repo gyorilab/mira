@@ -16,6 +16,10 @@ from mira.sources.sympy_ode.extractors import (
 from mira.sources.sympy_ode.llm_util import (
     execute_template_model_from_sympy_odes,
 )
+
+import sys
+sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
+
 from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
 
@@ -64,7 +68,7 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         The pipeline result containing the extracted ODEs, corrected ODEs,
         grounded concepts and the path to the file used for extraction.
     """
-    client = OpenAIClient()
+    client = OpenAIClient(model="gpt-5.4-mini", temperature=0.2)
 
     paper_base = BASE.join(pmid)
 

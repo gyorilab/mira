@@ -16,12 +16,12 @@ class OpenAIClient:
             api_key: str = None, 
             model: str = "gpt-4o-mini", 
             temperature: float = None,
-            max_tokens: int = MAX_TOKENS
+            max_completion_tokens: int = MAX_TOKENS
     ):
         self.client = OpenAI(api_key=api_key)
         self.model = model
         self.temperature = temperature
-        self.max_tokens = max_tokens
+        self.max_completion_tokens = max_completion_tokens
         self.total_input_tokens = 0
         self.total_output_tokens = 0
         # instructions, systerm_prompt, reasoning
@@ -115,7 +115,7 @@ class OpenAIClient:
                     "content": content,
                 }
             ],
-            "max_tokens": self.max_tokens,
+            "max_completion_tokens": self.max_completion_tokens,
         }
 
         if self.temperature is not None:
@@ -191,7 +191,7 @@ class OpenAIClient:
                     "content": content,
                 }
             ],
-            "max_tokens": self.max_tokens,
+            "max_completion_tokens": self.max_completion_tokens,
         }
 
         if self.temperature is not None:
@@ -248,7 +248,7 @@ class OpenAIClient:
                     "content": content,
                 }
             ],
-            "max_tokens": self.max_tokens,
+            "max_completion_tokens": self.max_completion_tokens,
         }
 
         if self.temperature is not None:
@@ -298,7 +298,7 @@ class OpenAIClient:
                     "content": content,
                 }
             ],
-            "max_tokens": self.max_tokens,
+            "max_completion_tokens": self.max_completion_tokens,
         }
 
         if self.temperature is not None:
@@ -353,7 +353,7 @@ class OpenAIClient:
                     "content": content,
                 }
             ],
-            "max_tokens": self.max_tokens,
+            "max_completion_tokens": self.max_completion_tokens,
         }
 
         if self.temperature is not None:
