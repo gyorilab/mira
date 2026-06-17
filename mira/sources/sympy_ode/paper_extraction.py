@@ -17,9 +17,6 @@ from mira.sources.sympy_ode.llm_util import (
     execute_template_model_from_sympy_odes,
 )
 
-import sys
-sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
-
 from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
 
