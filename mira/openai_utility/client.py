@@ -15,7 +15,7 @@ class OpenAIClient:
             self, 
             api_key: str = None, 
             model: str = "gpt-4o-mini", 
-            temperature: float = None,
+            temperature: float = 0.0,
             max_completion_tokens: int = MAX_TOKENS
     ):
         self.client = OpenAI(api_key=api_key)
@@ -76,6 +76,20 @@ class OpenAIClient:
         self.total_input_tokens = 0
         self.total_output_tokens = 0
 
+    def save_client_usage(self, filepath: str = "client_usage.txt"):
+        """Save the total token usage to a file
+
+        Parameters
+        ----------
+        filepath :
+            The path to the file where usage should be saved
+        """
+        with open(filepath, "w") as f:
+            f.write("OpenAI Client Usage:\n")
+            f.write(f"Model: {self.model}\n")
+            f.write(f"Temperature: {self.temperature}\n")
+            f.write(f"Total input tokens: {self.total_input_tokens}\n")
+            f.write(f"Total output tokens: {self.total_output_tokens}\n")
         
     def run_chat_completion(
         self,

@@ -13,7 +13,7 @@ from mira.sources.sympy_ode.extractors import (
     MarkerExtractor,
     XmlExtractor,
 )
-from mira.sources.sympy_ode.llm_util import (
+from mira.sources.sympy_ode.agent_pipeline import (
     execute_template_model_from_sympy_odes,
 )
 
@@ -70,7 +70,7 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         grounded concepts and the path to the file used for extraction.
     """
     if client is None:
-        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.2)
+        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.0)
 
     paper_base = BASE.join(pmid)
 

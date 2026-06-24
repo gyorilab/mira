@@ -3,7 +3,6 @@ import re
 import logging
 from typing import Optional, List, Union, Literal
 
-from mira.metamodel import TemplateModel
 from mira.openai_utility import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
@@ -137,7 +136,7 @@ def image_file_to_odes_str(
         with open(image_path, "rb") as f:
             image_bytes = f.read()
         image_format = image_path.split(".")[-1]
-        logger.debug("Single image passed")
+        logger.info("Single image passed")
         return image_to_odes_str(image_bytes, client, image_format)
     else:
         image_bytes_list = []
@@ -148,7 +147,7 @@ def image_file_to_odes_str(
                 image_bytes_list.append(image_bytes)
             image_format = path.split(".")[-1]
             image_format_list.append(image_format)
-        logger.debug(f"{len(image_bytes_list)} images passed")
+        logger.info(f"{len(image_bytes_list)} images passed")
         return image_to_odes_str(image_bytes_list, client, image_format_list)
 
 
@@ -297,50 +296,7 @@ def get_concepts_from_odes(
     return concept_data
 
 
-def execute_template_model_from_sympy_odes(
-    ode_str,
-    attempt_grounding: bool,
-    client: OpenAIClient,
-) -> TemplateModel:
-    """Create a TemplateModel from the sympy ODEs defined in the code snippet string
-
-    Parameters
-    ----------
-    ode_str :
-        The code snippet defining the ODEs
-    attempt_grounding :
-        Whether to attempt grounding the concepts in the ODEs. This will prompt the
-        OpenAI chat completion to create concepts data to provide grounding for the
-        concepts in the ODEs. The concepts data is then used to create the TemplateModel.
-    client :
-        The OpenAI client
-
-    Returns
-    -------
-    :
-        The TemplateModel created from the sympy ODEs.
-    """
-    # Import sympy just in case the code snippet does not import it
-    import sympy
-    odes: List[sympy.Eq] = None
-    # Execute the code and expose the `odes` variable to the local scope
-    local_dict = locals()
-    try:
-        exec(ode_str, globals(), local_dict)
-    except Exception as e:
-        # Raise a CodeExecutionError to handle the error in the UI
-        raise CodeExecutionError(f"Error while executing the code: {e}")
-    # `odes` should now be defined in the local scope
-    odes = local_dict.get("odes")
-    assert odes is not None, "The code should define a variable called `odes`"
-    if attempt_grounding:
-        concept_data = get_concepts_from_odes(ode_str, client)
-    else:
-        concept_data = None
-    return template_model_from_sympy_odes(odes, concept_data=concept_data)
-
-
-def test_execution(code: str) -> bool:
+def test_execution(code: str) -> tuple[bool, str]:
     """Test if code executes successfully
 
     Parameters
@@ -351,12 +307,36 @@ def test_execution(code: str) -> bool:
     Returns
     -------
     :
-        Whether the code was exected successfully
+        Tuple of (success, error_message). success is True if code executed
+        and defined `odes`, False otherwise. error_message is empty on success.
     """
     try:
         namespace = {}
         exec("import sympy", namespace)
         exec(code, namespace)
-        return 'odes' in namespace
-    except Exception:
-        return False
+        if 'odes' in namespace:
+            return (True, "")
+        return (False, "Code executed but 'odes' was not defined")
+    except Exception as e:
+        return (False, f"{type(e).__name__}: {e}")
+
+def test_ode_model(odes) -> tuple[bool, str]:
+    """Test if a list of SymPy ODEs can be converted to a TemplateModel
+
+    Parameters
+    ----------
+    odes :
+        The list of sympy.Eq ODEs to test
+
+    Returns
+    -------
+    :
+        Tuple of (success, error_message).
+    """
+    try:
+        if not odes:
+            return (False, "Empty ODE list")
+        template_model_from_sympy_odes(odes)
+        return (True, "")
+    except Exception as e:
+        return (False, f"{type(e).__name__}: {e}")
