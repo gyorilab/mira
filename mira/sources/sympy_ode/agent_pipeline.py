@@ -346,7 +346,7 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
 
 
 def execute_template_model_from_sympy_odes(
-    ode_str,
+    ode_str: str,
     attempt_grounding: bool,
     client: OpenAIClient,
 ) -> TemplateModel:
@@ -354,7 +354,7 @@ def execute_template_model_from_sympy_odes(
 
     Parameters
     ----------
-    ode_str : str
+    ode_str :
         The code snippet defining the ODEs
     attempt_grounding :
         Whether to attempt grounding the concepts in the ODEs. This will prompt the
