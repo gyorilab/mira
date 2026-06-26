@@ -409,3 +409,194 @@ class Pix2TextExtractor(PdfExtractor):
 
         self.extraction_file = str(md_file)
         return {"content_type": "text", "text_content": equation_text}
+
+class DoclingExtractor(PdfExtractor):
+    """Extract equations from a PDF using the Docling pipeline.
+    Text-mode only. 
+    Install: pip install docling
+
+    Uses Docling's structured document output to extract formula elements
+    directly. Prefers the 'orig' field over 'text' since CodeFormulaV2
+    may produce inconsistent output on complex multi-line equation blocks.
+    """
+
+    supported_methods = {"text"}
+
+    def get_pipeline_inputs(self):
+        from docling.document_converter import DocumentConverter, PdfFormatOption
+        from docling.datamodel.pipeline_options import ( PdfPipelineOptions, CodeFormulaVlmOptions)
+        from docling.datamodel.base_models import InputFormat
+        from docling.datamodel.stage_model_specs import EngineModelConfig
+        from docling.models.inference_engines.vlm.base import VlmEngineType
+        from docling_core.types.doc import DocItemLabel
+
+        out_dir = self.paper_base / "docling"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        json_file = out_dir / f"{self.pmid}.json"
+
+        if json_file.is_file():
+            logger.info(f"Found existing Docling output at {json_file}, "
+                        f"loading from file")
+            from docling_core.types.doc import DoclingDocument
+            with open(json_file) as f:
+                doc = DoclingDocument.model_validate_json(f.read())
+
+        else:
+            # CodeFormulaV2 uses Idefics3 under the hood, which crashes on certain
+            # hardware configurations when PyTorch's optimized attention (SDPA) is
+            # enabled. Forcing eager attention is slower but works universally.
+            vlm_opts = CodeFormulaVlmOptions.from_preset("codeformulav2")
+            vlm_opts.model_spec.engine_overrides[VlmEngineType.TRANSFORMERS] = \
+                EngineModelConfig(
+                    extra_config={
+                        'transformers_model_type': 'automodel-imagetexttotext',
+                        'torch_dtype': 'bfloat16',
+                        # Disable SDPA as its incompatible with Idefics3 on some hardware
+                        'attn_implementation': 'eager',
+                        'extra_generation_config': {'skip_special_tokens': False},
+                    }
+                )
+
+            pipeline_options = PdfPipelineOptions()
+            pipeline_options.do_ocr = True
+            pipeline_options.do_table_structure = True
+            pipeline_options.do_formula_enrichment = True
+            pipeline_options.code_formula_options = vlm_opts
+
+            converter = DocumentConverter(
+                format_options={
+                    InputFormat.PDF: PdfFormatOption(
+                        pipeline_options=pipeline_options
+                    )
+                }
+            )
+            result = converter.convert(str(self.pdf_file))
+            doc = result.document
+
+            with open(json_file, "w") as f:
+                f.write(doc.model_dump_json())
+
+            del converter
+            del result
+            gc.collect()
+
+        equations = []
+        for element, _ in doc.iterate_items():
+            if element.label != DocItemLabel.FORMULA:
+                continue
+            if hasattr(element, "orig") and element.orig:
+                equations.append((element.orig.strip(), "text"))
+            elif hasattr(element, "text") and element.text:
+                equations.append((element.text.strip(), "latex"))
+
+        if equations:
+            logger.info(f"Found {len(equations)} formula elements via " f"Docling structured output")
+            equation_text = "\n\n".join(
+                [str((eq, fmt)) for eq, fmt in equations]
+            )
+        else:
+            logger.warning(
+                f"No formula elements found in Docling output for " f"{self.pmid}, passing full markdown to pipeline"
+            )
+            equation_text = doc.export_to_markdown()
+
+        self.extraction_file = str(json_file)
+        return {"content_type": "text", "text_content": equation_text}
+
+class ChandraExtractor(PdfExtractor):
+    """Extract equations from a PDF using Chandra OCR 2.
+
+    Text-mode only.
+    Install: pip install "chandra-ocr[hf]"
+    """
+
+    supported_methods = {"text"}
+
+    def get_pipeline_inputs(self):
+        import re
+        try:
+            from chandra.input import load_pdf_images
+            from chandra.model.hf import load_model, generate_hf
+            from chandra.model.schema import BatchInputItem
+        except ImportError:
+            raise ImportError(
+                "chandra-ocr is not installed. "
+                "Install it with: pip install 'chandra-ocr[hf]'"
+            )
+
+        out_dir = self.paper_base / "chandra"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        md_file = out_dir / f"{self.pmid}.md"
+
+        if md_file.is_file():
+            logger.info(f"Found existing Chandra output at {md_file}, "
+                        f"loading from file")
+            with open(md_file) as f:
+                markdown_text = f.read()
+        else:
+            logger.info(f"Running Chandra OCR on {self.pdf_file.name}")
+
+            # Load PDF pages as images
+            images = load_pdf_images(
+                filepath=str(self.pdf_file),
+                page_range=list(range(len(
+                    __import__('pypdfium2').PdfDocument(str(self.pdf_file))
+                ))),
+            )
+            logger.info(f"Loaded {len(images)} pages from PDF")
+
+            model = load_model()
+            batch = [
+                BatchInputItem(image=img, prompt_type="ocr_layout")
+                for img in images
+            ]
+            results = generate_hf(batch=batch, model=model)
+
+            markdown_text = "\n\n".join(
+                [r.raw for r in results if not r.error]
+            )
+
+            with open(md_file, "w") as f:
+                f.write(markdown_text)
+
+            del model
+            del batch
+            del results
+            gc.collect()
+
+        # Extract block equations.
+        # Chandra outputs display math as $$...$$ and named environments like equation or eqnarray
+        equation_blocks = []
+
+        # Match $$...$$ display math blocks
+        display_blocks = re.findall(
+            r'\$\$(.+?)\$\$',
+            markdown_text,
+            re.DOTALL
+        )
+        equation_blocks.extend([eq.strip() for eq in display_blocks])
+
+        # Match \begin{align}...\end{align} or similar
+        env_blocks = re.findall(
+            r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)'
+            r'\\end\{\1\*?\}',
+            markdown_text,
+            re.DOTALL
+        )
+        equation_blocks.extend([eq.strip() for _, eq in env_blocks])
+
+        if equation_blocks:
+            logger.info(f"Found {len(equation_blocks)} equation blocks via "
+                        f"Chandra output")
+            equation_text = "\n\n".join(
+                [str((eq, "latex")) for eq in equation_blocks]
+            )
+        else:
+            logger.warning(
+                f"No equation blocks found in Chandra output for "
+                f"{self.pmid}, passing full markdown to pipeline"
+            )
+            equation_text = markdown_text
+
+        self.extraction_file = str(md_file)
+        return {"content_type": "text", "text_content": equation_text}
