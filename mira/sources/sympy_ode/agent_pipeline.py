@@ -174,8 +174,8 @@ def fix_execution_errors(ode_str, client, error, max_attempts=10):
     logger.info("PHASE 2: Execution Error Correction")
 
     for attempt in range(max_attempts):
-        print(f"  Attempt {attempt + 1} to fix execution error {error}...")
-        print(f"  Current ODE string : \n{ode_str} \n")
+        logger.info(f"  Attempt {attempt + 1} to fix execution error {error}...")
+        logger.info(f"  Current ODE string : \n{ode_str} \n")
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
                                               max_attempts=max_attempts,
@@ -316,7 +316,7 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
     """
     logger.info("PART 2: MIRA Model Error Correction")
     for attempt in range(max_attempts):
-        print(f"  Attempt {attempt + 1} to fix MIRA model error: {error}...")
+        logger.info(f"  Attempt {attempt + 1} to fix MIRA model error: {error}...")
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(
                 attempt=attempt + 1,
