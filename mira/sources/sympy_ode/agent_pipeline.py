@@ -4,6 +4,8 @@ import click
 from dataclasses import dataclass
 from typing import Optional, Union, List, Dict
 
+from mira.sources.sympy_ode import template_model_from_sympy_odes
+from mira.metamodel import TemplateModel
 from mira.openai_utility import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
     image_file_to_odes_str,
@@ -11,7 +13,9 @@ from mira.sources.sympy_ode.llm_util import (
     clean_response,
     test_execution,
     pdf_file_to_odes_str,
-    ContentType
+    ContentType,
+    test_ode_model,
+    CodeExecutionError
 )
 from mira.sources.sympy_ode.constants import (EXECUTION_ERROR_PROMPT,
                                               ODE_MARKDOWN_PROMPT)
@@ -137,12 +141,61 @@ def extract_odes(
         logger.info(f"  ERROR extracting ODEs: {e}")
         return ExtractionResult(status="failed", error=str(e))
 
-    logger.info("ODEs extracted from input")
-    logger.info(f"Length: {len(ode_str)} characters")
+    if ode_str == "odes = []":
+        logger.info("  WARNING: No ODE string found in input")
+        ode_str = None
+    else:
+        logger.info("ODEs extracted from input")
+        logger.info(f"Length: {len(ode_str)} characters")
 
     return ExtractionResult(ode_str=ode_str)
 
 
+# PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
+def fix_execution_errors(ode_str, client, error, max_attempts=10):
+    """PHASE 2: Execution Error Correction
+
+    Parameters
+    ----------
+    ode_str :
+        The Sympy ODE string
+    client :
+        The OpenAI client
+    error : 
+        The error message from the failed execution attempt
+    max_attempts :
+        Maximum number of attempts to fix execution errors before giving up
+
+    Returns
+    -------
+    :
+        The ODE string free of execution errors
+    """
+    logger.info("PHASE 2: Execution Error Correction")
+
+    for attempt in range(max_attempts):
+        logger.info(f"  Attempt {attempt + 1} to fix execution error {error}...")
+        logger.info(f"  Current ODE string : \n{ode_str} \n")
+        prompt = textwrap.dedent(
+            EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
+                                              max_attempts=max_attempts,
+                                              ode_str=ode_str,
+                                              error=error)
+        ).strip()
+
+        response = client.run_chat_completion(prompt)
+        ode_str = clean_response(response.message.content)
+        success, error = test_execution(ode_str)
+        if success:
+            return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
+
+    # Failed after all attempts
+    logger.info("  ERROR: Cannot fix execution errors - stopping")
+    return CorrectionResult(status="failed", attempts=max_attempts,
+                            error="Could not fix execution errors")
+
+
+# PHASE 3: CONCEPT GROUNDING
 def concept_grounding(ode_str: str, client: OpenAIClient):
     """Phase 3: Extract concepts from the ODE string
 
@@ -172,43 +225,6 @@ def concept_grounding(ode_str: str, client: OpenAIClient):
         logger.info("  No concepts extracted")
 
     return GroundingResult(concepts=concepts)
-
-
-# PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
-def fix_execution_errors(ode_str, client, max_attempts=10):
-    """PHASE 2: Execution Error Correction
-
-    Parameters
-    ----------
-    ode_str :
-        The Sympy ODE string
-    client :
-        The OpenAI client
-    max_attempts :
-        Maximum number of attempts to fix execution errors before giving up
-
-    Returns
-    -------
-    :
-        The ODE string free of execution errors
-    """
-    for attempt in range(max_attempts):
-        prompt = textwrap.dedent(
-            EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
-                                              max_attempts=max_attempts,
-                                              ode_str=ode_str)
-        ).strip()
-
-        response = client.run_chat_completion(prompt)
-        ode_str = clean_response(response.message.content)
-        if test_execution(ode_str):
-            return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
-
-
-    # Failed after all attempts
-    logger.info("  ERROR: Cannot fix execution errors - stopping")
-    return CorrectionResult(status="failed", attempts=max_attempts,
-                            error="Could not fix execution errors")
 
 
 def run_multi_agent_pipeline(
@@ -255,11 +271,16 @@ def run_multi_agent_pipeline(
     if not result.extraction.success:
         logger.info("  ERROR in Phase 1 - stopping pipeline")
         return result
+    
+    if result.extraction.ode_str is None:
+        logger.info("  No ODE string extracted in Phase 1 - stopping pipeline")
+        return result
 
     # Phase 2: Execution error correction (only if the ODEs don't run as-is)
-    if not test_execution(result.extraction.ode_str):
+    success, error = test_execution(result.extraction.ode_str)
+    if not success:
         result.correction = fix_execution_errors(result.extraction.ode_str,
-                                                  client)
+                                                client, error)
         if not result.correction.success:
             logger.info("  ERROR in Phase 2 - stopping pipeline")
             return result
@@ -271,6 +292,127 @@ def run_multi_agent_pipeline(
     logger.info("PIPELINE COMPLETE")
 
     return result
+
+
+def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
+    """PART 2: Fix MIRA OdeModel errors (e.g. missing derivative on LHS)
+    
+    Parameters
+    ----------
+    ode_str :
+        The Sympy ODE string
+    client :
+        The OpenAI client
+    error :
+        The error message from the failed OdeModel test
+    max_attempts :
+        Maximum number of attempts to fix MIRA model errors before giving up
+    
+    Returns
+    -------
+    :
+        The ODE string corrected to fix MIRA model errors, if successful. Otherwise 
+        returns the original ODE string after max attempts.
+    """
+    logger.info("PART 2: MIRA Model Error Correction")
+    for attempt in range(max_attempts):
+        logger.info(f"  Attempt {attempt + 1} to fix MIRA model error: {error}...")
+        prompt = textwrap.dedent(
+            EXECUTION_ERROR_PROMPT.substitute(
+                attempt=attempt + 1,
+                max_attempts=max_attempts,
+                ode_str=ode_str,
+                error=error
+            )
+        ).strip()
+
+        response = client.run_chat_completion(prompt)
+        ode_str = clean_response(response.message.content)
+
+        exec_success, exec_error = test_execution(ode_str)
+        if not exec_success:
+            error = exec_error
+            continue
+
+        local_dict = {}
+        exec(ode_str, {"__builtins__": __builtins__}, local_dict)
+        odes = local_dict.get("odes")
+
+        mira_success, error = test_ode_model(odes)
+        if mira_success:
+            return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
+
+    # Failed after all attempts
+    logger.info("  ERROR: Cannot fix MIRA model errors - stopping")
+    return CorrectionResult(status="failed", ode_str=ode_str,
+                            attempts=max_attempts,
+                            error="Could not fix MIRA model errors")
+
+
+def execute_template_model_from_sympy_odes(
+    ode_str: str,
+    attempt_grounding: bool,
+    client: OpenAIClient,
+) -> TemplateModel:
+    """Create a TemplateModel from the sympy ODEs defined in the code snippet string
+
+    Parameters
+    ----------
+    ode_str :
+        The code snippet defining the ODEs
+    attempt_grounding :
+        Whether to attempt grounding the concepts in the ODEs. This will prompt the
+        OpenAI chat completion to create concepts data to provide grounding for the
+        concepts in the ODEs. The concepts data is then used to create the TemplateModel.
+    client :
+        The OpenAI client
+
+    Returns
+    -------
+    :
+        The TemplateModel created from the sympy ODEs.
+    """
+    if ode_str is None:
+        logger.info("ODE string is None - cannot create TemplateModel")
+        return None
+
+    logger.info("Creating TemplateModel from Sympy ODEs...")
+
+    # Part 1: Fix any SymPy execution errors
+    success, error = test_execution(ode_str)
+    if not success:
+        result = fix_execution_errors(ode_str, client, error)
+        ode_str = result.ode_str
+
+    # Execute once with the (potentially corrected) string
+    local_dict = locals()
+    try:
+        exec(ode_str, globals(), local_dict)
+    except Exception as e:
+        raise CodeExecutionError(f"Error while executing the code: {e}")
+
+    odes = local_dict.get("odes")
+    assert odes is not None, "The code should define a variable called `odes`"
+    
+    # Part 2: Fix any MIRA OdeModel errors
+    success, error = test_ode_model(odes)
+    if not success:
+        result = fix_mira_model_errors(ode_str, client, error)
+        if not result.success:
+            raise CodeExecutionError("MIRA OdeModel error correction "
+                                     f"failed: {result.error}")
+        # Re-execute and rebuild after correction
+        ode_str = result.ode_str
+        local_dict = locals()
+        exec(ode_str, globals(), local_dict)
+        odes = local_dict.get("odes")
+
+    if attempt_grounding:
+        concept_data = get_concepts_from_odes(ode_str, client)
+    else:
+        concept_data = None
+    
+    return template_model_from_sympy_odes(odes, concept_data=concept_data)
 
 
 @click.command()
