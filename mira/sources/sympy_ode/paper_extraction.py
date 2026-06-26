@@ -12,6 +12,7 @@ from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
     XmlExtractor,
+    Pix2TextExtractor,
 )
 from mira.sources.sympy_ode.agent_pipeline import (
     execute_template_model_from_sympy_odes,
@@ -86,6 +87,11 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                         ode_extraction_method)
     elif extractor == "xml":
         extractor_obj = XmlExtractor(pmid, pmc)
+
+    elif extractor == "pix2text":
+        extractor_obj = Pix2TextExtractor(pmid, pmc, paper_base,
+                                          pmid_to_download_mapping,
+                                          ode_extraction_method)
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
 
