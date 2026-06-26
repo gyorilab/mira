@@ -2,6 +2,7 @@ import gc
 import json
 import logging
 import tarfile
+import re
 
 from indra.literature.pubmed_client import download_package_for_pmid
 
@@ -327,3 +328,84 @@ class XmlExtractor(Extractor):
 
         self.extraction_file = "No intermediate created"
         return {"content_type": "text", "text_content": markdown_text}
+
+
+class Pix2TextExtractor(PdfExtractor):
+    """Extract equations from a PDF using Pix2Text.
+    Text mode only.
+    Uses Math Formula Detection (MFD) and Math Formula Recognition (MFR)
+    to extract LaTeX from scientific PDFs.
+    Install: pip install pix2text
+    """
+
+    supported_methods = {"text"}
+
+    def get_pipeline_inputs(self):
+        import platform
+
+        # CoreML causes failures on Apple Silicon, fall back to CPU
+        if platform.system() == "Darwin":
+            import onnxruntime as ort
+            _orig = ort.get_available_providers
+            ort.get_available_providers = lambda: [
+                p for p in _orig() if p != "CoreMLExecutionProvider"
+            ]
+
+        try:
+            from pix2text import Pix2Text
+        except ImportError:
+            raise ImportError(
+                "pix2text is not installed. "
+                "Install it with: pip install pix2text"
+            )
+
+        out_dir = self.paper_base / "pix2text"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        md_file = out_dir / f"{self.pmid}.md"
+
+        if md_file.is_file():
+            logger.info(f"Found existing Pix2Text output at {md_file}, "
+                        f"loading from file")
+            with open(md_file) as f:
+                markdown_text = f.read()
+        else:
+            logger.info(f"Running Pix2Text pipeline for {self.pdf_file.name}")
+            p2t = Pix2Text(enable_formula=True, enable_table=False)
+            doc = p2t.recognize(str(self.pdf_file), file_type="pdf")
+            markdown_text = doc.to_markdown(
+                out_dir=str(out_dir),
+                markdown_fn=f"{self.pmid}.md",
+            )
+            with open(md_file, "w") as f:
+                f.write(markdown_text)
+            del p2t
+            del doc
+            gc.collect()
+
+        # Pix2Text outputs display math as $$..$$ or named environments
+        display_blocks = re.findall(
+            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL
+        )
+        env_blocks = re.findall(
+            r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)\\end\{\1\*?\}',
+            markdown_text,
+            re.DOTALL,
+        )
+        equation_blocks = [eq.strip() for eq in display_blocks]
+        equation_blocks += [body.strip() for _, body in env_blocks]
+
+        if equation_blocks:
+            logger.info(f"Found {len(equation_blocks)} equation blocks via "
+                        f"Pix2Text output")
+            equation_text = "\n\n".join(
+                [str((eq, "latex")) for eq in equation_blocks]
+            )
+        else:
+            logger.warning(
+                f"No equation blocks found in Pix2Text output for "
+                f"{self.pmid}, passing full markdown to pipeline"
+            )
+            equation_text = markdown_text
+
+        self.extraction_file = str(md_file)
+        return {"content_type": "text", "text_content": equation_text}
