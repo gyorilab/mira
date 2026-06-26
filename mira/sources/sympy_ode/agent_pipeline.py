@@ -341,8 +341,12 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
         mira_success, error = test_ode_model(odes)
         if mira_success:
             return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
-        
-    return CorrectionResult(ode_str=ode_str, attempts=max_attempts)
+
+    # Failed after all attempts
+    logger.info("  ERROR: Cannot fix MIRA model errors - stopping")
+    return CorrectionResult(status="failed", ode_str=ode_str,
+                            attempts=max_attempts,
+                            error="Could not fix MIRA model errors")
 
 
 def execute_template_model_from_sympy_odes(
