@@ -398,11 +398,14 @@ def execute_template_model_from_sympy_odes(
     success, error = test_ode_model(odes)
     if not success:
         result = fix_mira_model_errors(ode_str, client, error)
+        if not result.success:
+            raise CodeExecutionError("MIRA OdeModel error correction "
+                                     f"failed: {result.error}")
         # Re-execute and rebuild after correction
+        ode_str = result.ode_str
         local_dict = locals()
-        exec(result.ode_str, globals(), local_dict)
+        exec(ode_str, globals(), local_dict)
         odes = local_dict.get("odes")
-        assert test_ode_model(odes)[0], "MIRA OdeModel error correction failed"
 
     if attempt_grounding:
         concept_data = get_concepts_from_odes(ode_str, client)
