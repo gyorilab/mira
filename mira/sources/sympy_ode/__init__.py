@@ -185,6 +185,9 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             for func in term.atoms(Function):
                 if hasattr(func, 'name') and func.name not in variables:
                     parameters.add(sympy.Symbol(func.name))
+                    logger.info("Undefined time-dependent function %s, "
+                                "replacing with a parameter %s.", func,
+                                func.name)
             # Determine potential controllers of the term
             funcs = term.atoms(Function)
             # Potential controllers are all variables in the term
