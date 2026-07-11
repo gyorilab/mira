@@ -173,6 +173,18 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             neg = is_negative(term, time_variable)
             # Extract term parameters and keep track in a set
             parameters |= term.free_symbols - {time_variable}
+            # A time-dependent quantity that is not a state variable (e.g. a
+            # time-varying rate like beta(t)) is neither a concept nor a
+            # scalar parameter symbol. We treat it as a parameter,
+            # represented by a plain symbol of the same name, so that it is
+            # declared in the model rather than left as an undefined symbol in
+            # the rate laws. Normally, such time-varying parameters would be
+            # replaced via a definition that allows expansion into primary
+            # parameters and state variables, but in the absence of that,
+            # this becomes the fallback.
+            for func in term.atoms(Function):
+                if hasattr(func, 'name') and func.name not in variables:
+                    parameters.add(sympy.Symbol(func.name))
             # Determine potential controllers of the term
             funcs = term.atoms(Function)
             # Potential controllers are all variables in the term
@@ -229,7 +241,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         term = data['term']
         rate_law = term.subs({f: sympy.Symbol(f.name)
                               for f in term.atoms(Function)
-                              if hasattr(f, 'name') and f.name in variables})
+                              if hasattr(f, 'name')})
         concept = make_concept(data['lhs_var'], concept_data)
         controllers = data['potential_controllers'] - {data['lhs_var']}
         if data['neg']:

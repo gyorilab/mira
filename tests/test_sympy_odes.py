@@ -317,3 +317,17 @@ def test_sympy_named_functions():
     ]
 
     model = template_model_from_sympy_odes(odes)
+
+
+def test_sympy_time_varying_param_no_expansion():
+    t = sympy.Symbol('t')
+    S, E, I, R, beta = sympy.symbols("S E I R beta", cls=sympy.Function)
+    N, sigma, gamma, f = sympy.symbols("N sigma gamma f")
+    odes = [
+        sympy.Eq(S(t).diff(t), -beta(t) * S(t) * I(t) / N),
+        sympy.Eq(E(t).diff(t), beta(t) * S(t) * I(t) / N - sigma * E(t)),
+        sympy.Eq(I(t).diff(t), sigma * E(t) - gamma * I(t)),
+        sympy.Eq(R(t).diff(t), (1 - f) * gamma * I(t))
+    ]
+    model = template_model_from_sympy_odes(odes)
+    assert 'beta' in model.parameters

@@ -50,12 +50,15 @@ class OdeModel:
                 rate = deepcopy(transition.template.rate_law)
                 for symbol in rate.free_symbols:
                     sym_str = str(symbol)
+                    # If this is a concept
                     if sym_str in concept_map:
                         rate = rate.subs(symbol,
                                          self.y[self.vmap[concept_map[sym_str]]])
+                    # If it is a parameter
                     elif sym_str in self.pmap:
                         rate = rate.subs(symbol,
                                          self.p[self.pmap[parameter_map[sym_str]]])
+                    # If this is the time variable
                     elif model.template_model.time and \
                             sym_str == model.template_model.time.name:
                         rate = rate.subs(symbol, 't')
