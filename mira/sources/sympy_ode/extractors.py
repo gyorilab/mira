@@ -518,6 +518,7 @@ class ChandraExtractor(PdfExtractor):
             from chandra.input import load_pdf_images
             from chandra.model.hf import load_model, generate_hf
             from chandra.model.schema import BatchInputItem
+            import pypdfium2
         except ImportError:
             raise ImportError(
                 "chandra-ocr is not installed. "
@@ -540,7 +541,7 @@ class ChandraExtractor(PdfExtractor):
             images = load_pdf_images(
                 filepath=str(self.pdf_file),
                 page_range=list(range(len(
-                    __import__('pypdfium2').PdfDocument(str(self.pdf_file))
+                    pypdfium2.PdfDocument(str(self.pdf_file))
                 ))),
             )
             logger.info(f"Loaded {len(images)} pages from PDF")
