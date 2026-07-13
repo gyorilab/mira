@@ -412,22 +412,18 @@ class Pix2TextExtractor(PdfExtractor):
 
 class DoclingExtractor(PdfExtractor):
     """Extract equations from a PDF using the Docling pipeline.
-    Text-mode only. 
-    Install: pip install docling
 
-    Uses Docling's structured document output to extract formula elements
-    directly. Prefers the 'orig' field over 'text' since CodeFormulaV2
-    may produce inconsistent output on complex multi-line equation blocks.
+    Text-mode only.
+
+    Install: pip install docling
     """
 
     supported_methods = {"text"}
 
     def get_pipeline_inputs(self):
         from docling.document_converter import DocumentConverter, PdfFormatOption
-        from docling.datamodel.pipeline_options import ( PdfPipelineOptions, CodeFormulaVlmOptions)
+        from docling.datamodel.pipeline_options import ( PdfPipelineOptions, CodeFormulaVlmOptions )
         from docling.datamodel.base_models import InputFormat
-        from docling.datamodel.stage_model_specs import EngineModelConfig
-        from docling.models.inference_engines.vlm.base import VlmEngineType
         from docling_core.types.doc import DocItemLabel
 
         out_dir = self.paper_base / "docling"
@@ -440,26 +436,12 @@ class DoclingExtractor(PdfExtractor):
             from docling_core.types.doc import DoclingDocument
             with open(json_file) as f:
                 doc = DoclingDocument.model_validate_json(f.read())
-
         else:
-            # CodeFormulaV2 uses Idefics3 under the hood, which crashes on certain
-            # hardware configurations when PyTorch's optimized attention (SDPA) is
-            # enabled. Forcing eager attention is slower but works universally.
             vlm_opts = CodeFormulaVlmOptions.from_preset("codeformulav2")
-            vlm_opts.model_spec.engine_overrides[VlmEngineType.TRANSFORMERS] = \
-                EngineModelConfig(
-                    extra_config={
-                        'transformers_model_type': 'automodel-imagetexttotext',
-                        'torch_dtype': 'bfloat16',
-                        # Disable SDPA as its incompatible with Idefics3 on some hardware
-                        'attn_implementation': 'eager',
-                        'extra_generation_config': {'skip_special_tokens': False},
-                    }
-                )
 
             pipeline_options = PdfPipelineOptions()
             pipeline_options.do_ocr = True
-            pipeline_options.do_table_structure = True
+            pipeline_options.do_table_structure = False
             pipeline_options.do_formula_enrichment = True
             pipeline_options.code_formula_options = vlm_opts
 
@@ -472,10 +454,8 @@ class DoclingExtractor(PdfExtractor):
             )
             result = converter.convert(str(self.pdf_file))
             doc = result.document
-
             with open(json_file, "w") as f:
                 f.write(doc.model_dump_json())
-
             del converter
             del result
             gc.collect()
@@ -490,13 +470,15 @@ class DoclingExtractor(PdfExtractor):
                 equations.append((element.text.strip(), "latex"))
 
         if equations:
-            logger.info(f"Found {len(equations)} formula elements via " f"Docling structured output")
+            logger.info(f"Found {len(equations)} formula elements via "
+                        f"Docling structured output")
             equation_text = "\n\n".join(
                 [str((eq, fmt)) for eq, fmt in equations]
             )
         else:
             logger.warning(
-                f"No formula elements found in Docling output for " f"{self.pmid}, passing full markdown to pipeline"
+                f"No formula elements found in Docling output for "
+                f"{self.pmid}, passing full markdown to pipeline"
             )
             equation_text = doc.export_to_markdown()
 
