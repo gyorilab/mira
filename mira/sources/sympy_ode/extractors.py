@@ -411,8 +411,8 @@ class Pix2TextExtractor(PdfExtractor):
         return {"content_type": "text", "text_content": equation_text}
 
 class DoclingExtractor(PdfExtractor):
-    """Extract equations from a PDF using the Docling pipeline.
-
+    """Extract equations from a PDF using the Docling 
+    pipeline.
     Text-mode only.
 
     Install: pip install docling
@@ -421,10 +421,15 @@ class DoclingExtractor(PdfExtractor):
     supported_methods = {"text"}
 
     def get_pipeline_inputs(self):
-        from docling.document_converter import DocumentConverter, PdfFormatOption
-        from docling.datamodel.pipeline_options import ( PdfPipelineOptions, CodeFormulaVlmOptions )
-        from docling.datamodel.base_models import InputFormat
-        from docling_core.types.doc import DocItemLabel
+        try:
+            from docling.document_converter import DocumentConverter, PdfFormatOption
+            from docling.datamodel.pipeline_options import ( PdfPipelineOptions, CodeFormulaVlmOptions )
+            from docling.datamodel.base_models import InputFormat
+            from docling_core.types.doc import DocItemLabel
+        except ImportError:
+            raise ImportError(
+                "docling is not installed. "
+                "Install it with: pip install docling" )
 
         out_dir = self.paper_base / "docling"
         out_dir.mkdir(parents=True, exist_ok=True)
