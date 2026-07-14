@@ -494,11 +494,21 @@ class ChandraExtractor(PdfExtractor):
 
     supported_methods = {"text"}
 
+    _model_singleton = None
+
+    def _get_model(self):
+        from chandra.model.hf import load_model
+
+        if ChandraExtractor._model_singleton is None:
+            logger.info("Loading Chandra model (first call this process)")
+            ChandraExtractor._model_singleton = load_model()
+        return ChandraExtractor._model_singleton
+
     def get_pipeline_inputs(self):
         import re
         try:
             from chandra.input import load_pdf_images
-            from chandra.model.hf import load_model, generate_hf
+            from chandra.model.hf import generate_hf
             from chandra.model.schema import BatchInputItem
             import pypdfium2
         except ImportError:
@@ -518,7 +528,6 @@ class ChandraExtractor(PdfExtractor):
                 markdown_text = f.read()
         else:
             logger.info(f"Running Chandra OCR on {self.pdf_file.name}")
-
             # Load PDF pages as images
             images = load_pdf_images(
                 filepath=str(self.pdf_file),
@@ -527,30 +536,23 @@ class ChandraExtractor(PdfExtractor):
                 ))),
             )
             logger.info(f"Loaded {len(images)} pages from PDF")
-
-            model = load_model()
+            model = self._get_model()
             batch = [
                 BatchInputItem(image=img, prompt_type="ocr_layout")
                 for img in images
             ]
             results = generate_hf(batch=batch, model=model)
-
             markdown_text = "\n\n".join(
                 [r.raw for r in results if not r.error]
             )
-
             with open(md_file, "w") as f:
                 f.write(markdown_text)
-
-            del model
             del batch
             del results
             gc.collect()
 
-        # Extract block equations.
         # Chandra outputs display math as $$...$$ and named environments like equation or eqnarray
         equation_blocks = []
-
         # Match $$...$$ display math blocks
         display_blocks = re.findall(
             r'\$\$(.+?)\$\$',
@@ -558,7 +560,6 @@ class ChandraExtractor(PdfExtractor):
             re.DOTALL
         )
         equation_blocks.extend([eq.strip() for eq in display_blocks])
-
         # Match \begin{align}...\end{align} or similar
         env_blocks = re.findall(
             r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)'
