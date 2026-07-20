@@ -8,6 +8,8 @@ from indra.literature.pubmed_client import download_package_for_pmid
 
 from .agent_pipeline import run_multi_agent_pipeline
 
+from mira.sources.sympy_ode.constants import ODE_PDF_PROMPT
+
 logger = logging.getLogger(__name__)
 
 
@@ -593,12 +595,7 @@ class LlamaParseExtractor(PdfExtractor):
             parser = LlamaParse(
                 api_key=api_key,
                 result_type="markdown",
-                system_prompt=(
-                    "This is a scientific paper describing a mathematical or epidemiological model, likely containing a system of ordinary differential equations (ODEs). "
-                    "Preserve every mathematical equation exactly as it appears in the original text rendered as LaTeX inside $$...$$ delimiters for display equations. "
-                    "Do not simplify,paraphrase or omit any subscripts, superscripts or Greek letters - reproduce variable and parameter names precisely as written (e.g. preserve S, I, R, "
-                    "beta, gamma and any subscripted variants like S_q or E_1 exactly as they appear). Pay special attention to derivative notation and preserve it."
-                ),
+                system_prompt=ODE_PDF_PROMPT,
             )
             documents = parser.load_data(str(self.pdf_file))
             markdown_text = "\n\n".join(doc.text for doc in documents)
