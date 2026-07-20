@@ -382,10 +382,8 @@ class Pix2TextExtractor(PdfExtractor):
             del doc
             gc.collect()
 
-        # Pix2Text outputs display math as $$..$$ or named environments
         display_blocks = re.findall(
-            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL
-        )
+            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL)
         env_blocks = re.findall(
             r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)\\end\{\1\*?\}',
             markdown_text,
@@ -394,18 +392,8 @@ class Pix2TextExtractor(PdfExtractor):
         equation_blocks = [eq.strip() for eq in display_blocks]
         equation_blocks += [body.strip() for _, body in env_blocks]
 
-        if equation_blocks:
-            logger.info(f"Found {len(equation_blocks)} equation blocks via "
-                        f"Pix2Text output")
-            equation_text = "\n\n".join(
-                [str((eq, "latex")) for eq in equation_blocks]
-            )
-        else:
-            logger.warning(
-                f"No equation blocks found in Pix2Text output for "
-                f"{self.pmid}, passing full markdown to pipeline"
-            )
-            equation_text = markdown_text
+        equation_text = "\n\n".join(
+            [str((eq, "latex")) for eq in equation_blocks])
 
         self.extraction_file = str(md_file)
         return {"content_type": "text", "text_content": equation_text}
@@ -474,18 +462,7 @@ class DoclingExtractor(PdfExtractor):
             elif hasattr(element, "text") and element.text:
                 equations.append((element.text.strip(), "latex"))
 
-        if equations:
-            logger.info(f"Found {len(equations)} formula elements via "
-                        f"Docling structured output")
-            equation_text = "\n\n".join(
-                [str((eq, fmt)) for eq, fmt in equations]
-            )
-        else:
-            logger.warning(
-                f"No formula elements found in Docling output for "
-                f"{self.pmid}, passing full markdown to pipeline"
-            )
-            equation_text = doc.export_to_markdown()
+        equation_text = "\n\n".join([str((eq, fmt)) for eq, fmt in equations])
 
         self.extraction_file = str(json_file)
         return {"content_type": "text", "text_content": equation_text}
@@ -555,37 +532,20 @@ class ChandraExtractor(PdfExtractor):
             del batch
             del results
             gc.collect()
-
-        # Chandra outputs display math as $$...$$ and named environments like equation or eqnarray
-        equation_blocks = []
-        # Match $$...$$ display math blocks
-        display_blocks = re.findall(
-            r'\$\$(.+?)\$\$',
-            markdown_text,
-            re.DOTALL
-        )
-        equation_blocks.extend([eq.strip() for eq in display_blocks])
-        # Match \begin{align}...\end{align} or similar
+            
+        display_blocks = re.findall(r'\$\$(.+?)\$\$', markdown_text, re.DOTALL)
+        inline_blocks = re.findall(r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)', markdown_text, re.DOTALL)
         env_blocks = re.findall(
-            r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)'
-            r'\\end\{\1\*?\}',
-            markdown_text,
-            re.DOTALL
+            r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)\\end\{\1\*?\}',
+            markdown_text, re.DOTALL,
         )
-        equation_blocks.extend([eq.strip() for _, eq in env_blocks])
+        equation_blocks = [eq.strip() for eq in display_blocks]
+        equation_blocks += [eq.strip() for eq in inline_blocks]
+        equation_blocks += [body.strip() for _, body in env_blocks]
 
-        if equation_blocks:
-            logger.info(f"Found {len(equation_blocks)} equation blocks via "
-                        f"Chandra output")
-            equation_text = "\n\n".join(
-                [str((eq, "latex")) for eq in equation_blocks]
-            )
-        else:
-            logger.warning(
-                f"No equation blocks found in Chandra output for "
-                f"{self.pmid}, passing full markdown to pipeline"
-            )
-            equation_text = markdown_text
+        equation_text = "\n\n".join(
+            [str((eq, "latex")) for eq in equation_blocks]
+        )
 
         self.extraction_file = str(md_file)
         return {"content_type": "text", "text_content": equation_text}
@@ -645,28 +605,14 @@ class LlamaParseExtractor(PdfExtractor):
             with open(md_file, "w") as f:
                 f.write(markdown_text)
 
-        # LlamaParse renders display math as $$...$$ or \[...\]
-        display_blocks = re.findall(
-            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL
-        )
-        bracket_blocks = re.findall(
-            r'\\\[(.+?)\\\]', markdown_text, re.DOTALL
-        )
+        display_blocks = re.findall(r'\$\$(.+?)\$\$', markdown_text, re.DOTALL)
+        bracket_blocks = re.findall(r'\\\[(.+?)\\\]', markdown_text, re.DOTALL)
         equation_blocks = [eq.strip() for eq in display_blocks]
         equation_blocks += [eq.strip() for eq in bracket_blocks]
 
-        if equation_blocks:
-            logger.info(f"Found {len(equation_blocks)} equation blocks via "
-                        f"LlamaParse output")
-            equation_text = "\n\n".join(
-                [str((eq, "latex")) for eq in equation_blocks]
-            )
-        else:
-            logger.warning(
-                f"No equation blocks found in LlamaParse output for "
-                f"{self.pmid}, passing full markdown to pipeline"
-            )
-            equation_text = markdown_text
+        equation_text = "\n\n".join(
+            [str((eq, "latex")) for eq in equation_blocks]
+        )
 
         self.extraction_file = str(md_file)
         return {"content_type": "text", "text_content": equation_text}
@@ -689,7 +635,6 @@ class PaddleOCRExtractor(PdfExtractor):
     _pipeline_singleton = None
 
     def _run_pipeline(self):
-        """Run PPStructureV3 (reusing a cached instance) and return results."""
         from paddleocr import PPStructureV3
 
         if PaddleOCRExtractor._pipeline_singleton is None:
@@ -720,7 +665,7 @@ class PaddleOCRExtractor(PdfExtractor):
             return self._get_text_inputs(out_dir)
         else:
             return self._get_image_inputs(out_dir)
-            
+
     # Text mode
     def _get_text_inputs(self, out_dir):
         import re
@@ -760,22 +705,13 @@ class PaddleOCRExtractor(PdfExtractor):
         equation_blocks = [eq.strip() for eq in display_blocks]
         equation_blocks += [body.strip() for _, body in env_blocks]
 
-        if equation_blocks:
-            logger.info(f"Found {len(equation_blocks)} equation blocks via "
-                        f"PaddleOCR output")
-            equation_text = "\n\n".join(
-                [str((eq, "latex")) for eq in equation_blocks]
-            )
-        else:
-            logger.warning(
-                f"No equation blocks found in PaddleOCR output for "
-                f"{self.pmid}, passing full markdown to pipeline"
-            )
-            equation_text = markdown_text
+        equation_text = "\n\n".join(
+            [str((eq, "latex")) for eq in equation_blocks]
+        )
 
         self.extraction_file = str(md_file)
         return {"content_type": "text", "text_content": equation_text}
-
+        
     # Image mode
     def _get_image_inputs(self, out_dir):
         import json
@@ -814,10 +750,6 @@ class PaddleOCRExtractor(PdfExtractor):
                     page_img = next(iter(res.img.values()), None)
 
                 if page_img is None:
-                    logger.warning(
-                        f"No page image found for page {page_idx}, "
-                        f"skipping {len(formula_list)} formula(s)"
-                    )
                     continue
 
                 if isinstance(page_img, np.ndarray):
@@ -831,10 +763,6 @@ class PaddleOCRExtractor(PdfExtractor):
                             or formula.get("coordinate")
                             or formula.get("block_bbox"))
                     if bbox is None:
-                        logger.warning(
-                            f"No bbox field found on formula entry "
-                            f"{eq_idx} on page {page_idx}, skipping"
-                        )
                         continue
 
                     bbox_flat = np.array(bbox).reshape(-1)
@@ -857,13 +785,6 @@ class PaddleOCRExtractor(PdfExtractor):
 
             del results
             gc.collect()
-
-        if not equation_img_paths:
-            logger.warning(
-                f"No formula images extracted for {self.pmid} via "
-                f"PaddleOCR image mode; check field names in "
-                f"formula_res_list against your PaddleOCR version"
-            )
 
         self.extraction_file = str(formula_images_file)
         return {"content_type": "image", "image_path": equation_img_paths}
