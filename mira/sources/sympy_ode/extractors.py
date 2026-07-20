@@ -492,6 +492,7 @@ class ChandraExtractor(PdfExtractor):
             from chandra.input import load_pdf_images
             from chandra.model.hf import generate_hf
             from chandra.model.schema import BatchInputItem
+            from chandra.output import parse_markdown
             import pypdfium2
         except ImportError:
             raise ImportError(
@@ -525,7 +526,7 @@ class ChandraExtractor(PdfExtractor):
             ]
             results = generate_hf(batch=batch, model=model)
             markdown_text = "\n\n".join(
-                [r.raw for r in results if not r.error]
+                [parse_markdown(r.raw) for r in results if not r.error]
             )
             with open(md_file, "w") as f:
                 f.write(markdown_text)
