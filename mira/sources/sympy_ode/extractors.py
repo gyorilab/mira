@@ -344,6 +344,7 @@ class Pix2TextExtractor(PdfExtractor):
 
     def get_pipeline_inputs(self):
         import platform
+        import re
 
         # CoreML causes failures on Apple Silicon, fall back to CPU
         if platform.system() == "Darwin":
@@ -372,8 +373,8 @@ class Pix2TextExtractor(PdfExtractor):
                 markdown_text = f.read()
         else:
             logger.info(f"Running Pix2Text pipeline for {self.pdf_file.name}")
-            p2t = Pix2Text(enable_formula=True, enable_table=False)
-            doc = p2t.recognize(str(self.pdf_file), file_type="pdf")
+            p2t = Pix2Text.from_config(enable_formula=True,enable_table=False,)
+            doc = p2t.recognize_pdf(str(self.pdf_file),resized_shape=768,)
             markdown_text = doc.to_markdown(
                 out_dir=str(out_dir),
                 markdown_fn=f"{self.pmid}.md",
@@ -383,11 +384,12 @@ class Pix2TextExtractor(PdfExtractor):
             del p2t
             del doc
             gc.collect()
-
+            
         display_blocks = re.findall(
-            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL)
+            r'\$\$(.+?)\$\$', markdown_text, re.DOTALL
+        )
         env_blocks = re.findall(
-            r'\\begin\{(align|equation|eqnarray)\*?\}(.*?)\\end\{\1\*?\}',
+            r'\\begin\{(align|equation|eqnarray|cases|array|matrix)\*?\}(.*?)\\end\{\1\*?\}',
             markdown_text,
             re.DOTALL,
         )
