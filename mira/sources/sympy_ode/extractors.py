@@ -597,7 +597,12 @@ class LlamaParseExtractor(PdfExtractor):
             parser = LlamaParse(
                 api_key=api_key,
                 result_type="markdown",
-                system_prompt=ODE_PDF_PROMPT,
+                system_prompt=(
+                    "This is a scientific paper describing a mathematical or epidemiological model, likely containing a system of ordinary differential equations (ODEs). "
+                    "Preserve every mathematical equation exactly as it appears in the original text rendered as LaTeX inside $$...$$ delimiters for display equations. "
+                    "Do not simplify,paraphrase or omit any subscripts, superscripts or Greek letters - reproduce variable and parameter names precisely as written (e.g. preserve S, I, R, "
+                    "beta, gamma and any subscripted variants like S_q or E_1 exactly as they appear). Pay special attention to derivative notation and preserve it."
+                ),
             )
             documents = parser.load_data(str(self.pdf_file))
             markdown_text = "\n\n".join(doc.text for doc in documents)
