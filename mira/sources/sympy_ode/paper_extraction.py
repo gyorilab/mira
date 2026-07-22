@@ -17,6 +17,7 @@ from mira.sources.sympy_ode.extractors import (
     ChandraExtractor,
     PaddleOCRExtractor,
     LlamaParseExtractor,
+    ReductoExtractor,
 )
 from mira.sources.sympy_ode.agent_pipeline import (
     execute_template_model_from_sympy_odes,
@@ -114,6 +115,10 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         extractor_obj = LlamaParseExtractor(pmid, pmc, paper_base,
                                         pmid_to_download_mapping,
                                         ode_extraction_method)
+    elif extractor == "reducto":
+        extractor_obj = ReductoExtractor(pmid, pmc, paper_base,
+                                         pmid_to_download_mapping,
+                                         ode_extraction_method)
                                      
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
