@@ -21,7 +21,15 @@ import re
 from dataclasses import asdict, dataclass
 from html import unescape
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, Sequence
+from bs4 import BeautifulSoup
+
+try:
+    from .parameter_table_classifier import ParameterTableClassifier
+except ImportError:
+    # Supports running this file directly from Terminal.
+    from parameter_table_classifier import ParameterTableClassifier
+
 
 
 @dataclass
@@ -128,13 +136,75 @@ def normalize_parameter(raw_parameter: str, definition: str = "") -> str:
     return p
 
 
-def normalize_value(value: str) -> str:
-    value = clean_cell(value)
-    value = value.replace("{", "").replace("}", "")
-    value = value.replace("_", "-") if value == "_" else value
-    value = value.replace("10^{-", "10^-")
-    return value.strip()
 
+def clean_parameter_definition(
+    raw_definition: str,
+    parameter_symbol: str,
+) -> str:
+    """Remove a parameter symbol from its descriptive text."""
+
+    definition = clean_cell(raw_definition)
+    symbol = clean_cell(parameter_symbol)
+
+    if not definition:
+        return ""
+
+    if not symbol:
+        return definition
+
+    escaped_symbol = re.escape(symbol)
+
+    # Symbol at the beginning:
+    # beta Transmission rate
+    # beta: Transmission rate
+    # beta - Transmission rate
+    definition = re.sub(
+        rf"^\s*{escaped_symbol}\s*[:;,=\-–—]?\s*",
+        "",
+        definition,
+        flags=re.IGNORECASE,
+    )
+
+    # Symbol inside parentheses:
+    # Transmission rate (beta)
+    definition = re.sub(
+        rf"\(\s*{escaped_symbol}\s*\)",
+        "",
+        definition,
+        flags=re.IGNORECASE,
+    )
+
+    # Symbol at the end:
+    # Transmission rate, beta
+    definition = re.sub(
+        rf"[,;:\s]+{escaped_symbol}\s*$",
+        "",
+        definition,
+        flags=re.IGNORECASE,
+    )
+
+    definition = re.sub(r"\s+", " ", definition)
+
+    return definition.strip(" ,;:-–—")
+
+
+def normalize_value(text: str) -> str:
+    """Keep only the first numerical estimate in a value cell."""
+
+    cleaned = clean_cell(text)
+
+    if not cleaned:
+        return ""
+
+    match = re.search(
+        r"[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?",
+        cleaned,
+    )
+
+    if match:
+        return match.group(0)
+
+    return cleaned
 
 def infer_parameter_type(parameter: str) -> str:
     if "(0)" in parameter:
@@ -400,37 +470,345 @@ def parse_short_rows(
     return rows
 
 
+
+def extract_html_tables(html_text: str) -> List[dict]:
+    """Extract structured rows directly from HTML table elements.
+
+    Each returned dictionary contains:
+
+    - table_id
+    - caption
+    - headers
+    - rows
+
+    The original HTML row and column structure is preserved instead of
+    converting the table into one flattened text section.
+    """
+
+    soup = BeautifulSoup(html_text, "html.parser")
+    extracted_tables: List[dict] = []
+
+    for table_number, table in enumerate(
+        soup.find_all("table"),
+        start=1,
+    ):
+        matrix: List[List[str]] = []
+
+        for tr in table.find_all("tr"):
+            cells = tr.find_all(["th", "td"])
+
+            row = [
+                clean_cell(
+                    cell.get_text(" ", strip=True)
+                )
+                for cell in cells
+            ]
+
+            row = [cell for cell in row if cell]
+
+            if row:
+                matrix.append(row)
+
+        if not matrix:
+            continue
+
+        caption_tag = table.find("caption")
+
+        if caption_tag is not None:
+            caption = clean_cell(
+                caption_tag.get_text(" ", strip=True)
+            )
+        else:
+            caption = ""
+
+            # Marker HTML does not always use a <caption> element.
+            # Look immediately before the table for a likely caption.
+            previous_element = table.find_previous(
+                ["p", "h1", "h2", "h3", "h4", "div"]
+            )
+
+            if previous_element is not None:
+                candidate_caption = clean_cell(
+                    previous_element.get_text(" ", strip=True)
+                )
+
+                if len(candidate_caption) <= 1000:
+                    caption = candidate_caption
+
+        table_id = f"Table {table_number}"
+
+        caption_match = re.search(
+            r"\btable\s+([a-z0-9]+)",
+            caption,
+            re.IGNORECASE,
+        )
+
+        if caption_match:
+            table_id = f"Table {caption_match.group(1)}"
+
+        first_html_row = table.find("tr")
+        first_row_has_header_cells = bool(
+            first_html_row
+            and first_html_row.find_all("th")
+        )
+
+        header_terms = {
+            "parameter",
+            "parameters",
+            "symbol",
+            "description",
+            "definition",
+            "meaning",
+            "value",
+            "values",
+            "estimate",
+            "estimated value",
+            "unit",
+            "units",
+            "source",
+            "standard deviation",
+            "range",
+        }
+
+        first_row_text = " ".join(
+            cell.lower()
+            for cell in matrix[0]
+        )
+
+        first_row_looks_like_header = (
+            first_row_has_header_cells
+            or any(
+                term in first_row_text
+                for term in header_terms
+            )
+        )
+
+        if first_row_looks_like_header:
+            headers = matrix[0]
+            data_rows = matrix[1:]
+        else:
+            headers = []
+            data_rows = matrix
+
+        extracted_tables.append(
+            {
+                "table_id": table_id,
+                "caption": caption,
+                "headers": headers,
+                "rows": data_rows,
+            }
+        )
+
+    return extracted_tables
+
+
+def parse_two_column_rows(
+    table_rows: Sequence[Sequence[str]],
+    pmid: str,
+    table_id: str,
+) -> List[ParameterRow]:
+    """Parse parameter tables with a label column and a value column.
+
+    Example:
+
+        Effective contact rate (beta) | 1.30 [1.21-1.39] day-1
+    """
+
+    rows: List[ParameterRow] = []
+    seen = set()
+
+    for table_row in table_rows:
+        if len(table_row) < 2:
+            continue
+
+        raw_parameter = clean_cell(table_row[0])
+        raw_value = clean_cell(
+            " ".join(table_row[1:])
+        )
+
+        if not raw_parameter or not raw_value:
+            continue
+
+        lowered_parameter = raw_parameter.lower()
+
+        if lowered_parameter in {
+            "parameter",
+            "parameters",
+            "parameter name",
+            "description",
+            "definition",
+            "symbol",
+        }:
+            continue
+
+        if not looks_like_value(raw_value):
+            continue
+
+        parameter = normalize_parameter(
+            raw_parameter,
+            raw_parameter,
+        )
+
+        if not looks_like_parameter_name(parameter):
+            continue
+
+        definition = clean_parameter_definition(
+            raw_parameter,
+            parameter,
+        )
+
+        value = normalize_value(raw_value)
+
+        key = (
+            parameter,
+            value,
+        )
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+
+        rows.append(
+            ParameterRow(
+                pmid=pmid,
+                table_id=table_id,
+                parameter=parameter,
+                definition=definition,
+                value=value,
+                standard_deviation="",
+                source="",
+                parameter_type=infer_parameter_type(parameter),
+                raw_parameter=raw_parameter,
+            )
+        )
+
+    return rows
+
+
+def flatten_table_rows(
+    table_rows: Sequence[Sequence[str]],
+) -> List[str]:
+    """Flatten a real HTML matrix for the existing fallback parsers."""
+
+    return [
+        clean_cell(cell)
+        for row in table_rows
+        for cell in row
+        if clean_cell(cell)
+    ]
+
+
 def extract_marker_parameters(
     marker_html_path: Path,
     pmid: Optional[str] = None,
     table_id: str = "auto",
 ) -> List[ParameterRow]:
+    """Extract parameter rows from structured Marker HTML tables."""
+
     if pmid is None:
         pmid = get_pmid_from_filename(marker_html_path)
 
     html_text = marker_html_path.read_text(errors="ignore")
-    text = html_to_text(html_text)
 
     all_rows: List[ParameterRow] = []
     seen = set()
 
-    for section in split_into_table_sections(text):
-        caption_window = section[:1200]
+    classifier = ParameterTableClassifier(threshold=0.43)
 
-        if not looks_like_parameter_caption(caption_window):
+    html_tables = extract_html_tables(html_text)
+
+    if not html_tables:
+        print(
+            f"{pmid}: no structured HTML tables were found"
+        )
+        return all_rows
+
+    for html_table in html_tables:
+        current_table_id = html_table["table_id"]
+
+        if table_id != "auto":
+            current_table_id = table_id
+
+        caption = html_table["caption"]
+        headers = html_table["headers"]
+        table_rows = html_table["rows"]
+
+        if not table_rows:
             continue
 
-        current_table_id = extract_table_id(section, fallback=table_id)
-        cells = split_cells(section)
+        classification = classifier.predict(
+            caption=caption,
+            headers=headers,
+            rows=table_rows,
+        )
 
-        rows = parse_source_based_rows(cells, pmid=pmid, table_id=current_table_id)
+        print(
+            f"{pmid} | table={current_table_id} | "
+            f"html_rows={len(table_rows)} | "
+            f"columns={max(len(row) for row in table_rows)} | "
+            f"parameter={classification.is_parameter_table} | "
+            f"score={classification.score:.4f} | "
+            f"caption={classification.caption_similarity:.4f} | "
+            f"header={classification.header_similarity:.4f} | "
+            f"keywords={classification.keyword_score:.4f} | "
+            f"numeric={classification.numeric_density:.4f} | "
+            f"symbols={classification.symbol_density:.4f} | "
+            f"negative={classification.negative_keyword_score:.4f}"
+        )
 
-        # If no 5-column rows are found, try shorter layouts.
+        if not classification.is_parameter_table:
+            continue
+
+        # First try the new parser for tables with one label column
+        # and one value column.
+        rows = parse_two_column_rows(
+            table_rows,
+            pmid=pmid,
+            table_id=current_table_id,
+        )
+
+        # Existing parsers remain available for 3-, 4-, and 5-column
+        # parameter tables.
         if not rows:
-            rows = parse_short_rows(cells, pmid=pmid, table_id=current_table_id)
+            flattened_cells = flatten_table_rows(table_rows)
+
+            rows = parse_source_based_rows(
+                flattened_cells,
+                pmid=pmid,
+                table_id=current_table_id,
+            )
+
+            if not rows:
+                rows = parse_short_rows(
+                    flattened_cells,
+                    pmid=pmid,
+                    table_id=current_table_id,
+                )
+
+        if not rows:
+            print(
+                f"  Accepted as a parameter table, "
+                f"but no parameter rows were parsed."
+            )
+
+            print("  First HTML rows:")
+
+            for raw_row in table_rows[:5]:
+                print(f"    {raw_row!r}")
+
+            continue
+
+        print(f"  Parsed parameter rows: {len(rows)}")
 
         for row in rows:
-            key = (row.pmid, row.table_id, row.parameter, row.value)
+            key = (
+                row.pmid,
+                row.table_id,
+                row.parameter,
+                row.value,
+            )
+
             if key not in seen:
                 seen.add(key)
                 all_rows.append(row)
