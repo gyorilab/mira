@@ -1,0 +1,85 @@
+{
+  "caption_references": [
+    "model parameters and values",
+    "parameter values",
+    "estimated parameter values",
+    "estimated model parameters",
+    "parameter estimates",
+    "kinetic parameters",
+    "kinetic constants",
+    "reaction rate constants",
+    "model constants",
+    "initial conditions",
+    "initial parameter values",
+    "parameters used in the model",
+    "calibrated parameter values",
+    "fitted parameter values"
+  ],
+  "header_references": [
+    "parameter symbol description value unit",
+    "parameter definition estimate unit",
+    "symbol parameter value units",
+    "parameter name value",
+    "parameter meaning estimated value",
+    "parameter initial value unit",
+    "symbol description mean standard deviation unit"
+  ],
+  "column_aliases": {
+    "parameter_symbol": [
+      "symbol",
+      "parameter symbol",
+      "notation",
+      "variable symbol"
+    ],
+    "parameter_name": [
+      "parameter",
+      "parameter name",
+      "description",
+      "definition",
+      "meaning",
+      "interpretation"
+    ],
+    "value": [
+      "value",
+      "values",
+      "estimate",
+      "estimated value",
+      "mean",
+      "default value",
+      "initial value",
+      "baseline value"
+    ],
+    "unit": [
+      "unit",
+      "units",
+      "dimension",
+      "dimensions"
+    ],
+    "uncertainty": [
+      "uncertainty",
+      "standard deviation",
+      "standard error",
+      "sd",
+      "se",
+      "confidence interval",
+      "credible interval",
+      "ci",
+      "range",
+      "lower bound",
+      "upper bound"
+    ]
+  },
+  "negative_keywords": [
+    "patient",
+    "patients",
+    "participant",
+    "participants",
+    "demographic",
+    "baseline characteristics",
+    "clinical characteristics",
+    "gene expression",
+    "survey",
+    "questionnaire"
+  ],
+  "classification_threshold": 0.43
+}
