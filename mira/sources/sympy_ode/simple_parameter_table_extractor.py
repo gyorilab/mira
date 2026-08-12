@@ -49,6 +49,7 @@ class TableDecision:
     negative_score: float
     final_score: float
     is_parameter_table: bool
+    is_sensitivity_table: bool
     extracted_rows: int
 
 
@@ -203,13 +204,18 @@ def looks_like_symbol(value: str) -> bool:
 
 
 def split_parameter_cell(text: str) -> tuple[str, str]:
-    """Split a combined parameter cell into symbol and name.
+    """Split a cell containing BOTH a parameter symbol and description.
 
-    Examples:
-        β (transmission rate)
-        beta - transmission rate
-        gamma: recovery rate
-        sigma incubation rate
+    Examples that may be split:
+        "β - Transmission rate"
+        "mu: natural mortality rate"
+
+    Ordinary hyphenated descriptive words such as:
+        "Disease-induced death rate"
+        "age-specific mortality"
+        "time-dependent transmission"
+
+    must remain intact.
     """
 
     raw = clean_text(text)
@@ -217,57 +223,61 @@ def split_parameter_cell(text: str) -> tuple[str, str]:
     if not raw:
         return "", ""
 
-    # Example: β (transmission rate)
-    match = re.match(
-        r"^\s*"
-        r"([A-Za-zα-ωΑ-Ω\\][A-Za-z0-9_{}\\]*)"
-        r"\s*\((.+)\)\s*$",
+    # Only recognize separators surrounded by whitespace.
+    #
+    # This allows:
+    #     β - Transmission rate
+    #
+    # but prevents:
+    #     Disease-induced death rate
+    #
+    # from being split.
+    separator_match = re.match(
+        r"^\s*(.+?)\s+(?:-|–|—)\s+(.+?)\s*$",
         raw,
     )
 
-    if match:
-        symbol = clean_text(match.group(1))
-        name = clean_text(match.group(2))
-        return symbol, name
+    if separator_match:
+        possible_symbol = clean_text(
+            separator_match.group(1)
+        )
+        possible_name = clean_text(
+            separator_match.group(2)
+        )
 
-    # Examples:
-    # beta - transmission rate
-    # gamma: recovery rate
-    # sigma = progression rate
-    match = re.match(
-        r"^\s*"
-        r"([A-Za-zα-ωΑ-Ω\\][A-Za-z0-9_{}\\]*)"
-        r"\s*[:\-–—=]\s*(.+)$",
+        # The left side must actually look symbol-like.
+        #
+        # Avoid treating normal words such as "Disease" as symbols.
+        if (
+            possible_symbol
+            and len(possible_symbol.split()) <= 2
+            and len(possible_symbol) <= 20
+        ):
+            return possible_symbol, possible_name
+
+    # Also support a conservative colon form:
+    #     β: Transmission rate
+    colon_match = re.match(
+        r"^\s*(.{1,20}?)\s*:\s+(.+?)\s*$",
         raw,
     )
 
-    if match:
-        symbol = clean_text(match.group(1))
-        name = clean_text(match.group(2))
-        return symbol, name
+    if colon_match:
+        possible_symbol = clean_text(
+            colon_match.group(1)
+        )
+        possible_name = clean_text(
+            colon_match.group(2)
+        )
 
-    # Example: sigma incubation rate
-    match = re.match(
-        r"^\s*"
-        r"([A-Za-zα-ωΑ-Ω\\][A-Za-z0-9_{}\\]*)"
-        r"\s+(.+)$",
-        raw,
-    )
+        if (
+            possible_symbol
+            and len(possible_symbol.split()) <= 2
+        ):
+            return possible_symbol, possible_name
 
-    if match:
-        candidate_symbol = clean_text(match.group(1))
-        candidate_name = clean_text(match.group(2))
-
-        if looks_like_symbol(candidate_symbol):
-            return candidate_symbol, candidate_name
-
-    # The complete cell contains only a symbol.
-    if looks_like_symbol(raw):
-        return raw, ""
-
-    # Otherwise, treat the complete cell as a parameter name.
+    # No safe symbol/name split identified.
     return "", raw
-
 
 def symbol_density(rows: Sequence[Sequence[str]]) -> float:
     first_cells = [row[0] for row in rows if row and clean_text(row[0])]
@@ -292,6 +302,372 @@ def negative_keyword_score(text: str, references: dict) -> float:
     return min(matches / 3.0, 1.0)
 
 
+def is_sensitivity_analysis_table(
+    caption: str,
+    headers: Sequence[str],
+    references: dict,
+) -> bool:
+    """Detect tables whose numerical columns are sensitivity metrics.
+
+    A parameter-value table is not rejected merely because its caption
+    says that the values were used for sensitivity analysis.
+    """
+
+    caption_text = normalized_text(caption)
+    header_text = normalized_text(" ".join(headers))
+    combined_text = f"{caption_text} {header_text}".strip()
+
+    # Strong sensitivity-result indicators.
+    # These describe the actual numerical contents of a table.
+    sensitivity_metric_phrases = (
+        "sensitivity index",
+        "sensitivity indices",
+        "normalized sensitivity index",
+        "normalized sensitivity indices",
+        "sensitivity coefficient",
+        "sensitivity coefficients",
+        "partial rank correlation coefficient",
+        "partial rank correlation coefficients",
+        "rank correlation coefficient",
+        "rank correlation coefficients",
+        "prcc",
+        "sobol index",
+        "sobol indices",
+        "morris index",
+        "morris indices",
+        "elasticity index",
+        "elasticity indices",
+        "elasticity coefficient",
+        "elasticity coefficients",
+    )
+
+    if any(
+        phrase in header_text
+        for phrase in sensitivity_metric_phrases
+    ):
+        return True
+
+    # Also reject when a sensitivity-analysis caption is paired with
+    # a generic metric/result column. The caption alone is insufficient.
+    sensitivity_caption = any(
+        phrase in caption_text
+        for phrase in (
+            "sensitivity analysis results",
+            "results of sensitivity analysis",
+            "sensitivity indices",
+            "sensitivity index",
+            "parameter sensitivity results",
+            "partial rank correlation coefficient",
+            "partial rank correlation coefficients",
+            "prcc",
+            "eprcc",
+        )
+    )
+
+    # PRCC/ePRCC explicitly identify sensitivity-analysis result tables.
+    # These tables can have model variables as column headers rather than
+    # generic headers such as "coefficient" or "correlation".
+    explicit_sensitivity_metric = any(
+        phrase in caption_text
+        for phrase in (
+            "partial rank correlation coefficient",
+            "partial rank correlation coefficients",
+            "prcc",
+            "eprcc",
+        )
+    )
+
+    if explicit_sensitivity_metric:
+        return True
+
+    metric_headers = (
+        "index",
+        "coefficient",
+        "correlation",
+        "rank",
+        "prcc",
+        "sobol",
+        "morris",
+        "elasticity",
+    )
+
+    has_metric_header = any(
+        metric in header_text
+        for metric in metric_headers
+    )
+
+    # Genuine parameter-value headers override sensitivity wording
+    # appearing incidentally in the caption.
+    parameter_value_headers = (
+        "fitted value",
+        "estimated value",
+        "parameter value",
+        "initial value",
+        "baseline value",
+        "default value",
+        "value range",
+        "values range",
+        "value ranges",
+        "values ranges",
+    )
+
+    has_parameter_value_header = any(
+        phrase in header_text
+        for phrase in parameter_value_headers
+    )
+
+    if has_parameter_value_header:
+        return False
+
+    return sensitivity_caption and has_metric_header
+
+
+def is_parameter_matrix_table(
+    headers: list[str],
+    rows: list[list[str]],
+) -> bool:
+    """Detect column-oriented parameter/scenario matrices.
+
+    These are tables where many parameters are spread horizontally
+    across columns and rows describe things such as lower bound,
+    upper bound, initial value, final value, IFR, or R0.
+
+    The simple extractor instead targets one parameter per row.
+    """
+
+    if not headers or not rows:
+        return False
+
+    normalized_headers = [
+        normalized_text(header)
+        for header in headers
+    ]
+
+    row_width = max(
+        (len(row) for row in rows),
+        default=0,
+    )
+
+    # Use both the parsed header width and row width.
+    # Some HTML tables have wide headers but rows may be temporarily
+    # truncated/irregular during parsing or testing.
+    table_width = max(
+        len(headers),
+        row_width,
+    )
+
+    # Do not reject ordinary narrow parameter tables.
+    if table_width < 6:
+        return False
+
+    scenario_terms = {
+        "lower bound",
+        "upper bound",
+        "initial value",
+        "final value",
+        "final value (*)",
+        "ifr",
+        "r0",
+        "r 0",
+        "basic reproduction number",
+    }
+
+    scenario_rows = 0
+
+    for row in rows[:50]:
+        first_cells = [
+            normalized_text(cell)
+            for cell in row[:3]
+            if clean_text(cell)
+        ]
+
+        if any(
+            cell in scenario_terms
+            for cell in first_cells
+        ):
+            scenario_rows += 1
+
+    # Count short non-generic headers. In matrix tables these are
+    # commonly individual parameters such as alpha1, beta1, q, E(0).
+    generic_headers = {
+        "",
+        "case",
+        "variable",
+        "variables",
+        "name",
+        "description",
+        "definition",
+        "parameter",
+        "parameters",
+        "value",
+        "values",
+        "unit",
+        "units",
+        "uncertainty",
+        "source",
+        "data source",
+        "prior",
+    }
+
+    possible_parameter_columns = 0
+
+    for header in normalized_headers:
+        if (
+            header
+            and header not in generic_headers
+            and len(header) <= 25
+        ):
+            possible_parameter_columns += 1
+
+    return (
+        scenario_rows >= 2
+        and possible_parameter_columns >= 3
+    )
+
+
+def is_parameter_definition_table(
+    caption: str,
+    headers: list[str],
+    rows: list[list[str]],
+) -> bool:
+    """Detect simple symbol/parameter-definition companion tables.
+
+    These tables may contain no numerical values, but can still be useful
+    when another table in the same PMID provides the parameter values.
+    """
+
+    if not headers or not rows:
+        return False
+
+    caption_text = normalized_text(caption)
+    normalized_headers = [
+        normalized_text(header)
+        for header in headers
+    ]
+
+    combined_headers = " ".join(normalized_headers)
+
+    symbol_header_terms = (
+        "parameter",
+        "variable",
+        "symbol",
+        "name",
+    )
+
+    definition_header_terms = (
+        "definition",
+        "description",
+        "meaning",
+        "interpretation",
+    )
+
+    has_symbol_header = any(
+        term in combined_headers
+        for term in symbol_header_terms
+    )
+
+    has_definition_header = any(
+        term in combined_headers
+        for term in definition_header_terms
+    )
+
+    definition_caption_terms = (
+        "description of parameters",
+        "description of the parameters",
+        "description of fixed parameters",
+        "description of the fixed parameters",
+        "definition of parameters",
+        "definitions of parameters",
+        "variables and parameters",
+        "parameter definitions",
+    )
+
+    caption_supports_definition = any(
+        term in caption_text
+        for term in definition_caption_terms
+    )
+
+    # Count rows that contain at least two meaningful cells.
+    # This helps reject captions or malformed one-cell fragments.
+    nonempty_rows = 0
+
+    for row in rows:
+        nonempty = [
+            clean_text(cell)
+            for cell in row
+            if clean_text(cell)
+        ]
+
+        if len(nonempty) >= 2:
+            nonempty_rows += 1
+
+    if nonempty_rows < 2:
+        return False
+
+    # Normal case:
+    # recognizable symbol/parameter header plus a definition signal.
+    if (
+        has_symbol_header
+        and (
+            has_definition_header
+            or caption_supports_definition
+        )
+    ):
+        return True
+
+    # Marker can occasionally corrupt or merge the header row.
+    # In that case, a strong parameter-definition caption is enough
+    # to make the table a DEFINITION CANDIDATE.
+    #
+    # It is still not automatically selected: downstream symbol-overlap
+    # matching must confirm that it corresponds to an already selected
+    # parameter/value table from the same PMID.
+    if caption_supports_definition:
+        return True
+
+    return False
+
+
+def extract_first_column_symbols(
+    rows: list[list[str]],
+) -> set[str]:
+    """Collect non-empty first-column entries for overlap matching."""
+
+    symbols: set[str] = set()
+
+    for row in rows:
+        if not row:
+            continue
+
+        value = clean_text(row[0])
+
+        if value:
+            symbols.add(value)
+
+    return symbols
+
+
+def symbol_overlap_fraction(
+    symbols_a: set[str],
+    symbols_b: set[str],
+) -> float:
+    """Return overlap relative to the smaller non-empty symbol set."""
+
+    if not symbols_a or not symbols_b:
+        return 0.0
+
+    intersection = symbols_a & symbols_b
+    denominator = min(
+        len(symbols_a),
+        len(symbols_b),
+    )
+
+    if denominator == 0:
+        return 0.0
+
+    return len(intersection) / denominator
+
+
 def classify_table(caption, headers, rows, references) -> dict:
     header_text = " ".join(headers)
     combined = f"{caption} {header_text}"
@@ -302,6 +678,18 @@ def classify_table(caption, headers, rows, references) -> dict:
     number_score = numeric_density(rows)
     parameter_symbol_score = symbol_density(rows)
     negative_score = negative_keyword_score(combined, references)
+
+    sensitivity_table = is_sensitivity_analysis_table(
+        caption,
+        headers,
+        references,
+    )
+
+    # Reject complex column-oriented parameter/scenario matrices.
+    parameter_matrix_table = is_parameter_matrix_table(
+        headers,
+        rows,
+    )
 
     final_score = (
         0.30 * caption_similarity
@@ -322,7 +710,17 @@ def classify_table(caption, headers, rows, references) -> dict:
         "symbol_density": round(parameter_symbol_score, 4),
         "negative_score": round(negative_score, 4),
         "final_score": round(final_score, 4),
-        "is_parameter_table": final_score >= threshold,
+        "is_parameter_table": (
+
+            final_score >= threshold
+
+            and not sensitivity_table
+
+            and not parameter_matrix_table
+
+        ),
+
+        "is_sensitivity_table": sensitivity_table,
     }
 
 
@@ -428,21 +826,14 @@ def map_columns(
 
 
 def cell_contains_number(value: str) -> bool:
-    """Return True if a cell contains a numeric value."""
+    """Return True when a cell contains a scalar, fraction, or range."""
 
     text = clean_text(value)
 
     if not text:
         return False
 
-    return bool(
-        re.search(
-            r"[<>≤≥]?\s*[+-]?\d+(?:\.\d+)?"
-            r"(?:[eE][+-]?\d+)?",
-            text,
-        )
-    )
-
+    return bool(NUMBER_PATTERN.search(text))
 
 def column_numeric_ratio(
     rows: Sequence[Sequence[str]],
@@ -504,39 +895,733 @@ def find_numeric_value_column(
     return best_index
 
 
-NUMBER_PATTERN = re.compile(r"[<>≤≥]?\s*[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?")
+NUMBER_PATTERN = re.compile(
+    r"[<>≤≥]?\s*[+-]?"
+    r"(?:"
+    # Fraction: 1/21, 1 / 21, 3.5/7
+    r"(?:"
+    r"(?:\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)"
+    r"\s*/\s*"
+    r"(?:\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)"
+    r")"
+    r"|"
+    # Ordinary number: 123,456; 12345; 1.23e-6
+    r"(?:"
+    r"\d{1,3}(?:,\d{3})+"
+    r"|\d{1,3}(?:\s\d{3})+"
+    r"|\d+"
+    r")"
+    r"(?:\.\d+)?"
+    r"(?:[eE][+-]?\d+)?"
+    r")"
+)
 
 
-def split_value_unit_uncertainty(text: str) -> tuple[str, str, str]:
+def split_value_unit_uncertainty(
+    text: str,
+) -> tuple[str, str, str]:
+    """Separate a value expression, unit, and uncertainty safely.
+
+    Mathematical expressions are preserved, including:
+
+        1/21
+        1/(70*360)
+        2*(1/21)
+        exp(-kt)
+        1.2e-5
+        2 × 10^-5
+
+    A unit is removed only when it appears as a recognizable suffix.
+    """
+
     raw = clean_text(text)
+
     if not raw:
         return "", "", ""
 
-    number_match = NUMBER_PATTERN.search(raw)
-    if not number_match:
-        return raw, "", ""
-
-    value = number_match.group(0).replace(" ", "")
-    remainder = raw[number_match.end():].strip()
-
+    value_text = raw
     uncertainty = ""
-    uncertainty_match = re.search(
-        r"(?:±\s*[+-]?\d+(?:\.\d+)?)|(?:\[[^\]]+\])|(?:\([^\)]+\))", remainder
+    unit = ""
+
+    # -------------------------------------------------------------
+    # 1. Extract bracketed uncertainty only when it follows a value.
+    #
+    # Examples:
+    #   1.30 [1.21-1.39]
+    #   2.95 (2.83-3.33)
+    #
+    # Parentheses belonging to a mathematical expression, such as
+    # 1/(70*360), are not treated as uncertainty.
+    # -------------------------------------------------------------
+
+    bracket_match = re.search(
+        r"\s+"
+        r"(?P<uncertainty>"
+        r"\[[^\[\]]+\]"
+        r"|"
+        r"\((?:[^()]|\([^()]*\))+\)"
+        r")"
+        r"(?=\s*(?:[A-Za-z%°µμ]|$))",
+        value_text,
     )
-    if uncertainty_match:
-        uncertainty = clean_text(uncertainty_match.group(0))
-        remainder = (
-            remainder[:uncertainty_match.start()] + " " + remainder[uncertainty_match.end():]
-        ).strip()
 
-    return value, clean_text(remainder), uncertainty
+    if bracket_match:
+        candidate = clean_text(
+            bracket_match.group("uncertainty")
+        )
 
+        # Treat it as uncertainty only if it contains a numeric
+        # range, ± value, CI-like content, or multiple numeric values.
+        numeric_items = re.findall(
+            r"[+-]?\d+(?:\.\d+)?",
+            candidate,
+        )
+
+        uncertainty_signals = (
+            "±" in candidate
+            or re.search(
+                r"\d\s*(?:-|–|—|to)\s*\d",
+                candidate,
+                flags=re.IGNORECASE,
+            )
+            or len(numeric_items) >= 2
+        )
+
+        if uncertainty_signals:
+            uncertainty = candidate
+
+            value_text = clean_text(
+                value_text[: bracket_match.start()]
+                + " "
+                + value_text[bracket_match.end() :]
+            )
+
+    # -------------------------------------------------------------
+    # 2. Extract plus/minus uncertainty.
+    #
+    # Example:
+    #   0.42 ± 0.05 day^-1
+    # -------------------------------------------------------------
+
+    plus_minus_match = re.search(
+        r"\s*(?P<uncertainty>±\s*"
+        r"[+-]?\d+(?:\.\d+)?"
+        r"(?:[eE][+-]?\d+)?)",
+        value_text,
+    )
+
+    if plus_minus_match:
+        uncertainty = clean_text(
+            plus_minus_match.group("uncertainty")
+        )
+
+        value_text = clean_text(
+            value_text[: plus_minus_match.start()]
+            + " "
+            + value_text[plus_minus_match.end() :]
+        )
+
+    # -------------------------------------------------------------
+    # 3. Recognize a unit only at the END of the cell.
+    #
+    # A whitespace boundary is required before most units. Therefore:
+    #
+    #   1/(70*360)       remains a complete value
+    #   1/(70*360) day^-1 separates into value and unit
+    # -------------------------------------------------------------
+
+    unit_suffix_pattern = re.compile(
+        r"""
+        
+        (?P<prefix>\s+)
+        (?P<unit>
+            (?:
+                day|days|d|
+                week|weeks|wk|wks|
+                month|months|mo|
+                year|years|yr|yrs|
+                hour|hours|hr|hrs|h|
+                minute|minutes|min|
+                second|seconds|sec|s|
+                person|persons|people|
+                individual|individuals|
+                patient|patients|
+                cell|cells|
+                copy|copies|
+                dose|doses|
+                case|cases|
+                event|events|
+                kg|g|mg|ug|µg|μg|ng|
+                l|ml|ul|µl|μl|
+                m|cm|mm|um|µm|μm|nm|
+                mol|mmol|umol|µmol|μmol|nmol|
+                mM|uM|µM|μM|nM|
+                percent|percentage|
+                probability|
+                dimensionless
+            )
+            (?:
+                \s*
+                (?:
+                    \^?\s*\{?\s*[+-]?\d+\s*\}?
+                    |
+                    [⁻−-][¹²³⁴⁵⁶⁷⁸⁹⁰]+
+                )
+            )?
+            (?:
+                \s*/\s*
+                (?:
+                    day|days|d|
+                    week|weeks|
+                    month|months|
+                    year|years|
+                    hour|hours|h|
+                    minute|minutes|min|
+                    second|seconds|s|
+                    person|people|
+                    cell|cells|
+                    kg|g|mg|ml|l
+                )
+            )?
+        )
+        \s*$
+        """,
+        flags=re.IGNORECASE | re.VERBOSE,
+    )
+
+    unit_match = unit_suffix_pattern.search(value_text)
+
+    if unit_match:
+        unit = clean_text(unit_match.group("unit"))
+        value_text = clean_text(
+            value_text[: unit_match.start()]
+        )
+
+    # Percent signs may directly follow a value without whitespace.
+    percent_match = re.search(
+        r"(?P<unit>%|‰)\s*$",
+        value_text,
+    )
+
+    if percent_match:
+        unit = percent_match.group("unit")
+        value_text = clean_text(
+            value_text[: percent_match.start()]
+        )
+
+    # -------------------------------------------------------------
+    # 4. Return the complete remaining expression as the value.
+    # -------------------------------------------------------------
+
+    value = clean_text(value_text)
+
+    return value, unit, uncertainty
 
 def get_cell(row: Sequence[str], index: int | None) -> str:
     if index is None or index >= len(row):
         return ""
     return clean_text(row[index])
 
+
+
+def merge_parameter_continuation_rows(
+    rows: list[list[str]],
+    mappings: dict[str, int | None],
+) -> list[list[str]]:
+    """Merge physical HTML rows belonging to one logical parameter.
+
+    Handles tables such as:
+
+        psi_H | Modification parameter for infection rate | ""
+              | of high risk susceptible individuals      | 1.2-2
+
+    which should become one logical row:
+
+        psi_H | Modification parameter for infection rate
+                of high risk susceptible individuals      | 1.2-2
+    """
+
+    if not rows:
+        return rows
+
+    symbol_index = mappings.get("parameter_symbol")
+    name_index = mappings.get("parameter_name")
+    value_index = mappings.get("value")
+    unit_index = mappings.get("unit")
+    uncertainty_index = mappings.get("uncertainty")
+
+    def cell(row, index):
+        if index is None:
+            return ""
+        if index < 0 or index >= len(row):
+            return ""
+        return clean_text(row[index])
+
+    def ensure_width(row, width):
+        row = list(row)
+        if len(row) < width:
+            row.extend([""] * (width - len(row)))
+        return row
+
+    width = max((len(row) for row in rows), default=0)
+
+    merged: list[list[str]] = []
+
+    for original_row in rows:
+        current = ensure_width(original_row, width)
+
+        current_symbol = cell(current, symbol_index)
+        current_name = cell(current, name_index)
+        current_value = cell(current, value_index)
+
+        if merged:
+            previous = merged[-1]
+
+            previous_symbol = cell(previous, symbol_index)
+            previous_name = cell(previous, name_index)
+            previous_value = cell(previous, value_index)
+
+            # Continuation-row pattern:
+            #
+            # previous:
+            #   symbol/name present, but value absent
+            #
+            # current:
+            #   symbol absent, description continues,
+            #   and value appears on this second physical row
+            continuation = (
+                not current_symbol
+                and bool(current_name)
+                and bool(current_value)
+                and bool(previous_symbol or previous_name)
+                and not previous_value
+            )
+
+            if continuation:
+                # Join the definition text.
+                if name_index is not None:
+                    pieces = [
+                        part
+                        for part in (
+                            previous_name,
+                            current_name,
+                        )
+                        if part
+                    ]
+                    previous[name_index] = clean_text(
+                        " ".join(pieces)
+                    )
+
+                # Carry value onto the logical parameter row.
+                if value_index is not None:
+                    previous[value_index] = current_value
+
+                # Carry unit if present.
+                if unit_index is not None:
+                    current_unit = cell(current, unit_index)
+
+                    if (
+                        current_unit
+                        and not cell(previous, unit_index)
+                    ):
+                        previous[unit_index] = current_unit
+
+                # Carry uncertainty if present.
+                if uncertainty_index is not None:
+                    current_uncertainty = cell(
+                        current,
+                        uncertainty_index,
+                    )
+
+                    if (
+                        current_uncertainty
+                        and not cell(
+                            previous,
+                            uncertainty_index,
+                        )
+                    ):
+                        previous[
+                            uncertainty_index
+                        ] = current_uncertainty
+
+                continue
+
+        merged.append(current)
+
+    return merged
+
+
+def is_internal_header_row(row: list[str]) -> bool:
+    """Return True when a data row is actually a repeated/sub-header row.
+
+    Examples:
+        Initial Values | Definitions | Estimated Mean Value |
+        Standard Deviation | Data Source
+
+        Parameter | Description | Value | Unit
+
+    These should not become ParameterRecord objects.
+    """
+
+    cells = [
+        normalized_text(cell)
+        for cell in row
+        if clean_text(cell)
+    ]
+
+    if not cells:
+        return False
+
+    header_phrases = {
+        "parameter",
+        "parameters",
+        "parameter symbol",
+        "symbol",
+        "variable",
+        "variables",
+        "initial value",
+        "initial values",
+        "definition",
+        "definitions",
+        "description",
+        "descriptions",
+        "value",
+        "values",
+        "estimated value",
+        "estimated mean value",
+        "mean value",
+        "standard deviation",
+        "std deviation",
+        "standard error",
+        "uncertainty",
+        "unit",
+        "units",
+        "data source",
+        "source",
+        "references",
+        "reference",
+        "comments",
+    }
+
+    exact_matches = sum(
+        cell in header_phrases
+        for cell in cells
+    )
+
+    # A repeated header normally contains several header-like cells.
+    if exact_matches >= 2:
+        return True
+
+    # Special case for common internal section headers such as:
+    # "Initial Values | Definitions | Estimated Mean Value | ..."
+    if (
+        any(cell in {"initial value", "initial values"} for cell in cells)
+        and any(
+            cell in {
+                "definition",
+                "definitions",
+                "description",
+                "descriptions",
+            }
+            for cell in cells
+        )
+    ):
+        return True
+
+    return False
+
+
+def repair_compound_parameter_header_mapping(
+    headers: list[str],
+    rows: list[list[str]],
+    mappings: dict,
+) -> dict:
+    """Repair mappings for headers spanning symbol + definition columns.
+
+    Example HTML structure:
+
+        Parameter Definitions   [colspan=2]
+        Estimated mean value
+        Standard deviation
+        Data source
+
+    Physical data columns are actually:
+
+        0 -> parameter symbol
+        1 -> parameter definition
+        2 -> parameter value
+        3 -> uncertainty / standard deviation
+        4 -> source
+
+    This prevents the definition column from disappearing and prevents
+    the mean-value column from being reused as uncertainty.
+    """
+
+    repaired = dict(mappings)
+
+    normalized_headers = [
+        normalized_text(header)
+        for header in headers
+    ]
+
+    joined_headers = " | ".join(
+        normalized_headers
+    )
+
+    row_width = max(
+        (len(row) for row in rows),
+        default=0,
+    )
+
+    has_parameter_definitions = (
+        "parameter definitions" in joined_headers
+        or "parameter definition" in joined_headers
+    )
+
+    has_mean_value = any(
+        phrase in joined_headers
+        for phrase in (
+            "estimated mean value",
+            "estimated value",
+            "mean value",
+        )
+    )
+
+    has_standard_deviation = any(
+        phrase in joined_headers
+        for phrase in (
+            "standard deviation",
+            "std deviation",
+        )
+    )
+
+    # This is the key colspan pattern:
+    #
+    # Parameter Definitions spans the first TWO physical columns.
+    #
+    # Only apply the override when the table really has enough
+    # physical columns to support this interpretation.
+    if (
+        has_parameter_definitions
+        and has_mean_value
+        and has_standard_deviation
+        and row_width >= 5
+    ):
+        repaired["parameter_symbol"] = 0
+        repaired["parameter_name"] = 1
+        repaired["value"] = 2
+        repaired["uncertainty"] = 3
+
+        # There is no unit column in this header structure.
+        if "unit" in repaired:
+            repaired["unit"] = None
+
+    return repaired
+
+
+def repair_blank_symbol_header_mapping(
+    headers: list[str],
+    rows: list[list[str]],
+    mappings: dict,
+) -> dict:
+    """Infer a parameter-symbol column when its header is blank.
+
+    Example:
+
+        "" | Epidemiological Meaning | Best-fit Value |
+        95% Credible Interval | Prior
+
+    with rows such as:
+
+        beta | Transmission rate | 9.906e-8 | (...) | U(...)
+
+    should map physical column 0 to parameter_symbol.
+    """
+
+    repaired = dict(mappings)
+
+    if not headers or not rows:
+        return repaired
+
+    normalized_headers = [
+        normalized_text(header)
+        for header in headers
+    ]
+
+    first_header_blank = (
+        len(normalized_headers) >= 1
+        and not normalized_headers[0]
+    )
+
+    joined_headers = " | ".join(normalized_headers)
+
+    has_definition_header = any(
+        phrase in joined_headers
+        for phrase in (
+            "epidemiological meaning",
+            "description",
+            "definition",
+            "parameter name",
+            "meaning",
+        )
+    )
+
+    has_value_header = any(
+        phrase in joined_headers
+        for phrase in (
+            "best fit value",
+            "best-fit value",
+            "estimated value",
+            "mean value",
+            "value",
+        )
+    )
+
+    if not (
+        first_header_blank
+        and has_definition_header
+        and has_value_header
+    ):
+        return repaired
+
+    # Examine the first physical column.
+    first_column = []
+
+    for row in rows[:20]:
+        if row:
+            value = clean_text(row[0])
+
+            if value:
+                first_column.append(value)
+
+    if not first_column:
+        return repaired
+
+    # Most symbol cells should be short and not sentence-like.
+    symbol_like = 0
+
+    for value in first_column:
+        word_count = len(value.split())
+
+        if (
+            len(value) <= 30
+            and word_count <= 3
+        ):
+            symbol_like += 1
+
+    symbol_ratio = (
+        symbol_like / len(first_column)
+    )
+
+    if symbol_ratio >= 0.7:
+        repaired["parameter_symbol"] = 0
+
+    return repaired
+
+
+def repair_name_as_symbol_header_mapping(
+    headers: list[str],
+    rows: list[list[str]],
+    mappings: dict,
+) -> dict:
+    """Interpret a generic 'Name' column as parameter_symbol when appropriate.
+
+    Example:
+
+        Name | Description | Value | Units
+
+        beta | Transmission coefficient | 2.55 | day^-1
+
+    In this pattern, 'Name' is the mathematical parameter identifier,
+    not the descriptive parameter name.
+    """
+
+    repaired = dict(mappings)
+
+    if not headers or not rows:
+        return repaired
+
+    normalized_headers = [
+        normalized_text(header)
+        for header in headers
+    ]
+
+    # Need at least:
+    # Name | Description | Value
+    if len(normalized_headers) < 3:
+        return repaired
+
+    first_header = normalized_headers[0]
+
+    joined_headers = " | ".join(normalized_headers)
+
+    has_description = any(
+        phrase in joined_headers
+        for phrase in (
+            "description",
+            "definition",
+            "meaning",
+            "epidemiological meaning",
+        )
+    )
+
+    has_value = any(
+        phrase in joined_headers
+        for phrase in (
+            "value",
+            "values",
+            "best fit value",
+            "best-fit value",
+            "estimated value",
+            "estimated mean value",
+        )
+    )
+
+    # Only apply this rule to a generic leading "Name" header
+    # when the rest of the table clearly contains a description
+    # and numerical value column.
+    if not (
+        first_header == "name"
+        and has_description
+        and has_value
+    ):
+        return repaired
+
+    first_column = []
+
+    for row in rows[:25]:
+        if not row:
+            continue
+
+        value = clean_text(row[0])
+
+        if value:
+            first_column.append(value)
+
+    if not first_column:
+        return repaired
+
+    # Mathematical parameter identifiers are generally short
+    # and non-sentence-like.
+    symbol_like = 0
+
+    for value in first_column:
+        if (
+            len(value) <= 40
+            and len(value.split()) <= 3
+        ):
+            symbol_like += 1
+
+    ratio = symbol_like / len(first_column)
+
+    if ratio >= 0.7:
+        repaired["parameter_symbol"] = 0
+
+        # Description should remain the descriptive parameter name.
+        if len(normalized_headers) > 1:
+            repaired["parameter_name"] = 1
+
+    return repaired
 
 def extract_records(pmid, table_id, headers, rows, aliases) -> list[ParameterRecord]:
     if not rows:
@@ -594,7 +1679,41 @@ def extract_records(pmid, table_id, headers, rows, aliases) -> list[ParameterRec
 
     records: list[ParameterRecord] = []
 
+    # Merge HTML continuation rows before extracting records.
+    # Repair compound/spanning header structures before
+    # extracting rows. Example:
+    #
+    # Parameter Definitions [colspan=2]
+    # Estimated mean value
+    # Standard deviation
+    #
+    mappings = repair_compound_parameter_header_mapping(
+        headers,
+        rows,
+        mappings,
+    )
+
+    mappings = repair_blank_symbol_header_mapping(
+        headers,
+        rows,
+        mappings,
+    )
+
+    mappings = repair_name_as_symbol_header_mapping(
+        headers,
+        rows,
+        mappings,
+    )
+
+    rows = merge_parameter_continuation_rows(
+        rows,
+        mappings,
+    )
+
     for row in rows:
+        # Skip repeated/sub-header rows inside the same HTML table.
+        if is_internal_header_row(row):
+            continue
         symbol = get_cell(row, mappings.get("parameter_symbol"))
         name = get_cell(row, mappings.get("parameter_name"))
         raw_value = get_cell(row, mappings.get("value"))
@@ -678,6 +1797,11 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
     extracted_dir = output_dir / "extracted_tables"
     extracted_dir.mkdir(parents=True, exist_ok=True)
 
+    # Preserve complete raw tables that pass the classifier.
+    # These are later sent together to the LLM at PMID level.
+    selected_tables_dir = output_dir / "selected_tables"
+    selected_tables_dir.mkdir(parents=True, exist_ok=True)
+
     decisions: list[dict] = []
     observed_headers: list[dict] = []
     summaries: list[dict] = []
@@ -690,6 +1814,17 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
         soup = BeautifulSoup(html, "html.parser")
 
         paper_records: list[ParameterRecord] = []
+
+        # Complete classifier-approved tables for this PMID.
+        # These remain intact even if extract_records() produces
+        # zero simple parameter rows.
+        selected_tables: list[dict] = []
+
+        # Definition-only tables are collected separately first.
+        # We only attach them later when their symbols overlap with
+        # already-selected parameter value tables from the same PMID.
+        definition_candidates: list[dict] = []
+
         tables = soup.find_all("table")
 
         for table_number, table in enumerate(tables, start=1):
@@ -711,8 +1846,38 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
             records: list[ParameterRecord] = []
 
             if scores["is_parameter_table"]:
-                records = extract_records(pmid, table_id, headers, rows, references["column_aliases"])
+                # Preserve the entire original table for later
+                # PMID-level multi-table LLM structured extraction.
+                selected_tables.append({
+                    "pmid": pmid,
+                    "table_id": table_id,
+                    "caption": caption,
+                    "headers": headers,
+                    "rows": rows,
+                })
+
+                # Keep the existing simple deterministic extraction too.
+                records = extract_records(
+                    pmid,
+                    table_id,
+                    headers,
+                    rows,
+                    references["column_aliases"],
+                )
                 paper_records.extend(records)
+
+            elif is_parameter_definition_table(
+                caption,
+                headers,
+                rows,
+            ):
+                definition_candidates.append({
+                    "pmid": pmid,
+                    "table_id": table_id,
+                    "caption": caption,
+                    "headers": headers,
+                    "rows": rows,
+                })
 
             decisions.append(asdict(TableDecision(
                 pmid=pmid,
@@ -722,6 +1887,72 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
                 extracted_rows=len(records),
                 **scores,
             )))
+
+        # --------------------------------------------------------
+        # Attach useful definition-only companion tables.
+        #
+        # A definition table is preserved only when its first-column
+        # symbols overlap substantially with symbols from an already
+        # selected parameter table in the same PMID.
+        # --------------------------------------------------------
+        selected_symbol_sets = [
+            extract_first_column_symbols(
+                table.get("rows", [])
+            )
+            for table in selected_tables
+        ]
+
+        already_selected_ids = {
+            table.get("table_id")
+            for table in selected_tables
+        }
+
+        for candidate in definition_candidates:
+            candidate_id = candidate.get("table_id")
+
+            if candidate_id in already_selected_ids:
+                continue
+
+            candidate_symbols = extract_first_column_symbols(
+                candidate.get("rows", [])
+            )
+
+            best_overlap = max(
+                (
+                    symbol_overlap_fraction(
+                        candidate_symbols,
+                        selected_symbols,
+                    )
+                    for selected_symbols in selected_symbol_sets
+                ),
+                default=0.0,
+            )
+
+            # Require at least moderate symbol agreement.
+            # 0.40 allows useful partial definition tables while
+            # avoiding unrelated descriptive tables.
+            if best_overlap >= 0.40:
+                selected_tables.append(candidate)
+                already_selected_ids.add(candidate_id)
+
+        # Save all classifier-approved raw tables for this PMID.
+        # The structured-output LLM can see them together in one prompt.
+        selected_tables_path = (
+            selected_tables_dir
+            / f"{pmid}_selected_tables.json"
+        )
+
+        selected_tables_path.write_text(
+            json.dumps(
+                {
+                    "pmid": pmid,
+                    "tables": selected_tables,
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
         output_path = extracted_dir / f"{pmid}_parameters.csv"
         write_dict_rows(
@@ -742,7 +1973,22 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
     write_dict_rows(
         output_dir / "table_classification_results.csv",
         decisions,
-        list(TableDecision.__dataclass_fields__),
+        [
+            "pmid",
+            "table_id",
+            "is_parameter_table",
+            "is_sensitivity_table",
+            "final_score",
+            "extracted_rows",
+            "caption",
+            "headers",
+            "caption_similarity",
+            "header_similarity",
+            "keyword_score",
+            "numeric_density",
+            "symbol_density",
+            "negative_score",
+        ],
     )
     write_dict_rows(
         output_dir / "observed_headers.csv",
