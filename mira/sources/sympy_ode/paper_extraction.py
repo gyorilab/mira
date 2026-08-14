@@ -1,12 +1,13 @@
 import logging
+import pystow
 from typing import Tuple, Literal
 from pathlib import Path
 
-import pystow
 from indra.literature.pubmed_client import (
     get_pmid_to_package_url_mapping,
     pmid_to_pmc_download_url,
 )
+
 
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
@@ -115,4 +116,6 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     tm = execute_template_model_from_sympy_odes(ode_str=ode.final_ode_str,
                                                 attempt_grounding=True,
                                                 client=client)
+    del extractor_obj
+
     return tm, ode
