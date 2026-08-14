@@ -4,6 +4,8 @@ import click
 from dataclasses import dataclass
 from typing import Optional, Union, List, Dict
 
+import sys
+sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.metamodel import TemplateModel
 from mira.openai_utility import OpenAIClient
