@@ -3,6 +3,8 @@ import re
 import logging
 from typing import Optional, List, Union, Literal
 
+import sys
+sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
 from mira.openai_utility import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
