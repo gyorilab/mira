@@ -141,6 +141,34 @@ def extract_caption(table, table_number: int) -> str:
     return f"Table {table_number}"
 
 
+
+def infer_table_id(
+    caption: str,
+    fallback_number: int,
+) -> str:
+    """Use the paper's actual table number when it appears in the caption.
+
+    Marker HTML table order is not guaranteed to equal the table numbering
+    used in the original paper. For example, the second HTML <table> may
+    actually be captioned "Table 4".
+
+    The caption therefore takes precedence over HTML enumeration.
+    """
+
+    caption_text = clean_text(caption)
+
+    match = re.search(
+        r"\btable\s*([0-9]+[A-Za-z]?)\b",
+        caption_text,
+        flags=re.IGNORECASE,
+    )
+
+    if match:
+        return f"Table {match.group(1)}"
+
+    return f"Table {fallback_number}"
+
+
 def extract_table_matrix(table) -> list[list[str]]:
     matrix: list[list[str]] = []
     for tr in table.find_all("tr"):
@@ -422,6 +450,79 @@ def is_sensitivity_analysis_table(
     return sensitivity_caption and has_metric_header
 
 
+
+def is_fitted_result_table(
+    caption: str,
+    headers: list[str],
+) -> bool:
+    """Detect result tables containing fitted/estimated values by context.
+
+    These tables may contain real model parameters, but their numerical
+    values are results for countries, scenarios, datasets, repeated fits,
+    or other contexts rather than one baseline/default parameter set.
+    """
+
+    caption_text = normalized_text(caption)
+    header_text = normalized_text(" ".join(headers))
+
+    result_caption_phrases = (
+        "results of the parameter estimation",
+        "results of parameter estimation",
+        "parameter estimation results",
+        "estimated parameters for",
+        "parameter estimates for",
+        "fitted parameters for",
+        "best fits",
+        "best-fit",
+        "different data sets",
+        "different datasets",
+        "selected countries",
+        "different countries",
+        "country-specific",
+        "scenario-specific",
+    )
+
+    has_result_caption = any(
+        phrase in caption_text
+        for phrase in result_caption_phrases
+    )
+
+    context_headers = (
+        "country",
+        "countries",
+        "scenario",
+        "dataset",
+        "data set",
+        "case",
+        "group",
+        "fit",
+    )
+
+    has_context_header = any(
+        term in header_text
+        for term in context_headers
+    )
+
+    # Strong result wording is sufficient when the caption clearly says
+    # this is an estimation-results table.
+    if has_result_caption:
+        return True
+
+    # Also reject contextualized result tables when the caption indicates
+    # estimation/fitting and the headers identify multiple contexts.
+    estimation_wording = any(
+        term in caption_text
+        for term in (
+            "estimated",
+            "estimation",
+            "fitted",
+            "fit",
+        )
+    )
+
+    return estimation_wording and has_context_header
+
+
 def is_parameter_matrix_table(
     headers: list[str],
     rows: list[list[str]],
@@ -691,6 +792,13 @@ def classify_table(caption, headers, rows, references) -> dict:
         rows,
     )
 
+    # Reject fitted/estimated result tables that report values across
+    # countries, datasets, scenarios, or repeated fitting contexts.
+    fitted_result_table = is_fitted_result_table(
+        caption,
+        headers,
+    )
+
     final_score = (
         0.30 * caption_similarity
         + 0.25 * header_similarity
@@ -717,6 +825,8 @@ def classify_table(caption, headers, rows, references) -> dict:
             and not sensitivity_table
 
             and not parameter_matrix_table
+
+            and not fitted_result_table
 
         ),
 
@@ -1828,8 +1938,17 @@ def process_collection(input_dir: Path, output_dir: Path) -> None:
         tables = soup.find_all("table")
 
         for table_number, table in enumerate(tables, start=1):
-            table_id = f"Table {table_number}"
-            caption = extract_caption(table, table_number)
+            caption = extract_caption(
+                table,
+                table_number,
+            )
+
+            # Prefer the table number explicitly stated in the paper
+            # caption over the order of HTML <table> elements.
+            table_id = infer_table_id(
+                caption,
+                table_number,
+            )
             matrix = extract_table_matrix(table)
             headers, rows = separate_headers(table, matrix)
 

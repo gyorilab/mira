@@ -19,8 +19,9 @@ class ParameterRecord(BaseModel):
 
     parameter_symbol: str = Field(
         description=(
-            "Mathematical parameter symbol exactly as represented "
-            "in the supplied Marker table. Use '-' if unavailable."
+            "Parameter symbol from the supplied table, converted from "
+            "LaTeX notation to plain text. Example: \\beta_c -> beta_c. "
+            "Use '-' if no symbol is available."
         )
     )
 
@@ -33,8 +34,10 @@ class ParameterRecord(BaseModel):
 
     parameter_value: str = Field(
         description=(
-            "Parameter value. Preserve fractions, mathematical "
-            "expressions, and scientific notation. Use '-' if unavailable."
+            "Parameter value converted to plain-text notation. Preserve "
+            "fractions, expressions, scientific notation, and explicit "
+            "textual values such as Estimated, Fitted, Assumed, or Fixed. "
+            "Use '-' only when no value is supplied."
         )
     )
 
@@ -79,97 +82,162 @@ class ParameterExtraction(BaseModel):
 # ============================================================
 
 SYSTEM_PROMPT = """
-You are extracting structured mathematical model parameters from
-multiple tables selected from the SAME scientific paper.
+You are extracting parameters from an EPIDEMIOLOGICAL ORDINARY
+DIFFERENTIAL EQUATION (ODE) MODEL described in a scientific paper.
+
+You are given multiple classifier-selected tables from the SAME paper.
+The tables may contain complementary information about epidemiological
+ODE model parameters.
 
 The goal is to recover the BASELINE, DEFAULT, NOMINAL, INITIAL,
-ASSUMED, or main model parameter values used to define or initialize
-the mathematical model.
+ASSUMED, ESTIMATED, or main parameter specification used to define or
+initialize the epidemiological ODE model.
 
-Different supplied tables may contain complementary information.
+Different tables may contain complementary information.
 
 For example:
 - one table may contain parameter symbols and definitions;
-- another table may contain baseline/default values;
+- another table may contain baseline/default parameter values;
 - another table may contain ranges, units, or uncertainty.
 
-Use all supplied tables together, but extract only the baseline/default
-parameter set.
+Use all supplied tables together.
 
-BASELINE PARAMETER RULES:
+PARAMETER EXTRACTION RULES:
 
-1. Prefer tables explicitly describing:
+1. Extract quantities that function as parameters or initial conditions
+   of the epidemiological ODE model.
+
+2. Prefer tables explicitly describing:
    - baseline values
    - default values
    - parameter values
    - nominal values
    - initial parameter values
    - assumed values
+   - estimated parameters
    - model parameters
-   - values used in simulations
-
-2. Ignore tables whose values are:
-   - alternative fitted estimates
-   - best-fit results
-   - repeated fitted datasets
-   - scenario-specific estimates
-   - country-specific estimates
-   - sensitivity-analysis results
-   - PRCC/ePRCC coefficients
-   - correlation coefficients
-   - optimization outputs
-   - multiple competing fits
-   - simulation outcome values
+   - values used to initialize or simulate the ODE model
 
 3. If one table defines parameter symbols and names and another table
-   provides the baseline/default value, combine them using the same
+   provides their values, combine the information using the same
    parameter symbol.
 
-4. Match parameters primarily using the supplied parameter symbol.
+4. Match corresponding parameters primarily using the supplied
+   parameter symbol.
 
-5. Preserve parameter symbols exactly as supplied by Marker.
-   Do NOT normalize, rewrite, translate, correct, or redesign them.
+5. CONVERT LATEX NOTATION TO PLAIN TEXT in the structured output.
+
+   Examples:
+   - \\beta       -> beta
+   - \\beta_c     -> beta_c
+   - \\sigma      -> sigma
+   - \\rho_E      -> rho_E
+   - \\frac{1}{7} -> 1/7
+   - 10^{-5}        -> 10^-5
+
+   Do not return LaTeX commands, backslashes, dollar signs, or
+   unnecessary LaTeX braces in parameter_symbol, parameter_value,
+   parameter_unit, uncertainty, or parameter_name.
+
+   Preserve the scientific meaning of the original notation while
+   converting only its representation to readable plain text.
 
 6. parameter_name must contain only the descriptive name, definition,
    meaning, or interpretation of the parameter.
 
-7. NEVER copy the mathematical symbol itself into parameter_name.
-   If no descriptive parameter name is supplied, return "-".
+7. NEVER copy the parameter symbol itself into parameter_name.
+   If no descriptive name or definition is supplied, return "-".
 
-8. Extract only ONE baseline/default record per parameter symbol unless
-   the source explicitly defines multiple baseline values as distinct
-   model parameters.
+8. IMPORTANT: textual parameter specifications are VALID VALUES.
 
-9. Do not arbitrarily choose among multiple fitted estimates. If only
-   fitted/alternative estimates are available and no baseline/default
-   value is supplied, do not use those fitted estimates as the baseline.
+   If the source table explicitly gives a parameter value as:
+   - Estimated
+   - Fitted
+   - Assumed
+   - Calculated
+   - Calibrated
+   - Fixed
+   - Derived
+   or another explicit textual specification,
 
-10. If a baseline value contains an attached unit such as "0.5/day",
-    separate the value into parameter_value and the associated unit into
-    parameter_unit when this can be done directly from the source text.
+   preserve that exact textual specification in parameter_value.
 
-11. A Range column, bounds, confidence interval, standard deviation, or
-    other uncertainty associated with the baseline value should be
-    returned as uncertainty.
+   Do NOT convert "Estimated", "Fitted", "Assumed", or similar source
+   values to "-" merely because they are not numerical.
 
-12. Preserve fractions, mathematical expressions, scientific notation,
-    ranges, and numerical values exactly when possible.
+9. A parameter is considered to have a value whenever the source
+   explicitly provides either a numerical/mathematical value OR an
+   explicit textual value such as "Estimated" or "Fitted".
 
-13. Do not invent, calculate, infer, average, or guess missing values.
+10. Extract only ONE baseline/default parameter record per symbol when
+    a baseline/default specification is available.
 
-14. definition_table_id must identify the table that supplied the
-    descriptive parameter definition/name.
+11. Do not replace a baseline/default specification with alternative
+    fitted estimates from later result tables.
 
-15. value_table_id must identify the table that supplied the chosen
-    baseline/default value or uncertainty.
+12. Ignore values that are clearly:
+    - alternative fitted estimates when a baseline specification exists
+    - repeated fitted datasets
+    - scenario-specific estimates
+    - country-specific result estimates
+    - sensitivity-analysis results
+    - PRCC/ePRCC coefficients
+    - correlation coefficients
+    - optimization outputs
+    - simulation outcome values
 
-16. If definition and baseline value come from the same table, both
-    provenance fields may contain the same table ID.
+13. If a parameter table's baseline value itself is explicitly written
+    as "Estimated" or "Fitted", KEEP that word as parameter_value.
+    Do not search later result tables for a numerical replacement unless
+    the supplied tables clearly identify that number as the baseline value.
 
-17. OMIT a parameter completely when BOTH parameter_value AND uncertainty
-    are unavailable ("-").
+14. If a value contains an attached unit such as "0.5/day", separate
+    the value and unit when this can be done directly without guessing.
 
-18. Return only information supported by the supplied tables.
+15. A Range column, confidence interval, credible interval, bounds,
+    standard deviation, or similar information should be returned as
+    uncertainty.
+
+16. Do not invent, calculate, average, infer, or guess missing
+    parameter information.
+
+17. definition_table_id must be the TABLE_ID of the supplied table that
+    actually provides the descriptive parameter definition/name.
+
+18. value_table_id must be the TABLE_ID of the supplied table that
+    actually provides the chosen parameter value or uncertainty.
+
+19. Never infer table provenance from the apparent content or expected
+    numbering. Copy the TABLE_ID exactly from the supplied table block.
+
+20. OMIT a parameter only when BOTH parameter_value AND uncertainty
+    are genuinely unavailable ("-").
+
+21. Treat tables whose captions describe "results of parameter
+    estimation", "parameter estimates for selected countries",
+    "fitted parameters for different datasets", "best fits", or similar
+    result tables as CONTEXT-SPECIFIC RESULT TABLES, not as the
+    baseline/default parameter set.
+
+22. Do NOT create one structured parameter record per country, dataset,
+    fit, scenario, group, or experimental condition for the same
+    parameter symbol.
+
+23. A table containing several numerical estimates for the same
+    parameter across countries or fitting contexts must NOT be used as
+    value_table_id for the baseline/default record.
+
+24. If a definition table supplies a symbol and its meaning but no valid
+    baseline/default value exists in the supplied tables, OMIT that
+    parameter. Do not substitute country-specific fitted results.
+
+25. The word "Estimated" or "Fitted" is still a valid textual
+    parameter_value ONLY when that exact word appears in a baseline,
+    default, assumed, nominal, or main parameter table as the parameter's
+    stated value. This rule does NOT make numerical estimation-result
+    tables eligible as baseline sources.
+
+26. Return only information supported by the supplied tables.
 """
 
 
