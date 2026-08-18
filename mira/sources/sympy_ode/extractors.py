@@ -2,21 +2,16 @@ import gc
 import json
 import logging
 import tarfile
-
-from indra.literature.pubmed_client import download_package_for_pmid
-
-import sys
-sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
-
 import tempfile
 import subprocess
+
 from pathlib import Path
-
 from pypdf import PdfWriter
-
+from indra.literature.pubmed_client import download_package_for_pmid
 from .agent_pipeline import run_multi_agent_pipeline
 
 logger = logging.getLogger(__name__)
+logging.getLogger("pypdf").setLevel(logging.ERROR)
 
 
 def get_optimal_backend() -> str:
@@ -144,6 +139,8 @@ class PdfExtractor(Extractor):
         self.ode_extraction_method = ode_extraction_method
         self.pdf_file = self._ensure_pdf()
         self._combined_pdf_file = None
+        self._supplementary_pdf_file = None
+        self._supplementary_pdf_searched = False
 
     def _ensure_pdf(self):
         """Return the path to the paper's PDF, downloading it if needed."""
@@ -173,67 +170,80 @@ class PdfExtractor(Extractor):
             )
         return pdf_file
 
+    def _get_supplementary_pdf_file(self):
+        """Return a single PDF combining the paper's supplementary
+        PDF/DOCX files, creating it if needed.
+
+        Returns
+        -------
+        :
+            Path to the combined supplementary PDF, or ``None`` if the paper
+            has no supplementary files that could be merged.
+        """
+        if not self._supplementary_pdf_searched:
+            self._supplementary_pdf_file = self._combine_supplementary_files()
+            self._supplementary_pdf_searched = True
+        return self._supplementary_pdf_file
+
     def _combine_supplementary_files(self):
         """Merge any extra PDF/DOCX files in the paper folder into one PDF.
-
-        Looks in the directory that ``_ensure_pdf`` already extracted into,
-        finds every ``.pdf`` and ``.docx`` file whose stem does not match
-        the main ``.nxml``-derived PDF (e.g. supplementary materials,
-        appendices), converts any ``.docx`` files to PDF, and merges
-        everything into a single combined PDF next to the main PDF.
+        The main paper itself is excluded.
 
         Returns
         -------
         :
             Path to the combined PDF, or ``None`` if there were no
-            supplementary files to combine.
+            supplementary files, or none of them could be merged.
         """
         extracted_subdirectory = self.paper_base / self.pmc
         main_stem = self.pdf_file.stem
+        combined_path = (
+            extracted_subdirectory / f"{main_stem}_combined_supplementary.pdf"
+        )
 
-        candidates = [
+        candidates = sorted(
             f for f in extracted_subdirectory.glob("*")
-            if f.suffix.lower() in (".pdf", ".docx") and f.stem != main_stem
-        ]
+            if f.suffix.lower() in (".pdf", ".docx")
+            and f.stem != main_stem
+            and f != combined_path
+        )
 
         if not candidates:
             logger.info("No supplementary PDF/DOCX files found to combine")
             return None
 
-        writer = PdfWriter()
-        converted_tmp_dir = None
+        with tempfile.TemporaryDirectory(prefix="docx_to_pdf_") as tmp_dir:
+            writer = PdfWriter()
+            merged = 0
 
-        for f in sorted(candidates):
-            if f.suffix.lower() == ".docx":
-                if converted_tmp_dir is None:
-                    converted_tmp_dir = Path(
-                        tempfile.mkdtemp(prefix="docx_to_pdf_")
-                    )
-                pdf_path = self._convert_docx_to_pdf(f, converted_tmp_dir)
+            for f in candidates:
+                if f.suffix.lower() == ".docx":
+                    pdf_path = self._convert_docx_to_pdf(f, Path(tmp_dir))
+                else:
+                    pdf_path = f
                 if pdf_path is None:
                     continue
-            else:
-                pdf_path = f
+                try:
+                    writer.append(str(pdf_path))
+                    merged += 1
+                except Exception:
+                    logger.exception(
+                        f"Failed to append {pdf_path} to combined PDF"
+                    )
 
-            try:
-                writer.append(str(pdf_path))
-            except Exception:
-                logger.exception(f"Failed to append {pdf_path} to combined PDF")
+            if not writer.pages:
+                writer.close()
+                logger.warning(
+                    "Supplementary files were found but none could be merged"
+                )
+                return None
 
-        if len(writer.pages) == 0:
-            logger.warning(
-                "Supplementary files were found but none could be merged"
-            )
-            return None
-
-        combined_path = extracted_subdirectory / f"{main_stem}_combined_supplementary.pdf"
-        with open(combined_path, "wb") as out:
-            writer.write(out)
-        writer.close()
+            with open(combined_path, "wb") as out:
+                writer.write(out)
+            writer.close()
 
         logger.info(
-            f"Combined {len(candidates)} supplementary file(s) into "
-            f"{combined_path}"
+            f"Combined {merged} supplementary file(s) into {combined_path}"
         )
         return combined_path
 
@@ -241,7 +251,10 @@ class PdfExtractor(Extractor):
     def _convert_docx_to_pdf(docx_path, out_dir):
         """Convert a single .docx file to PDF using headless LibreOffice.
 
-        Returns the path to the converted PDF, or ``None`` on failure.
+        Returns
+        -------
+        :
+            The path to the converted PDF, or ``None`` on failure.
         """
         try:
             subprocess.run(
@@ -260,45 +273,16 @@ class PdfExtractor(Extractor):
         converted = out_dir / f"{docx_path.stem}.pdf"
         return converted if converted.exists() else None
 
-    def _get_combined_pdf_file(self):
-        """Return a PDF combining the main paper with any supplementary
-        PDF/DOCX files found in the paper's folder, creating it if needed.
-
-        Returns
-        -------
-        :
-            Path to the combined PDF, or the original ``self.pdf_file`` if
-            there was nothing supplementary to add.
-        """
-        if self._combined_pdf_file is not None:
-            return self._combined_pdf_file
-
-        supplementary_path = self._combine_supplementary_files()
-        if supplementary_path is None:
-            self._combined_pdf_file = self.pdf_file
-            return self._combined_pdf_file
-
-        combined_path = self.pdf_file.with_name(
-            f"{self.pdf_file.stem}_with_supplementary.pdf"
-        )
-        writer = PdfWriter()
-        writer.append(str(self.pdf_file))
-        writer.append(str(supplementary_path))
-        with open(combined_path, "wb") as out:
-            writer.write(out)
-        writer.close()
-
-        self._combined_pdf_file = combined_path
-        return self._combined_pdf_file
-
     def _extract_with_supplementary(self, client, ode):
-        combined_pdf = self._get_combined_pdf_file()
-        if combined_pdf == self.pdf_file:
+        """Retry extraction using the paper's supplementary PDF/DOCX files."""
+
+        supplementary_pdf = self._get_supplementary_pdf_file()
+        if supplementary_pdf is None:
             # No supplementary files existed, nothing new to try.
             return ode
 
         original_pdf_file = self.pdf_file
-        self.pdf_file = combined_pdf
+        self.pdf_file = supplementary_pdf
         try:
             new_ode = run_multi_agent_pipeline(
                 client=client, **self.get_pipeline_inputs()
@@ -309,7 +293,11 @@ class PdfExtractor(Extractor):
         # Only take the retry's result if it actually found something;
         # otherwise keep the original failed ode for consistent downstream
         # handling.
-        if new_ode is not None and new_ode.extraction.ode_str is not None:
+        if (
+            new_ode is not None
+            and new_ode.extraction.ode_str is not None
+            and new_ode.extraction.concepts
+        ):
             return new_ode
         return ode
 

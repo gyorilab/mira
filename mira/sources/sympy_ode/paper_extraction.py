@@ -8,8 +8,6 @@ from indra.literature.pubmed_client import (
     get_pmid_to_package_url_mapping,
     pmid_to_pmc_download_url,
 )
-import sys
-sys.path.insert(0, "/Users/mohbe.r/Documents/CODE/NEU/mira")
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
