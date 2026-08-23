@@ -20,6 +20,7 @@ from mira.sources.sympy_ode.extractors import (
     ReductoExtractor,
     GlmOcrExtractor,
     NougatExtractor,
+    GlmOcrHfExtractor
 )
 from mira.sources.sympy_ode.agent_pipeline import (
     execute_template_model_from_sympy_odes,
@@ -107,7 +108,6 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         extractor_obj = ChandraExtractor(pmid, pmc, paper_base,
                                      pmid_to_download_mapping,
                                      ode_extraction_method)
-
     elif extractor == "paddleocr":
         extractor_obj = PaddleOCRExtractor(pmid, pmc, paper_base,
                                             pmid_to_download_mapping,
@@ -117,6 +117,7 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         extractor_obj = LlamaParseExtractor(pmid, pmc, paper_base,
                                         pmid_to_download_mapping,
                                         ode_extraction_method)
+        
     elif extractor == "reducto":
         extractor_obj = ReductoExtractor(pmid, pmc, paper_base,
                                          pmid_to_download_mapping,
@@ -124,11 +125,17 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     elif extractor == "glmocr":
         extractor_obj = GlmOcrExtractor(pmid, pmc, paper_base,
                                          pmid_to_download_mapping,
-                                         ode_extraction_method)
+                                         ode_extraction_method) 
     elif extractor == "nougat":
         extractor_obj = NougatExtractor(pmid, pmc, paper_base, 
                                         pmid_to_download_mapping,
                                         ode_extraction_method)
+
+    elif extractor == "glmocr_hf":
+        extractor_obj = GlmOcrHfExtractor(pmid, pmc, paper_base, 
+                                          pmid_to_download_mapping, 
+                                          ode_extraction_method)
+    
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
 
