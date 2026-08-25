@@ -112,7 +112,7 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     ode = extractor_obj.extract(client=client)
 
-    tm = execute_template_model_from_sympy_odes(ode_str=ode.final_ode_str,
+    tm = execute_template_model_from_sympy_odes(ode=ode,
                                                 attempt_grounding=True,
                                                 client=client)
     del extractor_obj

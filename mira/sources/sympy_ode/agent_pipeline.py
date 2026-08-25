@@ -1,7 +1,7 @@
 import logging
 import textwrap
 import click
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Union, List, Dict
 
 from mira.sources.sympy_ode import template_model_from_sympy_odes
@@ -17,8 +17,11 @@ from mira.sources.sympy_ode.llm_util import (
     test_ode_model,
     CodeExecutionError
 )
+from mira.sources.sympy_ode.update_ode import OdeChange, describe_changes
 from mira.sources.sympy_ode.constants import (EXECUTION_ERROR_PROMPT,
-                                              ODE_MARKDOWN_PROMPT)
+                                              ODE_MARKDOWN_PROMPT,
+                                              ODE_CHANGE_PROMPT,
+                                              FEEDBACK_PROMPT)
 from mira.metamodel import Concept
 
 
@@ -62,6 +65,61 @@ class CorrectionResult(PhaseResult):
     ode_str: Optional[str] = None
     attempts: int = 0
 
+@dataclass
+class OdeCorrectionResult:
+    """Result of applying recorded model changes to the ODE snippet.
+    
+    Attributes
+    ----------
+    status :
+        Either "complete" or "failed".
+    error :
+        Error message if the phase failed, otherwise None.
+    ode_str :
+        The corrected ODE string after applying the changes.
+    odes :
+        The corrected ODEs after applying the changes.
+    changes :   
+        List of OdeChange objects representing the changes 
+        applied to the ODEs.
+    attempts :
+        Number of attempts made to apply the changes.
+    """
+ 
+    status: str = "complete"
+    error: Optional[str] = None
+    ode_str: Optional[str] = None
+    odes: Optional[list] = None
+    changes: List[OdeChange] = field(default_factory=list)
+    attempts: int = 0
+ 
+    @property
+    def success(self) -> bool:
+        return self.status == "complete"
+
+
+@dataclass
+class OdeCheck:
+    """Outcome of validating one candidate rewrite.
+    
+    Attributes
+    ----------
+    ok :
+        True if the candidate passed all checks, False otherwise.
+    error :
+        If ``ok`` is False, a message describing the failure. Otherwise None.
+    odes :
+        If ``ok`` is True, the parsed ODEs from the candidate. Otherwise None   
+    remaining_changes :
+        If ``ok`` is False, the list of changes that were not satisfied by 
+        the candidate. Otherwise an empty list.
+    """
+ 
+    ok: bool
+    error: Optional[str] = None
+    odes: Optional[list] = None
+    remaining_changes: List[OdeChange] = field(default_factory=list)
+
 
 @dataclass
 class GroundingResult(PhaseResult):
@@ -79,6 +137,8 @@ class PipelineResult:
         Result of Phase 1 (ODE extraction).
     correction :
         Result of Phase 2 (execution error correction), if run.
+    ode_correction :
+        Result of applying recorded model changes to the ODE snippet, if any
     grounding :
         Result of Phase 3 (concept grounding), if run.
     extraction_file :
@@ -86,6 +146,7 @@ class PipelineResult:
     """
     extraction: Optional[ExtractionResult] = None
     correction: Optional[CorrectionResult] = None
+    ode_correction: Optional[OdeCorrectionResult] = None
     grounding: Optional[GroundingResult] = None
     extraction_file: Optional[str] = None
 
@@ -96,6 +157,8 @@ class PipelineResult:
         Prefers the corrected ODE string if Phase 2 succeeded, otherwise
         falls back to the extracted ODE string.
         """
+        if self.ode_correction is not None and self.ode_correction.success:
+            return self.ode_correction.ode_str
         if self.correction is not None and self.correction.success:
             return self.correction.ode_str
         if self.extraction is not None and self.extraction.success:
@@ -347,9 +410,103 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
                             attempts=max_attempts,
                             error="Could not fix MIRA model errors")
 
+def check_candidate(candidate_str: str):
+    """Validate a candidate rewrite of the ODE snippet.
+ 
+    Parameters
+    ----------
+    candidate_str :
+        The rewritten snippet produced by the LLM.
+ 
+    Returns
+    -------
+    : OdeCheck
+        ``ok`` is True only if every check passed. Otherwise ``error`` holds a
+        message suitable for feeding back to the LLM.
+    """
+    success, error = test_execution(candidate_str)
+    if not success:
+        return OdeCheck(False, "the snippet does not execute: %s" % error)
+ 
+    local_dict = {}
+    try:
+        exec(candidate_str, {"__builtins__": __builtins__}, local_dict)
+    except Exception as e:
+        logger.info("  ERROR executing candidate snippet: %s", e)
+        return OdeCheck(False, "the snippet raised %s" % e)
+ 
+    odes = local_dict.get("odes")
+    if odes is None:
+        return OdeCheck(
+            False, "the snippet does not define a variable named `odes`")
+ 
+    return OdeCheck(True, odes=odes)
+
+
+
+def apply_model_changes(ode_str, odes, changes, client, max_attempts=5):
+    """Rewrite ``ode_str`` to reflect the changes MIRA applied to the model.
+ 
+    Parameters
+    ----------
+    ode_str :
+        The snippet the ODEs were parsed from.
+    odes :
+        The parsed ODEs, before coercion.
+    changes :
+        The changes recorded while building the TemplateModel.
+    client :
+        The OpenAI client.
+    max_attempts :
+        How many rewrites to try before giving up.
+ 
+    Returns
+    -------
+    : OdeCorrectionResult
+        On success, ``ode_str`` and ``odes`` are the corrected versions. On
+        failure the originals are returned with ``status='failed'``: a stale
+        snippet is better than a silently wrong one.
+    """
+    if not changes:
+        return OdeCorrectionResult(ode_str=ode_str, odes=odes)
+ 
+    logger.info("Applying %d recorded model change(s) to the ODE string",
+                len(changes))
+    description = describe_changes(changes)
+    feedback = ""
+    error = None
+ 
+    for attempt in range(max_attempts):
+        prompt = ODE_CHANGE_PROMPT.substitute(
+            changes=description,
+            ode_str=ode_str,
+            feedback=feedback,
+            attempt=attempt + 1,
+            max_attempts=max_attempts,
+        ).strip()
+        response = client.run_chat_completion(prompt)
+        candidate = clean_response(response.message.content)
+ 
+        check = check_candidate(candidate)
+        if check.ok:
+            logger.info("ODE string updated to match the model after %d "
+                        "attempt(s)", attempt + 1)
+            return OdeCorrectionResult(ode_str=candidate, odes=check.odes,
+                                          changes=changes,
+                                          attempts=attempt + 1)
+ 
+        error = check.error
+        logger.info("  Attempt %d rejected: %s", attempt + 1, error)
+        feedback = FEEDBACK_PROMPT.substitute(error=error, previous=candidate)
+ 
+    return OdeCorrectionResult(status="failed", error=error,
+                                  ode_str=ode_str, odes=odes, changes=changes,
+                                  attempts=max_attempts)
+ 
+
 
 def execute_template_model_from_sympy_odes(
-    ode_str: str,
+    ode: PipelineResult,
     attempt_grounding: bool,
     client: OpenAIClient,
 ) -> TemplateModel:
@@ -357,8 +514,9 @@ def execute_template_model_from_sympy_odes(
 
     Parameters
     ----------
-    ode_str :
-        The code snippet defining the ODEs
+    ode :
+        The PipelineResult containing the final ODE string and any corrections
+        applied during the pipeline.
     attempt_grounding :
         Whether to attempt grounding the concepts in the ODEs. This will prompt the
         OpenAI chat completion to create concepts data to provide grounding for the
@@ -371,6 +529,7 @@ def execute_template_model_from_sympy_odes(
     :
         The TemplateModel created from the sympy ODEs.
     """
+    ode_str = ode.final_ode_str
     if ode_str is None:
         logger.info("ODE string is None - cannot create TemplateModel")
         return None
@@ -405,6 +564,19 @@ def execute_template_model_from_sympy_odes(
         local_dict = locals()
         exec(ode_str, globals(), local_dict)
         odes = local_dict.get("odes")
+
+    # Part 3: Find out what MIRA had to change to build a valid model
+    # Propogate the changes back into the ode string.
+    changes: List[OdeChange] = []
+    template_model_from_sympy_odes(odes, changes=changes)
+    if changes:
+        ode.ode_correction = apply_model_changes(ode_str, odes, changes, client)
+        ode_str = ode.ode_correction.ode_str
+        odes = ode.ode_correction.odes
+
+        if not ode.ode_correction.success:
+            raise CodeExecutionError("MIRA model parameter correction "
+                                                f"failed: {result.error}")
 
     if attempt_grounding:
         concept_data = get_concepts_from_odes(ode_str, client)
