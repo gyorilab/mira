@@ -37,6 +37,21 @@ logger = logging.getLogger(__name__)
 BASE = pystow.module("mira", "paper_extraction")
 
 
+EXTRACTORS = {
+    'marker': MarkerExtractor,
+    'mineru': MineruExtractor,
+    'pix2text': Pix2TextExtractor,
+    'docling': DoclingExtractor,
+    'chandra': ChandraExtractor,
+    'paddleocr': PaddleOCRExtractor,
+    'llamaparse': LlamaParseExtractor,
+    'reducto': ReductoExtractor,
+    'glmocr': GlmOcrExtractor,
+    'nougat': NougatExtractor,
+    'glmocr_hf': GlmOcrHfExtractor
+}
+
+
 def get_pmid_to_pmc_mapping_path() -> Path:
     return BASE.ensure(url=pmid_to_pmc_download_url)
 
@@ -85,57 +100,13 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
 
-    if extractor == "mineru":
-        extractor_obj = MineruExtractor(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    elif extractor == "marker":
-        extractor_obj = MarkerExtractor(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    elif extractor == "xml":
+    if extractor == 'xml':
         extractor_obj = XmlExtractor(pmid, pmc)
-
-    elif extractor == "pix2text":
-        extractor_obj = Pix2TextExtractor(pmid, pmc, paper_base,
-                                          pmid_to_download_mapping,
-                                          ode_extraction_method)
-    elif extractor == "docling":
-        extractor_obj = DoclingExtractor(pmid, pmc, paper_base,
-                                         pmid_to_download_mapping,
-                                         ode_extraction_method)
-    elif extractor == "chandra":
-        extractor_obj = ChandraExtractor(pmid, pmc, paper_base,
-                                     pmid_to_download_mapping,
-                                     ode_extraction_method)
-    elif extractor == "paddleocr":
-        extractor_obj = PaddleOCRExtractor(pmid, pmc, paper_base,
-                                            pmid_to_download_mapping,
-                                            ode_extraction_method)
-        
-    elif extractor == "llamaparse":
-        extractor_obj = LlamaParseExtractor(pmid, pmc, paper_base,
+    elif extractor in EXTRACTORS:
+        extractor_class = EXTRACTORS[extractor]
+        extractor_obj = extractor_class(pmid, pmc, paper_base,
                                         pmid_to_download_mapping,
                                         ode_extraction_method)
-        
-    elif extractor == "reducto":
-        extractor_obj = ReductoExtractor(pmid, pmc, paper_base,
-                                         pmid_to_download_mapping,
-                                         ode_extraction_method)
-    elif extractor == "glmocr":
-        extractor_obj = GlmOcrExtractor(pmid, pmc, paper_base,
-                                         pmid_to_download_mapping,
-                                         ode_extraction_method) 
-    elif extractor == "nougat":
-        extractor_obj = NougatExtractor(pmid, pmc, paper_base, 
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-
-    elif extractor == "glmocr_hf":
-        extractor_obj = GlmOcrHfExtractor(pmid, pmc, paper_base, 
-                                          pmid_to_download_mapping, 
-                                          ode_extraction_method)
-    
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
 
