@@ -12,6 +12,15 @@ from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
     XmlExtractor,
+    Pix2TextExtractor,
+    DoclingExtractor,
+    ChandraExtractor,
+    PaddleOCRExtractor,
+    LlamaParseExtractor,
+    ReductoExtractor,
+    GlmOcrExtractor,
+    NougatExtractor,
+    GlmOcrHfExtractor
 )
 from mira.sources.sympy_ode.agent_pipeline import (
     execute_template_model_from_sympy_odes,
@@ -26,6 +35,21 @@ ExtractionMethod = Literal["text", "image"]
 logger = logging.getLogger(__name__)
 
 BASE = pystow.module("mira", "paper_extraction")
+
+
+EXTRACTORS = {
+    'marker': MarkerExtractor,
+    'mineru': MineruExtractor,
+    'pix2text': Pix2TextExtractor,
+    'docling': DoclingExtractor,
+    'chandra': ChandraExtractor,
+    'paddleocr': PaddleOCRExtractor,
+    'llamaparse': LlamaParseExtractor,
+    'reducto': ReductoExtractor,
+    'glmocr': GlmOcrExtractor,
+    'nougat': NougatExtractor,
+    'glmocr_hf': GlmOcrHfExtractor
+}
 
 
 def get_pmid_to_pmc_mapping_path() -> Path:
@@ -76,16 +100,13 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
 
-    if extractor == "mineru":
-        extractor_obj = MineruExtractor(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    elif extractor == "marker":
-        extractor_obj = MarkerExtractor(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    elif extractor == "xml":
+    if extractor == 'xml':
         extractor_obj = XmlExtractor(pmid, pmc)
+    elif extractor in EXTRACTORS:
+        extractor_class = EXTRACTORS[extractor]
+        extractor_obj = extractor_class(pmid, pmc, paper_base,
+                                        pmid_to_download_mapping,
+                                        ode_extraction_method)
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
 
