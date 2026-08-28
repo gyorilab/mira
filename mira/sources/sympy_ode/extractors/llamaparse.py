@@ -6,13 +6,21 @@ logger = logging.getLogger(__name__)
 
 
 def compute_llamaparse_cost(num_pages, credits_per_page=3, credits_per_1000_usd=1.25):
-    """Compute estimated LlamaParse cost for one paper.
-    num_pages :
-        Number of pages in the PDF.
-    credits_per_page :
-        Credits per page for the tier used.
-    credits_per_1000_usd :
-        Dollars per 1000 credits ($1.25).
+    """Compute the estimated LlamaParse cost for one paper.
+
+    Parameters
+    ----------
+    num_pages : int
+        The number of pages in the PDF.
+    credits_per_page : int
+        The number of credits per page for the tier used.
+    credits_per_1000_usd : float
+        The price in USD per 1000 credits.
+
+    Returns
+    -------
+    dict
+        A dict with the ``credits`` used and the ``cost_usd`` for this paper.
     """
     credits = num_pages * credits_per_page
     cost_usd = (credits / 1000) * credits_per_1000_usd
@@ -21,6 +29,7 @@ def compute_llamaparse_cost(num_pages, credits_per_page=3, credits_per_1000_usd=
 
 class LlamaParseExtractor(PdfExtractor):
     """Extract equations from a PDF using LlamaParse.
+
     Text-mode only.
 
     Setup:

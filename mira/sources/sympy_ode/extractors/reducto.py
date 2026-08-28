@@ -9,8 +9,25 @@ logger = logging.getLogger(__name__)
 
 
 def compute_reducto_cost(parse_result, extract_result, credit_rate_usd=0.015):
-    """Compute real Reducto cost for one paper, using actual usage returned
-    by the API for this specific call."""
+    """Compute the real Reducto cost for one paper from actual usage.
+
+    Uses the actual usage returned by the API for this specific call.
+
+    Parameters
+    ----------
+    parse_result :
+        The Reducto parse result carrying the credit usage of the parse call.
+    extract_result :
+        The Reducto extract result carrying the credit usage of the extract
+        call.
+    credit_rate_usd : float
+        The price in USD per credit.
+
+    Returns
+    -------
+    dict
+        A dict with the total ``credits`` used and the ``cost_usd``.
+    """
     parse_credits = parse_result.usage.credits
     extract_credits = extract_result.usage.credits
     total_credits = parse_credits + extract_credits

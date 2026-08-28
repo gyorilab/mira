@@ -7,12 +7,17 @@ logger = logging.getLogger(__name__)
 
 
 def get_optimal_backend() -> str:
-    """
-    Automatically select backend based on available VRAM.
+    """Automatically select the MinerU backend based on available VRAM.
+
     Returns 'vlm-vllm-engine' for 8GB+, 'pipeline' otherwise. The vllm engine
     has higher accuracy and is faster.
     Check the "Local Deployment" section of the README.md here:
     https://github.com/opendatalab/MinerU/blob/master/README.md.
+
+    Returns
+    -------
+    str
+        The name of the selected backend.
     """
     import torch
 

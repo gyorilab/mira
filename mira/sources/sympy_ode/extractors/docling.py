@@ -7,8 +7,8 @@ logger = logging.getLogger(__name__)
 
 
 class DoclingExtractor(PdfExtractor):
-    """Extract equations from a PDF using the Docling
-    pipeline.
+    """Extract equations from a PDF using the Docling pipeline.
+
     Text-mode only.
 
     Install: pip install docling

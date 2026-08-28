@@ -7,9 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class GlmOcrHfExtractor(PdfExtractor):
-    """
-    Extract equations from a PDF using GLM-OCR via the official SDK.
-    """
+    """Extract equations from a PDF using GLM-OCR via the official SDK."""
 
     supported_methods = {"text"}
 

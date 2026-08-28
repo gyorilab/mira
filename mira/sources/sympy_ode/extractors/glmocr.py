@@ -7,8 +7,21 @@ logger = logging.getLogger(__name__)
 
 
 def compute_glm_ocr_cost(result, rate_per_million=0.03):
-    """Compute real GLM-OCR cost for one paper, using actual token usage
-    returned by the API for this specific call.
+    """Compute the real GLM-OCR cost for one paper from actual token usage.
+
+    Uses the actual token usage returned by the API for this specific call.
+
+    Parameters
+    ----------
+    result :
+        The GLM-OCR parse result carrying the token usage of this call.
+    rate_per_million : float
+        The price in USD per one million tokens.
+
+    Returns
+    -------
+    dict
+        A dict with the ``total_tokens`` and the ``cost_usd`` for this call.
     """
     usage = getattr(result, "_usage", None) or {}
     input_tokens = usage.get("prompt_tokens", 0)

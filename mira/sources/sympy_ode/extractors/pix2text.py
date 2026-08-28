@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 class Pix2TextExtractor(PdfExtractor):
     """Extract equations from a PDF using Pix2Text.
+
     Text mode only.
     Uses Math Formula Detection (MFD) and Math Formula Recognition (MFR)
     to extract LaTeX from scientific PDFs.
