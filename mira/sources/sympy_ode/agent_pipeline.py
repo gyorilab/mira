@@ -174,8 +174,6 @@ def fix_execution_errors(ode_str, client, error, max_attempts=10):
     logger.info("PHASE 2: Execution Error Correction")
 
     for attempt in range(max_attempts):
-        logger.info(f"  Attempt {attempt + 1} to fix execution error {error}...")
-        logger.info(f"  Current ODE string : \n{ode_str} \n")
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
                                               max_attempts=max_attempts,
@@ -187,6 +185,7 @@ def fix_execution_errors(ode_str, client, error, max_attempts=10):
         ode_str = clean_response(response.message.content)
         success, error = test_execution(ode_str)
         if success:
+            logger.info(f"  Successfully fixed execution error after {attempt + 1} attempts")
             return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
 
     # Failed after all attempts
@@ -316,7 +315,6 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
     """
     logger.info("PART 2: MIRA Model Error Correction")
     for attempt in range(max_attempts):
-        logger.info(f"  Attempt {attempt + 1} to fix MIRA model error: {error}...")
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(
                 attempt=attempt + 1,
@@ -340,6 +338,7 @@ def fix_mira_model_errors(ode_str, client, error, max_attempts=10):
 
         mira_success, error = test_ode_model(odes)
         if mira_success:
+            logger.info(f"  Successfully fixed MIRA model error after {attempt + 1} attempts")
             return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
 
     # Failed after all attempts

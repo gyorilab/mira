@@ -63,6 +63,7 @@ class OdeModel:
                             sym_str == model.template_model.time.name:
                         rate = rate.subs(symbol, 't')
                     else:
+                        # print(f"Unknown symbol {sym_str} in rate law for transition {transition.key}")
                         assert False
             # Calculate the rate based on mass-action kinetics
             else:
@@ -95,6 +96,7 @@ class OdeModel:
                         sym_str == model.template_model.time.name:
                     expr = expr.subs(symbol, 't')
                 else:
+                    # print(f"Unknown symbol {sym_str} in observable {obs_name}")
                     assert False, sym_str
             observables.append(expr)
         self.observables = sympy.Matrix(observables)
