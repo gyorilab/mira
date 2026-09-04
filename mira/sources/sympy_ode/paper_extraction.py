@@ -8,7 +8,6 @@ from indra.literature.pubmed_client import (
     get_pmid_to_package_url_mapping,
     pmid_to_pmc_download_url,
 )
-
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
@@ -113,9 +112,8 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     ode = extractor_obj.extract(client=client)
 
-    tm = execute_template_model_from_sympy_odes(ode_str=ode.final_ode_str,
+    tm = execute_template_model_from_sympy_odes(ode=ode,
                                                 attempt_grounding=True,
                                                 client=client)
     del extractor_obj
-
     return tm, ode

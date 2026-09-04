@@ -1,5 +1,46 @@
 from string import Template
 
+ODE_CHANGE_PROMPT = Template("""
+You are editing a Python code snippet that defines a system of ODEs using
+sympy. The snippet was parsed into a compartmental model, and during parsing
+the following changes had to be applied to make the model valid. The snippet
+itself was not updated, so it no longer describes the model that was built.
+ 
+Rewrite the snippet so that it describes the model as built.
+ 
+Changes that were applied:
+$changes
+ 
+Current snippet:
+```python
+$ode_str
+```
+ 
+Rules:
+- Apply only the edits listed above. Change nothing else.
+- Keep the same state variables, the same number of equations, and the same
+  order of equations.
+- Do not rename anything, do not introduce new parameters, and do not
+  simplify, expand, or otherwise rearrange the equations.
+- The snippet must still define a variable named `odes` holding a list of
+  sympy.Eq objects.
+- Keep any imports the snippet needs.
+- Return only the Python code, with no explanation and no markdown fences.
+
+$feedback
+Attempt $attempt of $max_attempts.
+""")
+
+
+FEEDBACK_PROMPT = Template("""
+Your previous attempt was rejected for this reason:
+$error
+ 
+Previous attempt:
+```python
+$previous
+```
+""")
 
 ODE_IMAGE_PROMPT = """You will be given a single image containing equations from a scientific paper.
 Transform the ODE system in the image into a SymPy representation following this exact style:

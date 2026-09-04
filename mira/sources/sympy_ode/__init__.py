@@ -7,7 +7,11 @@ import sympy
 from sympy import Function, Derivative, Eq, Expr
 
 from mira.metamodel import *
-
+from mira.sources.sympy_ode.update_ode import (
+    OdeChange,
+    record_change,
+    time_varying_param_change,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +106,8 @@ class Hypergraph:
             self.remove_edge(key)
 
 
-def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
+def template_model_from_sympy_odes(odes, concept_data=None, param_data=None,
+                                   changes=None):
     """Return a TemplateModel from a set of sympy ODEs.
 
     Parameters
@@ -123,6 +128,8 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         parameters. The keys are the names of the parameters and
         the values are dictionaries of data to pass to the Parameter
         constructor.
+    changes : Optional[List[OdeChange]]
+        A list to collect changes made while building the template model.
 
     Returns
     -------
@@ -188,6 +195,9 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
                     logger.info("Undefined time-dependent function %s, "
                                 "replacing with a parameter %s.", func,
                                 func.name)
+                    record_change(changes,
+                                  time_varying_param_change(func,
+                                                            time_variable))
             # Determine potential controllers of the term
             funcs = term.atoms(Function)
             # Potential controllers are all variables in the term
