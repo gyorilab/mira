@@ -5,6 +5,7 @@ __all__ = [
     "TemplateModel",
     "Initial",
     "Parameter",
+    "Scenario",
     "Distribution",
     "Observable",
     "Time",
@@ -255,6 +256,49 @@ class Parameter(Concept):
         if self.distribution is not None:
             d["distribution"] = self.distribution.to_json()
         return d
+
+
+class Scenario:
+    """A named parameterization of a model.
+
+    Attributes
+    ----------
+    name : str
+        The name of the scenario.
+    description : Optional[str]
+        An optional description of the scenario.
+    parameters : list of Parameter
+        The parameters that define the scenario.
+    """
+
+    def __init__(self, name, description=None, parameters=None):
+        self.name = name
+        self.description = description
+        self.parameters = parameters if parameters is not None else []
+
+    def __repr__(self):
+        return f"Scenario({self.name!r}, parameters={self.parameters})"
+
+    def __str__(self):
+        return self.__repr__()
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"name": self.name}
+        if self.description is not None:
+            d["description"] = self.description
+        d["parameters"] = [p.to_json() for p in self.parameters]
+        return d
+
+    @classmethod
+    def from_json(cls, data):
+        """Return a Scenario from a dictionary."""
+        return cls(
+            name=data["name"],
+            description=data.get("description"),
+            parameters=[Parameter.from_json(p)
+                        for p in data.get("parameters", [])],
+        )
 
 
 class Observable(Concept):
