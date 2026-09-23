@@ -1439,6 +1439,28 @@ class TemplateModel:
             else:
                 self.add_parameter(parameter_id=name,value=value)
 
+    def apply_scenario(self, scenario):
+        """Apply the parameterization of a scenario to this model.
+
+        For each parameter of the scenario whose name matches a parameter of
+        this model, the model parameter's value and distribution are replaced
+        by the scenario's, as are its units if the scenario specifies them.
+        Scenario parameters that are not part of the model are ignored.
+
+        Parameters
+        ----------
+        scenario : Scenario
+            The scenario whose parameters are applied.
+        """
+        for scenario_param in scenario.parameters:
+            param = self.parameters.get(scenario_param.name)
+            if param is None:
+                continue
+            param.value = scenario_param.value
+            param.distribution = copy.deepcopy(scenario_param.distribution)
+            if scenario_param.units is not None:
+                param.units = copy.deepcopy(scenario_param.units)
+
     def set_initials(self, initial_dict):
         """
         Set the initials of this model to the expression in the given dict.
