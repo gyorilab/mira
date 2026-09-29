@@ -1457,6 +1457,11 @@ class TemplateModel:
             if param is None:
                 continue
             param.value = scenario_param.value
+            # Keep the model's own labels when the scenario has none.
+            if scenario_param.display_name is not None:
+                param.display_name = scenario_param.display_name
+            if scenario_param.description is not None:
+                param.description = scenario_param.description
             param.distribution = copy.deepcopy(scenario_param.distribution)
             if scenario_param.units is not None:
                 param.units = copy.deepcopy(scenario_param.units)
