@@ -466,3 +466,117 @@ Output rules:
 - Output raw Python only — no markdown fences, no explanation, no preamble
 - If no valid ODE system is found, output only: odes = []
 """
+
+TABLE_SELECTION_PROMPT = Template("""
+You are screening the tables of an epidemiological modeling paper. For each
+table you are given only its caption, column header row(s) and footer
+(footnotes), not its body.
+
+$model_context
+Mark a table as relevant if it likely reports values of the model's INPUT
+parameters (transmission/recovery/progression rates, probabilities,
+durations, R0, population sizes, initial conditions, priors), including
+tables that give different values per scenario (country, intervention,
+variant, time period, age group).
+
+Tables that are NOT relevant, even if they are full of numbers:
+- model outputs: projections, peak sizes, cumulative cases or deaths, cases
+  averted, costs, final sizes
+- observed data: case counts, time series, demographics, study populations
+- sensitivity indices (PRCC, Sobol, elasticities) and model-fit statistics
+- glossaries that list symbols and meanings but no values
+
+Return one entry per table, using each table_id exactly as given.
+
+Tables:
+$tables
+""")
+
+
+SCENARIO_EXTRACTION_PROMPT = Template("""
+You are extracting the parameterization of an epidemiological model from the
+tables of the paper that describes it.
+$table_format
+
+$model_context
+Organize the values into scenarios:
+- A scenario is one complete parameterization of the model, e.g. the fit for
+  one country, one intervention setting, one variant or one time period.
+- Put values that hold in every scenario in `shared_parameters`, and only the
+  values that differ in each scenario's `parameters`.
+- If the paper has a single parameterization, put every value in
+  `shared_parameters` and return an empty `scenarios` list.
+- Use the same `name` for the same parameter across scenarios and tables.
+
+Rules for each value:
+- Only extract model INPUT parameters. Skip rows that are model outputs,
+  observed data, or headers/sub-headings.
+- Naming: `display_name` is the parameter's symbol with Greek letters as
+  Unicode characters ('\\beta', 'beta' or MathML <mi>β</mi> -> 'β';
+  'gamma_1' -> 'γ_1'). `name` is that symbol spelled out in ASCII
+  ('β' -> 'beta', 'γ_1' -> 'gamma_1', 'Λ' -> 'Lambda'). Build
+  `name` from the symbol, never from the description.
+- Values: if the cell gives a number, put it in `value` (write '2.1 x 10^-3'
+  as 0.0021; '45%' -> 0.45 only if the parameter is a proportion or
+  probability, otherwise keep 45 and note the unit). If the cell gives an
+  expression such as '1/(70*360)' or '1/5.2', put it in `value_expression`
+  exactly as written, in sympy syntax, and leave `value` null. Never
+  evaluate or simplify an expression.
+- Uncertainty: when a cell also gives a fitted/prior/plausible range, a CI,
+  or a mean with SD/SE, record it in `uncertainty` in addition to `value`
+  ('0.3 (0.2-0.4)' -> value 0.3, range or CI 0.2 to 0.4; '5.2 ± 1.1' ->
+  value 5.2, standard_deviation 1.1). If the cell has a range but no point
+  estimate, leave `value` null and fill `uncertainty`. Only fill
+  `distribution` when a distribution family is named ('Gamma(2, 3)').
+- Units: use the unit column, the row label, the caption or the footnotes.
+  Write them as a sympy expression ('1/day', 'day', 'person'). Do not guess
+  units that are not stated or clearly implied.
+- `description`: what the parameter means, taken from the table's
+  description/definition column if it has one, otherwise from the row
+  label, caption or footnotes. Fill it for every parameter you can.
+- Resolve footnote markers against the footnotes and drop them from names
+  and values.
+- Copy the value cell's text into `verbatim` and record its `table_id`.
+- Do not invent parameters that are not in the tables.
+
+Tables:
+$tables
+""")
+
+JATS_TABLE_FORMAT = """
+Each table is given as TSV after a '=== table_id' line. Lines starting with
+'#' are the table caption and footnotes; they often carry the units, the
+location or the model variant, so read them. Cells, caption and footnotes
+keep their original JATS XML markup: <sup>, <sub>, <italic>, MathML or
+<tex-math>; read the math, not the markup. Footnote markers are <xref>
+elements (often inside <sup>) pointing at the footnote with that <label>.
+"""
+
+
+_MODEL_INTRO = """
+The paper's model has already been extracted from its equations. Its
+parameters are listed below with the transitions (from -> to, and the rate
+law) each one appears in."""
+
+
+MODEL_SUMMARY_TEMPLATE = Template(_MODEL_INTRO + """ Tables providing values or descriptions for
+these are relevant.
+
+$parameters
+""")
+
+
+MODEL_CONTEXT_TEMPLATE = Template(_MODEL_INTRO + """
+
+For every table row, set `model_parameter` to the model parameter that is
+the same quantity, or null if none is. The model's names were chosen
+independently of the tables and often differ from the table's symbols (the
+table's 'k' may be the model's 'kappa', 'ω′' may be 'omega1', 'γ_a' may be
+'gamma2'). So match on what the parameter does: compare the row's
+description and symbol with the transitions the model parameter controls
+(e.g. a 'rate of progression from exposed to asymptomatic' belongs to the
+parameter in the E -> A rate law). Map each model parameter to at most one
+row per scenario.
+
+$parameters
+""")

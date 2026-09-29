@@ -11,6 +11,7 @@ from pypdf import PdfWriter
 from indra.literature.pubmed_client import download_package_for_pmid
 
 from ..agent_pipeline import run_multi_agent_pipeline
+from ..scenario_extraction import extract_scenarios_from_paper
 
 logger = logging.getLogger(__name__)
 logging.getLogger("pypdf").setLevel(logging.ERROR)
@@ -89,6 +90,39 @@ class Extractor:
         """
         return ode
 
+    def find_tables(self):
+        """Return a list of tables found in the paper, if any.
+
+        Returns
+        -------
+        :
+            A list of :class:`PaperTable` objects, or an empty list if no tables
+            were found.
+        """
+        return []
+
+    def extract_parameters(self, client=None, template_model=None):
+        """Extract parameter Scenarios from the paper's tables.
+
+        Parameters
+        ----------
+        client :
+            The OpenAI client passed through to the pipeline.
+        template_model :
+            If given, table values are named after its parameters.
+
+        Returns
+        -------
+        :
+            A list of :class:`mira.metamodel.Scenario`, empty if the paper
+            has no relevant tables.
+        """
+        tables = self.find_tables()
+        if not tables:
+            logger.info(f"No tables found for pmid {self.pmid}")
+            return []
+        return extract_scenarios_from_paper(self.pmid, client, tables,
+                                            template_model)
 
 class PdfExtractor(Extractor):
     """Base for extractors that work from a downloaded PDF.
