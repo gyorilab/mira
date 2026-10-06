@@ -64,7 +64,8 @@ def get_pmid_pmc_download_mapping():
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
-                                 pmid_to_download_mapping=None, client=None) \
+                                 pmid_to_download_mapping=None, client=None,
+                                 parameter_only=False) \
         -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
@@ -84,6 +85,8 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     client :
         An instance of the OpenAIClient to use for LLM interactions. If None,
         a default client will be created.
+    parameter_only :
+        If True, only extract parameters and not the full template model.
 
     Returns
     -------
@@ -94,7 +97,8 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         grounded concepts and the path to the file used for extraction.
     """
     if client is None:
-        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.0)
+        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.0,
+                               max_completion_tokens=32768)
 
     paper_base = BASE.join(pmid)
 
@@ -110,10 +114,15 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     else:
         raise ValueError(f"Unknown extractor: {extractor}")
 
-    ode = extractor_obj.extract(client=client)
-
-    tm = execute_template_model_from_sympy_odes(ode=ode,
-                                                attempt_grounding=True,
-                                                client=client)
+    if parameter_only:
+        tm, ode = None, None
+        scenarios = extractor_obj.extract_parameters(client=client)
+    else:
+        ode = extractor_obj.extract(client=client)
+        tm = execute_template_model_from_sympy_odes(ode=ode,
+                                                    attempt_grounding=True,
+                                                    client=client)
+        scenarios = extractor_obj.extract_parameters(client=client, template_model=tm)  
+        
     del extractor_obj
-    return tm, ode
+    return tm, ode, scenarios
