@@ -104,25 +104,30 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
 
-    if extractor == 'xml':
-        extractor_obj = XmlExtractor(pmid, pmc)
-    elif extractor in EXTRACTORS:
-        extractor_class = EXTRACTORS[extractor]
-        extractor_obj = extractor_class(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    else:
+    if extractor != 'xml' and extractor not in EXTRACTORS:
         raise ValueError(f"Unknown extractor: {extractor}")
+
+    # Tables are always read from the PMC XML, whichever extractor is used
+    # for the equations, since the XML keeps the table structure intact.
+    xml_extractor = XmlExtractor(pmid, pmc)
 
     if parameter_only:
         tm, ode = None, None
-        scenarios = extractor_obj.extract_parameters(client=client)
+        scenarios = xml_extractor.extract_parameters(client=client)
     else:
+        if extractor == 'xml':
+            extractor_obj = xml_extractor
+        else:
+            extractor_obj = EXTRACTORS[extractor](pmid, pmc, paper_base,
+                                                  pmid_to_download_mapping,
+                                                  ode_extraction_method)
         ode = extractor_obj.extract(client=client)
+        del extractor_obj
         tm = execute_template_model_from_sympy_odes(ode=ode,
                                                     attempt_grounding=True,
                                                     client=client)
-        scenarios = extractor_obj.extract_parameters(client=client, template_model=tm)  
-        
-    del extractor_obj
+        scenarios = xml_extractor.extract_parameters(client=client,
+                                                     template_model=tm)
+
+    del xml_extractor
     return tm, ode, scenarios

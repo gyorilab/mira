@@ -1,5 +1,6 @@
 import logging
 import re
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from string import Template
 from typing import List, Optional, Type, TypeVar
@@ -25,9 +26,22 @@ T = TypeVar("T", bound=BaseModel)
 
 DEFAULT_SCENARIO = "default"
 
+#: The minimum ``max_completion_tokens`` used for the scenario LLM calls. A
+#: client configured with less (e.g. the 2048 default) is raised to this for
+#: the duration of the extraction.
+SCENARIO_MAX_COMPLETION_TOKENS = 32768
+
+#: If stage 2 is truncated, it is retried with double the token limit, up to
+#: this many tokens.
+SCENARIO_MAX_RETRY_TOKENS = 131072
+
 
 class StructuredOutputError(Exception):
     """The LLM response could not be parsed into the requested schema."""
+
+
+class TruncatedOutputError(StructuredOutputError):
+    """The LLM response hit the completion token limit."""
 
 
 @dataclass
@@ -45,8 +59,9 @@ def run_structured(client: OpenAIClient, prompt: str, model: Type[T]) -> T:
     """Run a chat completion constrained to ``model``'s JSON schema."""
     choice = client.run_chat_completion(prompt, schema=strict_schema(model))
     if choice.finish_reason == "length":
-        raise StructuredOutputError(
-            "response truncated; raise the client's max_completion_tokens")
+        raise TruncatedOutputError(
+            "response truncated at max_completion_tokens="
+            f"{client.max_completion_tokens}")
     if getattr(choice.message, "refusal", None):
         raise StructuredOutputError(f"model refused: {choice.message.refusal}")
     try:
@@ -116,6 +131,18 @@ def select_relevant_tables(
 
     return [t for t in readable
             if t.table_id in verdicts and verdicts[t.table_id].relevant]
+
+
+@contextmanager
+def _token_budget(client: OpenAIClient, minimum: int):
+    """Temporarily raise the client's ``max_completion_tokens`` to at least
+    ``minimum``."""
+    original = client.max_completion_tokens
+    client.max_completion_tokens = max(original or 0, minimum)
+    try:
+        yield
+    finally:
+        client.max_completion_tokens = original
 
 
 def extract_scenarios(
@@ -289,8 +316,10 @@ def extract_scenarios_from_paper(
     pmid :
         The PubMed id of the paper, for logging.
     client :
-        The OpenAI client. All relevant tables are extracted in one response,
-        so give it a generous ``max_completion_tokens`` (e.g. 32k).
+        The OpenAI client. Its ``max_completion_tokens`` is raised to at
+        least ``SCENARIO_MAX_COMPLETION_TOKENS`` for these calls, and
+        doubled (up to ``SCENARIO_MAX_RETRY_TOKENS``) on each retry of a
+        truncated extraction.
     tables :
         The paper's tables, e.g. from ``XmlExtractor.find_tables()``.
     template_model :
@@ -304,16 +333,31 @@ def extract_scenarios_from_paper(
         The scenarios, or an empty list if no table is relevant or the
         extraction fails.
     """
-    relevant = select_relevant_tables(tables, client, template_model)
-    logger.info("PMID %s: %d tables, %d relevant (%s)", pmid, len(tables),
-                len(relevant), ", ".join(t.table_id for t in relevant))
-    if not relevant:
-        return []
-    try:
-        response = extract_scenarios(relevant, client, template_model)
-    except StructuredOutputError as e:
-        logger.warning("PMID %s: extraction failed: %s", pmid, e)
-        return []
+    with _token_budget(client, SCENARIO_MAX_COMPLETION_TOKENS):
+        try:
+            relevant = select_relevant_tables(tables, client, template_model)
+        except StructuredOutputError as e:
+            logger.warning("PMID %s: table selection failed: %s", pmid, e)
+            return []
+        logger.info("PMID %s: %d tables, %d relevant (%s)", pmid,
+                    len(tables), len(relevant),
+                    ", ".join(t.table_id for t in relevant))
+        if not relevant:
+            return []
+        while True:
+            try:
+                response = extract_scenarios(relevant, client, template_model)
+                break
+            except TruncatedOutputError as e:
+                limit = client.max_completion_tokens * 2
+                if limit > SCENARIO_MAX_RETRY_TOKENS:
+                    logger.warning("PMID %s: extraction failed: %s", pmid, e)
+                    return []
+                logger.info("PMID %s: %s; retrying with %d", pmid, e, limit)
+                client.max_completion_tokens = limit
+            except StructuredOutputError as e:
+                logger.warning("PMID %s: extraction failed: %s", pmid, e)
+                return []
     logger.debug("PMID %s: stage 2 response:\n%s", pmid,
                  response.model_dump_json(indent=2))
     return to_mira_scenarios(response)
