@@ -1,0 +1,118 @@
+{
+  "caption_references": [
+    "model parameters and values",
+    "parameter values",
+    "estimated parameter values",
+    "estimated model parameters",
+    "parameter estimates",
+    "kinetic parameters",
+    "kinetic constants",
+    "reaction rate constants",
+    "model constants",
+    "initial conditions",
+    "initial parameter values",
+    "parameters used in the model",
+    "calibrated parameter values",
+    "fitted parameter values",
+    "state variables for SEIR models",
+    "state variables",
+    "model state variables",
+    "state variables and initial values",
+    "SEIR model variables",
+    "compartment variables and initial conditions"
+  ],
+  "header_references": [
+    "parameter symbol description value unit",
+    "parameter definition estimate unit",
+    "symbol parameter value units",
+    "parameter name value",
+    "parameter meaning estimated value",
+    "parameter initial value unit",
+    "symbol description mean standard deviation unit",
+    "state variable symbol description initial value unit",
+    "variable symbol description initial value",
+    "compartment symbol definition initial value",
+    "state variable definition value",
+    "variable description value unit",
+    "variables explanation values",
+    "variable explanation value",
+    "state variables explanation values"
+  ],
+  "column_aliases": {
+    "parameter_symbol": [
+      "symbol",
+      "parameter symbol",
+      "notation",
+      "variable symbol",
+      "variable",
+      "variables",
+      "state variable",
+      "state variables"
+    ],
+    "parameter_name": [
+      "parameter",
+      "parameter name",
+      "description",
+      "definition",
+      "meaning",
+      "interpretation",
+      "explanation",
+      "explanations",
+      "variable explanation"
+    ],
+    "value": [
+      "value",
+      "values",
+      "estimate",
+      "estimated value",
+      "mean",
+      "default value",
+      "initial value",
+      "baseline value",
+      "initial values"
+    ],
+    "unit": [
+      "unit",
+      "units",
+      "dimension",
+      "dimensions"
+    ],
+    "uncertainty": [
+      "uncertainty",
+      "standard deviation",
+      "standard error",
+      "sd",
+      "se",
+      "confidence interval",
+      "credible interval",
+      "ci",
+      "range",
+      "lower bound",
+      "upper bound"
+    ]
+  },
+  "negative_keywords": [
+    "patient",
+    "patients",
+    "participant",
+    "participants",
+    "demographic",
+    "baseline characteristics",
+    "clinical characteristics",
+    "gene expression",
+    "survey",
+    "questionnaire"
+  ],
+  "classification_threshold": 0.43,
+  "exclusion_keywords": [
+    "sensitivity index",
+    "sensitivity indices",
+    "sensitivity analysis",
+    "normalized sensitivity index",
+    "partial rank correlation coefficient",
+    "PRCC",
+    "Sobol index",
+    "Sobol sensitivity index",
+    "elasticity index"
+  ]
+}
