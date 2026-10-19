@@ -1,13 +1,9 @@
 import logging
 import pystow
+import requests
 
 from typing import Tuple, Literal
-from pathlib import Path
 
-from indra.literature.pubmed_client import (
-    get_pmid_to_package_url_mapping,
-    pmid_to_pmc_download_url,
-)
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
@@ -36,7 +32,6 @@ logger = logging.getLogger(__name__)
 
 BASE = pystow.module("mira", "paper_extraction")
 
-
 EXTRACTORS = {
     'marker': MarkerExtractor,
     'mineru': MineruExtractor,
@@ -51,20 +46,25 @@ EXTRACTORS = {
     'glmocr_hf': GlmOcrHfExtractor
 }
 
+PMC_IDCONV_URL = "https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/"
 
-def get_pmid_to_pmc_mapping_path() -> Path:
-    return BASE.ensure(url=pmid_to_pmc_download_url)
-
-
-def get_pmid_pmc_download_mapping():
-    return get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
+def pmid_to_pmcid(pmid: str) -> str:
+    res = requests.get(
+        PMC_IDCONV_URL,
+        params={"ids": pmid, "format": "json", "tool": "mira",
+                "email": "you@example.com"},
     )
+    res.raise_for_status()
+    pmcid = res.json()["records"][0].get("pmcid")
+    if not pmcid:
+        raise ValueError(f"PMID {pmid} has no PMCID.")
+    return pmcid
 
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
-                                 pmid_to_download_mapping=None, client=None) \
+                                 pmid_to_download_mapping=None, client=None,
+                                 parameter_only=False) \
         -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
@@ -84,6 +84,8 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     client :
         An instance of the OpenAIClient to use for LLM interactions. If None,
         a default client will be created.
+    parameter_only :
+        If True, only extract parameters and not the full template model.
 
     Returns
     -------
@@ -94,26 +96,37 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         grounded concepts and the path to the file used for extraction.
     """
     if client is None:
-        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.0)
+        client = OpenAIClient(model="us.openai.gpt-6-luna",
+                               max_completion_tokens=32768)
 
     paper_base = BASE.join(pmid)
 
-    pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
+    pmc = pmid_to_pmcid(pmid)
 
-    if extractor == 'xml':
-        extractor_obj = XmlExtractor(pmid, pmc)
-    elif extractor in EXTRACTORS:
-        extractor_class = EXTRACTORS[extractor]
-        extractor_obj = extractor_class(pmid, pmc, paper_base,
-                                        pmid_to_download_mapping,
-                                        ode_extraction_method)
-    else:
+    if extractor != 'xml' and extractor not in EXTRACTORS:
         raise ValueError(f"Unknown extractor: {extractor}")
 
-    ode = extractor_obj.extract(client=client)
+    # Tables are always read from the PMC XML, whichever extractor is used
+    # for the equations, since the XML keeps the table structure intact.
+    xml_extractor = XmlExtractor(pmid, pmc)
 
-    tm = execute_template_model_from_sympy_odes(ode=ode,
-                                                attempt_grounding=True,
-                                                client=client)
-    del extractor_obj
-    return tm, ode
+    if parameter_only:
+        tm, ode = None, None
+        scenarios = xml_extractor.extract_parameters(client=client)
+    else:
+        if extractor == 'xml':
+            extractor_obj = xml_extractor
+        else:
+            extractor_obj = EXTRACTORS[extractor](pmid, pmc, paper_base,
+                                                  pmid_to_download_mapping,
+                                                  ode_extraction_method)
+        ode = extractor_obj.extract(client=client)
+        del extractor_obj
+        tm = execute_template_model_from_sympy_odes(ode=ode,
+                                                    attempt_grounding=True,
+                                                    client=client)
+        scenarios = xml_extractor.extract_parameters(client=client,
+                                                     template_model=tm)
+
+    del xml_extractor
+    return tm, ode, scenarios

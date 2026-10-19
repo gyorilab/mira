@@ -5,6 +5,7 @@ __all__ = [
     "TemplateModel",
     "Initial",
     "Parameter",
+    "Scenario",
     "Distribution",
     "Observable",
     "Time",
@@ -255,6 +256,49 @@ class Parameter(Concept):
         if self.distribution is not None:
             d["distribution"] = self.distribution.to_json()
         return d
+
+
+class Scenario:
+    """A named parameterization of a model.
+
+    Attributes
+    ----------
+    name : str
+        The name of the scenario.
+    description : Optional[str]
+        An optional description of the scenario.
+    parameters : list of Parameter
+        The parameters that define the scenario.
+    """
+
+    def __init__(self, name, description=None, parameters=None):
+        self.name = name
+        self.description = description
+        self.parameters = parameters if parameters is not None else []
+
+    def __repr__(self):
+        return f"Scenario({self.name!r}, parameters={self.parameters})"
+
+    def __str__(self):
+        return self.__repr__()
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"name": self.name}
+        if self.description is not None:
+            d["description"] = self.description
+        d["parameters"] = [p.to_json() for p in self.parameters]
+        return d
+
+    @classmethod
+    def from_json(cls, data):
+        """Return a Scenario from a dictionary."""
+        return cls(
+            name=data["name"],
+            description=data.get("description"),
+            parameters=[Parameter.from_json(p)
+                        for p in data.get("parameters", [])],
+        )
 
 
 class Observable(Concept):
@@ -1394,6 +1438,33 @@ class TemplateModel:
                 self.parameters[name].value = value
             else:
                 self.add_parameter(parameter_id=name,value=value)
+
+    def apply_scenario(self, scenario):
+        """Apply the parameterization of a scenario to this model.
+
+        For each parameter of the scenario whose name matches a parameter of
+        this model, the model parameter's value and distribution are replaced
+        by the scenario's, as are its units if the scenario specifies them.
+        Scenario parameters that are not part of the model are ignored.
+
+        Parameters
+        ----------
+        scenario : Scenario
+            The scenario whose parameters are applied.
+        """
+        for scenario_param in scenario.parameters:
+            param = self.parameters.get(scenario_param.name)
+            if param is None:
+                continue
+            param.value = scenario_param.value
+            # Keep the model's own labels when the scenario has none.
+            if scenario_param.display_name is not None:
+                param.display_name = scenario_param.display_name
+            if scenario_param.description is not None:
+                param.description = scenario_param.description
+            param.distribution = copy.deepcopy(scenario_param.distribution)
+            if scenario_param.units is not None:
+                param.units = copy.deepcopy(scenario_param.units)
 
     def set_initials(self, initial_dict):
         """
