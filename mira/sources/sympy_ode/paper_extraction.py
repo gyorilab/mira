@@ -1,13 +1,9 @@
 import logging
 import pystow
+import requests
 
 from typing import Tuple, Literal
-from pathlib import Path
 
-from indra.literature.pubmed_client import (
-    get_pmid_to_package_url_mapping,
-    pmid_to_pmc_download_url,
-)
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
     MarkerExtractor,
@@ -36,7 +32,6 @@ logger = logging.getLogger(__name__)
 
 BASE = pystow.module("mira", "paper_extraction")
 
-
 EXTRACTORS = {
     'marker': MarkerExtractor,
     'mineru': MineruExtractor,
@@ -51,15 +46,19 @@ EXTRACTORS = {
     'glmocr_hf': GlmOcrHfExtractor
 }
 
+PMC_IDCONV_URL = "https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/"
 
-def get_pmid_to_pmc_mapping_path() -> Path:
-    return BASE.ensure(url=pmid_to_pmc_download_url)
-
-
-def get_pmid_pmc_download_mapping():
-    return get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
+def pmid_to_pmcid(pmid: str) -> str:
+    res = requests.get(
+        PMC_IDCONV_URL,
+        params={"ids": pmid, "format": "json", "tool": "mira",
+                "email": "you@example.com"},
     )
+    res.raise_for_status()
+    pmcid = res.json()["records"][0].get("pmcid")
+    if not pmcid:
+        raise ValueError(f"PMID {pmid} has no PMCID.")
+    return pmcid
 
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
@@ -97,12 +96,12 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         grounded concepts and the path to the file used for extraction.
     """
     if client is None:
-        client = OpenAIClient(model="gpt-5.4-mini", temperature=0.0,
+        client = OpenAIClient(model="us.openai.gpt-6-luna",
                                max_completion_tokens=32768)
 
     paper_base = BASE.join(pmid)
 
-    pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
+    pmc = pmid_to_pmcid(pmid)
 
     if extractor != 'xml' and extractor not in EXTRACTORS:
         raise ValueError(f"Unknown extractor: {extractor}")
