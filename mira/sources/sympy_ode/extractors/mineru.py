@@ -82,7 +82,7 @@ class MineruExtractor(PdfExtractor):
                 pdf_file_names=[pdf_name],
                 pdf_bytes_list=[read_fn(self.pdf_file)],
                 p_lang_list=["en"],
-                backend=get_optimal_backend(self.ode_extraction_method),
+                backend=get_optimal_backend(),
                 parse_method="auto",
                 formula_enable=True,
                 table_enable=False,
