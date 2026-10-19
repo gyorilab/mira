@@ -1,4 +1,5 @@
 import base64
+import os
 from typing import Literal, Optional, Union, List
 
 from openai import OpenAI
@@ -7,6 +8,7 @@ from openai import OpenAI
 ImageFmts = Literal["jpeg", "jpg", "png", "webp", "gif"]
 ALLOWED_FORMATS = ["jpeg", "jpg", "png", "webp", "gif"]
 MAX_TOKENS = 2048
+BEDROCK_BASE_URL = "https://bedrock-runtime.{region}.amazonaws.com/openai/v1"
 
 
 class OpenAIClient:
@@ -14,17 +16,23 @@ class OpenAIClient:
     def __init__(
             self, 
             api_key: str = None, 
-            model: str = "gpt-4o-mini", 
-            temperature: float = 0.0,
-            max_completion_tokens: int = MAX_TOKENS
+            model: str = "us.openai.gpt-6-luna", 
+            reasoning: str = None,
+            temperature: float = None,
+            max_completion_tokens: int = MAX_TOKENS,
+            region: str = None
     ):
-        self.client = OpenAI(api_key=api_key)
+        region = region or os.environ.get("AWS_REGION", "us-east-2")
+        self.client = OpenAI(
+            api_key=os.environ.get("AWS_BEARER_TOKEN_BEDROCK"),
+            base_url=BEDROCK_BASE_URL.format(region=region),
+        )
         self.model = model
+        self.reasoning = reasoning
         self.temperature = temperature
         self.max_completion_tokens = max_completion_tokens
         self.total_input_tokens = 0
         self.total_output_tokens = 0
-        # instructions, systerm_prompt, reasoning
  
     def _track_usage(
             self, 
