@@ -159,3 +159,44 @@ class TestODE(unittest.TestCase):
         # Check that the results have 3 variables for the 3 concepts
         # and the same number of rows as number of time points
         self.assertEqual((times.shape[0], 3), res.shape)
+
+    def test_time_dependent_rate_law(self):
+        k, t, x = sympy.symbols('k t X')
+        templates = [NaturalDegradation(subject=Concept(name='X'),
+                                        rate_law=k * t * x)]
+        tm = TemplateModel(
+            templates=templates,
+            parameters={'k': Parameter(name='k', value=0.1)},
+            initials={'X': Initial(concept=Concept(name='X'),
+                                   expression=100)},
+            time=Time(name='t'))
+        om = OdeModel(model=Model(tm), initialized=True)
+        res = simulate_ode_model(ode_model=om, times=numpy.linspace(0, 10, 11))
+        # The solution is X = 100 * exp(-k * t**2 / 2)
+        self.assertAlmostEqual(res[-1, 0], 100 * numpy.exp(-5), places=4)
+
+    def test_integration_failure(self):
+        # The solution of dX/dt = X**2 with X(0) = 1 diverges at t = 1
+        x = sympy.Symbol('X')
+        templates = [NaturalProduction(outcome=Concept(name='X'),
+                                       rate_law=sympy.Symbol('k') * x ** 2)]
+        tm = TemplateModel(
+            templates=templates,
+            parameters={'k': Parameter(name='k', value=1)},
+            initials={'X': Initial(concept=Concept(name='X'),
+                                   expression=1)})
+        om = OdeModel(model=Model(tm), initialized=True)
+        with self.assertRaises(RuntimeError):
+            om.simulate_model(numpy.linspace(0, 5, 11))
+
+    def test_simulation_timeout(self):
+        templates = [NaturalDegradation(subject=Concept(name='X'))]
+        templates[0].set_mass_action_rate_law('k')
+        tm = TemplateModel(
+            templates=templates,
+            parameters={'k': Parameter(name='k', value=0.01)},
+            initials={'X': Initial(concept=Concept(name='X'),
+                                   expression=100)})
+        om = OdeModel(model=Model(tm), initialized=True)
+        with self.assertRaises(TimeoutError):
+            om.simulate_model(numpy.linspace(0, 25, 100), timeout=0)

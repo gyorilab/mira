@@ -1,5 +1,6 @@
 __all__ = ["OdeModel", "simulate_ode_model"]
 
+import time
 from copy import deepcopy
 
 import numpy
@@ -78,7 +79,8 @@ class OdeModel:
             for p in transition.produced:
                 self.kinetics[self.vmap[p.key]] += rate
         self.kinetics = sympy.Matrix(self.kinetics)
-        self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
+        self.kinetics_lmbd = sympy.lambdify([sympy.Symbol('t'), self.y],
+                                            self.kinetics)
 
         observables = []
         for obs_name, model_obs in model.observables.items():
@@ -98,7 +100,8 @@ class OdeModel:
                     assert False, sym_str
             observables.append(expr)
         self.observables = sympy.Matrix(observables)
-        self.observables_lmbd = sympy.lambdify([self.y], self.observables)
+        self.observables_lmbd = sympy.lambdify([sympy.Symbol('t'), self.y],
+                                               self.observables)
 
     def get_interpretable_kinetics(self):
         # Return kinetics but with y and p substituted
@@ -164,8 +167,10 @@ class OdeModel:
         for p, v in params.items():
             self.kinetics = self.kinetics.subs(self.p[self.pmap[p]], v)
             self.observables = self.observables.subs(self.p[self.pmap[p]], v)
-        self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
-        self.observables_lmbd = sympy.lambdify([self.y], self.observables)
+        self.kinetics_lmbd = sympy.lambdify([sympy.Symbol('t'), self.y],
+                                            self.kinetics)
+        self.observables_lmbd = sympy.lambdify([sympy.Symbol('t'), self.y],
+                                               self.observables)
 
     def get_rhs(self):
         """Return the right-hand side of the ODE system."""
@@ -174,12 +179,13 @@ class OdeModel:
             # Flatten to a 1-D array of length NEQ: kinetics_lmbd is a
             # lambdified sympy Matrix and returns a 2-D (NEQ, 1) array, which
             # newer scipy's ODE solver rejects.
-            return self.kinetics_lmbd(y[:, None]).flatten()
+            return self.kinetics_lmbd(t, y[:, None]).flatten()
 
         return rhs
 
     def simulate_model(self, times, initials=None,
-                       parameters=None, with_observables=False):
+                       parameters=None, with_observables=False,
+                       integrator='vode', timeout=None):
         """Simulate the ODE model given initial conditions, parameters and a
         time span.
 
@@ -196,6 +202,12 @@ class OdeModel:
         with_observables :
             A boolean indicating whether to return the observables
             as well as the variables.
+        integrator :
+            The name of the ``scipy.integrate.ode`` integrator to use,
+            for example 'vode' or 'lsoda'. Default: vode
+        timeout :
+            If given, the number of seconds after which the simulation
+            stops with a TimeoutError.
 
         Returns
         -------
@@ -221,21 +233,26 @@ class OdeModel:
                     initials[index] = float(expression.subs(parameters))
 
         self.set_parameters(parameters)
+        start = time.monotonic()
         solver = scipy.integrate.ode(f=rhs)
-
-        solver.set_initial_value(initials)
+        solver.set_integrator(integrator)
+        solver.set_initial_value(initials, times[0])
         num_vars = self.y.shape[0]
         num_obs = len(self.observable_map)
         num_cols = num_vars + (num_obs if with_observables else 0)
         res = numpy.zeros((len(times), num_cols))
         res[0, :num_vars] = initials
-        for idx, time in enumerate(times[1:]):
-            res[idx + 1, :num_vars] = solver.integrate(time)
+        for idx, t in enumerate(times[1:]):
+            res[idx + 1, :num_vars] = solver.integrate(t)
+            if not solver.successful():
+                raise RuntimeError(f"Integration failed at t={t}")
+            if timeout is not None and time.monotonic() - start > timeout:
+                raise TimeoutError(f"Simulation exceeded {timeout} s")
 
         if with_observables:
             for tidx, t in enumerate(times):
                 obs_res = \
-                    self.observables_lmbd(res[tidx, :num_vars][:, None]).flatten()
+                    self.observables_lmbd(t, res[tidx, :num_vars][:, None]).flatten()
                 for idx, val in enumerate(obs_res):
                     res[tidx, num_vars + idx] = val
         return res
