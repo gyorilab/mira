@@ -11,7 +11,7 @@ import requests
 from pypdf import PdfWriter
 
 from indra.literature.pmc_client import (
-    _get_s3_artifact, get_latest_s3_version, get_metadata_s3,
+    get_latest_s3_version, get_metadata_s3, get_pdf_s3, get_xml_s3,
     pmc_s3_base_url
 )
 
@@ -190,13 +190,14 @@ class PdfExtractor(Extractor):
         out_dir.mkdir(parents=True, exist_ok=True)
         stem = f"{self.pmc}.{version}"
 
-        for ext, out_ext in (("xml", "nxml"), ("pdf", "pdf")):
-            resp = _get_s3_artifact(self.pmc, ext, version=version)
-            if resp is None:
-                raise FileNotFoundError(
-                    f"No {ext} for {stem} on PMC S3"
-                )
-            (out_dir / f"{stem}.{out_ext}").write_bytes(resp.content)
+        xml = get_xml_s3(self.pmc, version=version)
+        if xml is None:
+            raise FileNotFoundError(f"No xml for {stem} on PMC S3")
+        (out_dir / f"{stem}.nxml").write_text(xml, encoding="utf-8")
+        pdf = get_pdf_s3(self.pmc, version=version)
+        if pdf is None:
+            raise FileNotFoundError(f"No pdf for {stem} on PMC S3")
+        (out_dir / f"{stem}.pdf").write_bytes(pdf)
 
         # Media (figures, supplementary files) are listed in the metadata
         meta = get_metadata_s3(self.pmc, version=version) or {}
