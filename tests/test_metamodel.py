@@ -10,6 +10,7 @@ import requests
 import sympy
 
 from mira.metamodel import *
+from mira.examples.sir import sir_parameterized
 from mira.metamodel import mathml_to_expression, expression_to_mathml, \
     UNIT_SYMBOLS
 from mira.sources.amr.petrinet import state_to_concept, \
@@ -371,3 +372,25 @@ def test_substitute_parameters():
     assert tm.parameters['k1'].distribution.parameters['std'] - 2 == 0
     tm.substitute_parameter('k3', 0.5)
     assert tm.templates[0].rate_law == 0.5 * sympy.Symbol('x')
+
+
+def test_rename_parameter():
+    tm = _d(sir_parameterized)
+    tm.rename_parameter('beta', 'b')
+    assert 'b' in tm.parameters
+    assert 'beta' not in tm.parameters
+    assert sympy.Symbol('b') in tm.templates[0].rate_law.free_symbols
+
+
+def test_rename_concept():
+    tm = _d(sir_parameterized)
+    tm.rename_concept('infected_population', 'I')
+    assert 'I' in tm.get_concepts_name_map()
+    assert 'I' in tm.initials
+    assert sympy.Symbol('I') in tm.templates[1].rate_law.free_symbols
+
+
+def test_remove_concept():
+    tm = _d(sir_parameterized)
+    tm.remove_concept('immune_population')
+    assert len(tm.templates) == 1

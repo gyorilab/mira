@@ -55,26 +55,8 @@ def replace_state_id(model, old_id: str, new_id: str):
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
-    tm = model
-    concepts_name_map = tm.get_concepts_name_map()
-    if old_id not in concepts_name_map:
-        raise ValueError(f"State with ID {old_id} not found in model.")
-    for template in tm.templates:
-        for concept in template.get_concepts():
-            if concept.name == old_id:
-                concept.name = new_id
-        template.rate_law = template.rate_law.subs(
-            sympy.Symbol(old_id), sympy.Symbol(new_id))
-    for observable in tm.observables.values():
-        observable.expression = observable.expression.subs(
-            sympy.Symbol(old_id), sympy.Symbol(new_id))
-    for key, initial in copy.deepcopy(tm.initials).items():
-        if initial.concept.name == old_id:
-            tm.initials[key].concept.name = new_id
-            # If the key is same as the old ID, we replace that too
-            if key == old_id:
-                tm.initials[new_id] = tm.initials.pop(old_id)
-    return tm
+    model.rename_concept(old_id, new_id)
+    return model
 
 
 @amr_to_mira
@@ -243,27 +225,8 @@ def replace_parameter_id(model, old_id: str, new_id: str):
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
-    tm = model
-    if old_id not in tm.parameters:
-        raise ValueError(f"Parameter with ID {old_id} not found in model.")
-    for template in tm.templates:
-        if template.rate_law:
-            template.rate_law = template.rate_law.subs(
-                sympy.Symbol(old_id), sympy.Symbol(new_id))
-    for observable in tm.observables.values():
-        observable.expression = observable.expression.subs(
-            sympy.Symbol(old_id), sympy.Symbol(new_id))
-    for key, param in copy.deepcopy(tm.parameters).items():
-        if param.name == old_id:
-            popped_param = tm.parameters.pop(param.name)
-            popped_param.name = new_id
-            tm.parameters[new_id] = popped_param
-
-    for initial in tm.initials.values():
-        if initial.expression:
-            initial.substitute_parameter(old_id, sympy.Symbol(new_id))
-
-    return tm
+    model.rename_parameter(old_id, new_id)
+    return model
 
 
 @amr_to_mira
@@ -352,21 +315,8 @@ def remove_state(model, state_id: str):
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
-    tm = model
-    new_templates = []
-    for template in tm.templates:
-        to_remove = False
-        for concept in template.get_concepts():
-            if concept.name == state_id:
-                to_remove = True
-        if not to_remove:
-            new_templates.append(template)
-    tm.templates = new_templates
-
-    for obs, observable in tm.observables.items():
-        observable.expression = observable.expression.subs(
-            sympy.Symbol(state_id), 0)
-    return tm
+    model.remove_concept(state_id)
+    return model
 
 
 @amr_to_mira

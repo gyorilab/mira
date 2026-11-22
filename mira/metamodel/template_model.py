@@ -789,6 +789,80 @@ class TemplateModel:
             )
         self.parameters.pop(redundant_parameter)
 
+    def rename_parameter(self, old_name: str, new_name: str):
+        """Rename a parameter, including in rate laws, observables and
+        initials.
+
+        Parameters
+        ----------
+        old_name :
+            The name of the parameter to rename.
+        new_name :
+            The new name of the parameter.
+        """
+        if old_name not in self.parameters:
+            raise ValueError(f"Parameter {old_name} not found in model.")
+        for template in self.templates:
+            if template.rate_law:
+                template.rate_law = template.rate_law.subs(
+                    sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        param = self.parameters.pop(old_name)
+        param.name = new_name
+        self.parameters[new_name] = param
+        for initial in self.initials.values():
+            if initial.expression:
+                initial.substitute_parameter(old_name, sympy.Symbol(new_name))
+
+    def rename_concept(self, old_name: str, new_name: str):
+        """Rename a concept, including in rate laws, observables and
+        initials.
+
+        Parameters
+        ----------
+        old_name :
+            The name of the concept to rename.
+        new_name :
+            The new name of the concept.
+        """
+        if old_name not in self.get_concepts_name_map():
+            raise ValueError(f"Concept {old_name} not found in model.")
+        for template in self.templates:
+            for concept in template.get_concepts():
+                if concept.name == old_name:
+                    concept.name = new_name
+            template.rate_law = template.rate_law.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for key, initial in copy.deepcopy(self.initials).items():
+            if initial.concept.name == old_name:
+                self.initials[key].concept.name = new_name
+                # If the key is same as the old name, we replace that too
+                if key == old_name:
+                    self.initials[new_name] = self.initials.pop(old_name)
+
+    def remove_concept(self, name: str):
+        """Remove a concept and all templates it appears in.
+
+        The concept is replaced with 0 in observables.
+
+        Parameters
+        ----------
+        name :
+            The name of the concept to remove.
+        """
+        self.templates = [
+            template for template in self.templates
+            if name not in {c.name for c in template.get_concepts()}
+        ]
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(name), 0)
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         """
