@@ -3,7 +3,7 @@ import pytest
 from requests import HTTPError
 
 from mira.metamodel.comparison import RefinementClosure, \
-    get_dkg_refinement_closure
+    DefaultDkgRefinementClosure, get_dkg_refinement_closure
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
 from mira.dkg.grounding import GroundResults, GroundResult
@@ -92,6 +92,13 @@ def test_transitive_closure():
 
     # Try to make a refinement closure
     rc = RefinementClosure(transitive_closure=tc)
+
+
+def test_default_closure_initialized():
+    # A closure given on construction is not fetched again
+    closure = DefaultDkgRefinementClosure({('a', 'b')})
+    closure.initialize()
+    assert closure.is_ontological_child('a', 'b')
 
 
 @pytest.mark.slow

@@ -5,6 +5,7 @@ __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "get_dkg_refinement_closure", "default_dkg_refinement_closure",
            "get_concept_comparison_table"]
 
+import threading
 from collections import defaultdict
 from itertools import combinations, count, product
 from typing import Literal, Optional, List, Tuple, Dict, Callable, Union, Set
@@ -841,11 +842,19 @@ class DefaultDkgRefinementClosure(RefinementClosure):
             self.initialized = True
         else:
             self.initialized = False
+        self._lock = threading.Lock()
 
     def initialize(self):
-        from mira.dkg.web_client import get_transitive_closure_web
-        self.transitive_closure = get_transitive_closure_web()
-        self.initialized = True
+        """Load the transitive closure from the DKG unless already loaded.
+
+        Concurrent callers wait for a single load.
+        """
+        with self._lock:
+            if self.initialized:
+                return
+            from mira.dkg.web_client import get_transitive_closure_web
+            self.transitive_closure = get_transitive_closure_web()
+            self.initialized = True
 
     def is_ontological_child(self, child_curie: str, parent_curie: str) -> bool:
         if not self.initialized:
