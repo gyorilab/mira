@@ -14,8 +14,7 @@ from .llm_util import image_to_odes_str, pdf_to_odes_str, \
 from .agent_pipeline import run_multi_agent_pipeline, \
     execute_template_model_from_sympy_odes
 from .proxies import openai_client
-from .paper_extraction import get_template_model_from_pmid, \
-    get_pmid_pmc_download_mapping
+from .paper_extraction import get_template_model_from_pmid
 
 
 llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
@@ -25,9 +24,6 @@ llm_ui_blueprint.template_folder = "templates"
 
 
 logger = logging.getLogger(__name__)
-
-
-pmid_to_download_mapping = get_pmid_pmc_download_mapping()
 
 
 @llm_ui_blueprint.route("/", methods=["GET", "POST"])
@@ -159,7 +155,9 @@ def upload_image():
                     result_text = ode.final_ode_str
 
         elif input_type == "text" and pmid:
-            _, ode = get_template_model_from_pmid(pmid=pmid, ode_extraction_method= "text", pmid_to_download_mapping=pmid_to_download_mapping)
+            _, ode, _ = get_template_model_from_pmid(
+                pmid=pmid, ode_extraction_method="text",
+                client=openai_client)
             result_text = ode.final_ode_str
 
     return render_template(
