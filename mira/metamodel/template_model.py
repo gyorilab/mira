@@ -1547,14 +1547,23 @@ class TemplateModel:
         """
         Set the initials of this model to the expression in the given dict.
 
+        An initial is added for a concept that does not have one yet.
+
         Parameters
         ----------
         initial_dict : dict
             Mapping of initial name to its new expression.
         """
+        concepts = self.get_concepts_name_map()
         for name, expression in initial_dict.items():
-            if self.initials and name in self.initials:
+            if name in self.initials:
                 self.initials[name].expression = expression
+            elif name in concepts:
+                self.initials[name] = Initial(
+                    concept=copy.deepcopy(concepts[name]),
+                    expression=expression)
+            else:
+                raise ValueError(f"No concept named {name} in the model.")
 
 
 def _iter_concepts(template_model: TemplateModel):

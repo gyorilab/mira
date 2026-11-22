@@ -339,6 +339,18 @@ def test_set_parameters():
     assert tm.parameters['d'].value == 8
     assert tm.parameters['e'].value == 10
 
+def test_set_initials():
+    tm = _d(sir_parameterized)
+    tm.initials.pop('immune_population')
+    tm.set_initials({'infected_population': sympy.Integer(5),
+                     'immune_population': sympy.Integer(0)})
+    assert tm.initials['infected_population'].expression == 5
+    assert tm.initials['immune_population'].concept.name == \
+        'immune_population'
+    with pytest.raises(ValueError):
+        tm.set_initials({'x': sympy.Integer(1)})
+
+
 def test_substitute_parameters():
     distr = Distribution(
         type='Normal',
