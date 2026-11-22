@@ -2,7 +2,7 @@ import logging
 import pystow
 import requests
 
-from typing import Tuple, Literal
+from typing import List, Literal, Optional, Tuple
 
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
@@ -19,11 +19,12 @@ from mira.sources.sympy_ode.extractors import (
     GlmOcrHfExtractor
 )
 from mira.sources.sympy_ode.agent_pipeline import (
+    PipelineResult,
     execute_template_model_from_sympy_odes,
 )
 
 from mira.openai_utility import OpenAIClient
-from mira.metamodel import TemplateModel
+from mira.metamodel import Scenario, TemplateModel
 
 
 ExtractionMethod = Literal["text", "image"]
@@ -63,12 +64,13 @@ def pmid_to_pmcid(pmid: str) -> str:
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
-                                 pmid_to_download_mapping=None, client=None,
-                                 parameter_only=False) \
-        -> Tuple[TemplateModel, str]:
+                                 client=None, parameter_only=False) \
+        -> Tuple[Optional[TemplateModel], Optional[PipelineResult],
+                 List[Scenario]]:
     """
-    Return a template model and the accompanying ODE string retrieved from a
-    PubMed article representing an epidemiological model
+    Return a template model, the ODE extraction result and parameter
+    scenarios retrieved from a PubMed article representing an epidemiological
+    model
 
     Parameters
     ----------
@@ -79,8 +81,6 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     ode_extraction_method :
         The type of input that will be supplied to the LLM when extracting
         equations (i.e. text or images).
-    pmid_to_download_mapping :
-        A dictionary mapping pmids to their corresponding download paths.
     client :
         An instance of the OpenAIClient to use for LLM interactions. If None,
         a default client will be created.
@@ -90,10 +90,14 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
     Returns
     -------
     :
-        The template model extracted from the PubMed article
+        The template model extracted from the PubMed article, None if
+        ``parameter_only`` is True.
     :
         The pipeline result containing the extracted ODEs, corrected ODEs,
-        grounded concepts and the path to the file used for extraction.
+        grounded concepts and the path to the file used for extraction, None
+        if ``parameter_only`` is True.
+    :
+        The parameter scenarios extracted from the article's tables.
     """
     if client is None:
         client = OpenAIClient(model="us.openai.gpt-6-luna", bedrock=True)
@@ -117,7 +121,6 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
             extractor_obj = xml_extractor
         else:
             extractor_obj = EXTRACTORS[extractor](pmid, pmc, paper_base,
-                                                  pmid_to_download_mapping,
                                                   ode_extraction_method)
         ode = extractor_obj.extract(client=client)
         del extractor_obj

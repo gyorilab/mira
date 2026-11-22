@@ -1,7 +1,6 @@
 import gc
 import json
 import logging
-import tarfile
 import tempfile
 import subprocess
 
@@ -140,8 +139,7 @@ class PdfExtractor(Extractor):
     # Extraction methods this extractor supports; subclasses override.
     supported_methods = {"text"}
 
-    def __init__(self, pmid, pmc, paper_base, pmid_to_download_mapping,
-                 ode_extraction_method="text"):
+    def __init__(self, pmid, pmc, paper_base, ode_extraction_method="text"):
         super().__init__(pmid)
         if ode_extraction_method not in self.supported_methods:
             raise ValueError(
@@ -151,7 +149,6 @@ class PdfExtractor(Extractor):
             )
         self.pmc = pmc
         self.paper_base = paper_base
-        self.pmid_to_download_mapping = pmid_to_download_mapping
         self.ode_extraction_method = ode_extraction_method
         self.pdf_file = self._ensure_pdf()
         self._combined_pdf_file = None
