@@ -96,8 +96,7 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
         grounded concepts and the path to the file used for extraction.
     """
     if client is None:
-        client = OpenAIClient(model="us.openai.gpt-6-luna",
-                               max_completion_tokens=32768)
+        client = OpenAIClient(model="us.openai.gpt-6-luna", bedrock=True)
 
     paper_base = BASE.join(pmid)
 
