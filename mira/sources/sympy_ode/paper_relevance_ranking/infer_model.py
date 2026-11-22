@@ -3,11 +3,9 @@ from pathlib import Path
 from setfit import SetFitModel
 
 from mira.sources.sympy_ode.paper_relevance_ranking.utils import (
-    download_papers,
-    extract_and_get_nxml_paths,
+    get_xml_paths,
     parse_nxml,
 )
-from ..paper_extraction import get_pmid_pmc_download_mapping
 
 HERE = Path(__file__).parent.resolve()
 
@@ -96,8 +94,6 @@ def test_model_on_samples(texts, true_labels, pmids, model_path=None):
 
 def main():
     """Main function to test the model."""
-    pmid_to_download_mapping = get_pmid_pmc_download_mapping()
-
     #  BIOMD972, BIOMD974, BIOMD976, BIOMD977, BIOMD978, BIOMD979, BIOMD983, BIOMD991
     positive_pmids = [
         "32099934",
@@ -115,11 +111,7 @@ def main():
     negative_pmids = ["30642334", "36105506"]
     pmids = positive_pmids + negative_pmids
     labels = [1] * len(positive_pmids) + [0] * len(negative_pmids)
-    download_papers(pmids, TEST_DATA_PATH, pmid_to_download_mapping)
-
-    nxml_paths = extract_and_get_nxml_paths(
-        TEST_DATA_PATH, pmids, pmid_to_download_mapping
-    )
+    nxml_paths = get_xml_paths(pmids, TEST_DATA_PATH)
 
     text_content = [parse_nxml(nxml_fp) for nxml_fp in nxml_paths]
 
