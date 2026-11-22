@@ -838,6 +838,9 @@ class TemplateModel:
         for observable in self.observables.values():
             observable.expression = observable.expression.subs(
                 sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for initial in self.initials.values():
+            initial.expression = initial.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
         for key, initial in copy.deepcopy(self.initials).items():
             if initial.concept.name == old_name:
                 self.initials[key].concept.name = new_name
