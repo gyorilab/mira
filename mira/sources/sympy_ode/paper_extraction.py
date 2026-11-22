@@ -1,8 +1,9 @@
 import logging
 import pystow
-import requests
 
 from typing import List, Literal, Optional, Tuple
+
+from indra.literature.pmc_client import id_lookup
 
 from mira.sources.sympy_ode.extractors import (
     MineruExtractor,
@@ -47,20 +48,6 @@ EXTRACTORS = {
     'glmocr_hf': GlmOcrHfExtractor
 }
 
-PMC_IDCONV_URL = "https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/"
-
-def pmid_to_pmcid(pmid: str) -> str:
-    res = requests.get(
-        PMC_IDCONV_URL,
-        params={"ids": pmid, "format": "json", "tool": "mira",
-                "email": "you@example.com"},
-    )
-    res.raise_for_status()
-    pmcid = res.json()["records"][0].get("pmcid")
-    if not pmcid:
-        raise ValueError(f"PMID {pmid} has no PMCID.")
-    return pmcid
-
 
 def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
@@ -104,7 +91,9 @@ def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
 
     paper_base = BASE.join(pmid)
 
-    pmc = pmid_to_pmcid(pmid)
+    pmc = id_lookup(pmid, 'pmid').get('pmcid')
+    if not pmc:
+        raise ValueError(f"PMID {pmid} has no PMCID.")
 
     if extractor != 'xml' and extractor not in EXTRACTORS:
         raise ValueError(f"Unknown extractor: {extractor}")
