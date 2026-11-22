@@ -352,6 +352,20 @@ def test_observables_time_json():
     assert tm2.time.units.expression == sympy.Symbol('day')
 
 
+def test_initial_concepts_json():
+    s, i = sympy.symbols('S I')
+    tm = TemplateModel(
+        templates=[NaturalConversion(subject=Concept(name='S'),
+                                     outcome=Concept(name='I'),
+                                     rate_law=sympy.Symbol('k') * s)],
+        parameters={'k': Parameter(name='k', value=0.1)},
+        initials={'S': Initial(concept=Concept(name='S'),
+                               expression=1000 - i),
+                  'I': Initial(concept=Concept(name='I'), expression=1)})
+    tm2 = TemplateModel.from_json(tm.to_json())
+    assert tm2.initials['S'].expression == 1000 - i
+
+
 def test_set_initials():
     tm = _d(sir_parameterized)
     tm.initials.pop('immune_population')

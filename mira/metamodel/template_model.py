@@ -929,6 +929,9 @@ class TemplateModel:
                             local_symbols[
                                 concept_dict.get("name")
                             ] = sympy.Symbol(concept_dict.get("name"))
+        if data.get("time"):
+            time_name = data["time"]["name"]
+            local_symbols[time_name] = sympy.Symbol(time_name)
         # We can now use these symbols to deserialize rate laws
         templates = [
             Template.from_json(template, rate_symbols=local_symbols)
@@ -965,9 +968,6 @@ class TemplateModel:
             else:
                 # If the data is not a float, assume it's JSON
                 # for a :class:`Initial` instance and parse it to Initial
-                local_symbols = {
-                    p.name: sympy.Symbol(p.name) for p in parameters.values()
-                }
                 initials[name] = Initial.from_json(
                     value, locals_dict=local_symbols
                 )
