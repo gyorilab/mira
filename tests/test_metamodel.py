@@ -339,6 +339,19 @@ def test_set_parameters():
     assert tm.parameters['d'].value == 8
     assert tm.parameters['e'].value == 10
 
+def test_observables_time_json():
+    tm = _d(sir_parameterized)
+    tm.observables['infected'] = \
+        Observable(name='infected',
+                   expression=sympy.Symbol('infected_population'))
+    tm.time = Time(name='t', units=Unit(expression=sympy.Symbol('day')))
+    tm2 = TemplateModel.from_json(tm.to_json())
+    assert tm2.observables['infected'].expression == \
+        sympy.Symbol('infected_population')
+    assert tm2.time.name == 't'
+    assert tm2.time.units.expression == sympy.Symbol('day')
+
+
 def test_set_initials():
     tm = _d(sir_parameterized)
     tm.initials.pop('immune_population')

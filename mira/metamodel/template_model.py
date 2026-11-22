@@ -336,6 +336,29 @@ class Observable(Concept):
     def __repr__(self):
         return f"Observable({self.name}, {self.expression})"
 
+    @classmethod
+    def from_json(cls, data, locals_dict=None):
+        """Return an Observable from a dictionary.
+
+        Parameters
+        ----------
+        data : dict
+            Mapping of Observable attributes to values.
+        locals_dict : dict
+            Mapping of string symbols to their sympy equivalent.
+
+        Returns
+        -------
+        :
+            The newly created observable.
+        """
+        data = dict(data)
+        if data.get('units'):
+            data['units'] = Unit.from_json(data['units'])
+        data['expression'] = safe_parse_expr(data['expression'],
+                                             local_dict=locals_dict)
+        return cls(**data)
+
     def __str__(self):
         return self.__repr__()
 
@@ -395,6 +418,12 @@ class Time:
         if self.units:
             parts.append(f"units={self.units}")
         return f"Time({', '.join(parts)})"
+
+    @classmethod
+    def from_json(cls, data):
+        """Return a Time from a dictionary."""
+        units = Unit.from_json(data['units']) if data.get('units') else None
+        return cls(name=data['name'], units=units)
 
     def __str__(self):
         return self.__repr__()
@@ -905,6 +934,11 @@ class TemplateModel:
             Template.from_json(template, rate_symbols=local_symbols)
             for template in data["templates"]
         ]
+        observables = {
+            name: Observable.from_json(obs, locals_dict=local_symbols)
+            for name, obs in data.get("observables", {}).items()
+        }
+        time = Time.from_json(data["time"]) if data.get("time") else None
 
         #: A lookup from concept name in the model to the full
         #: concept object to be used for preparing initial values
@@ -942,6 +976,8 @@ class TemplateModel:
             templates=templates,
             parameters=parameters,
             initials=initials,
+            observables=observables,
+            time=time,
             annotations=Annotations.from_json(data["annotations"]) if data.get("annotations") else None,
         )
 
