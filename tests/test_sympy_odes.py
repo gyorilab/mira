@@ -331,3 +331,19 @@ def test_sympy_time_varying_param_no_expansion():
     ]
     model = template_model_from_sympy_odes(odes)
     assert 'beta' in model.parameters
+
+
+def test_sympy_builtin_function_in_conversion():
+    t = sympy.Symbol('t')
+    S, I, R = sympy.symbols('S I R', cls=sympy.Function)
+    b, g = sympy.symbols('b g')
+    odes = [
+        sympy.Eq(S(t).diff(t), -b * S(t) * I(t)),
+        sympy.Eq(I(t).diff(t), b * S(t) * I(t) - g * sympy.exp(-t) * I(t)),
+        sympy.Eq(R(t).diff(t), g * sympy.exp(-t) * I(t)),
+    ]
+    model = template_model_from_sympy_odes(odes)
+    recovery = [template for template in model.templates
+                if template.subject.name == 'I'][0]
+    assert recovery.outcome.name == 'R'
+    assert recovery.rate_law == g * sympy.exp(-t) * sympy.Symbol('I')
