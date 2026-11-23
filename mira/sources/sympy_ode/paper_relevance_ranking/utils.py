@@ -1,62 +1,26 @@
-from pathlib import Path
 from lxml import etree
 
-import tarfile
-from indra.literature.pubmed_client import download_package_for_pmids
+from indra.literature.pmc_client import get_xml_s3, id_lookup
 
 
-def get_pmc_id(pmc_download_link):
-    return Path(pmc_download_link).stem.split(".")[0]
+def get_xml_paths(pmids, output_dir):
+    """Return the paths of the PMC XML files of the given PMIDs.
 
-
-def download_papers(pmid_list, output_dir, mapping):
-    uncached_pmids = []
-    for pmid in pmid_list:
-        try:
-            pmc_id = get_pmc_id(mapping[pmid])
-
-            # Test to see if the pmc directory for a single paper is in the
-            # respective class training data folder
-            # We unzip and extract the downloaded the pmc folder later
-            pmc_exists = any(pmc_id in str(item) for item in output_dir.rglob("*"))
-            if not pmc_exists:
-                uncached_pmids.append(pmid)
-        except KeyError:
-            print(f"No PMC mapping found for PMID {pmid}, skipping...")
-
-    if uncached_pmids:
-        download_package_for_pmids(
-            uncached_pmids, output_dir.as_posix(), mapping
-        )
-
-
-def extract_and_get_nxml_paths(dir_path, pmids, mapping):
-    tar_files = list(dir_path.glob("*.tar.gz"))
-
-    # Build a dictionary: pmc_id -> nxml_path
-    pmc_to_nxml = {}
-
-    for tar_file in tar_files:
-        with tarfile.open(tar_file, "r:gz") as tar:
-            tar.extractall(path=dir_path)
-
-        extracted_name = tar_file.stem.replace(".tar", "")
-        extracted_subdirectory = dir_path / extracted_name
-
-        nxml_file = list(extracted_subdirectory.glob("**/*.nxml"))[0]
-        pmc_to_nxml[extracted_name] = nxml_file
-
-    # Return paths in the SAME ORDER as pmids
-    nxml_paths = []
+    XML files not yet in ``output_dir`` are downloaded from the PMC Cloud
+    S3 bucket and saved as ``<PMID>.xml``.
+    """
+    paths = []
     for pmid in pmids:
-        pmc_id = get_pmc_id(mapping[pmid])
-        if pmc_id in pmc_to_nxml:
-            nxml_paths.append(pmc_to_nxml[pmc_id])
-        else:
-            raise ValueError(
-                f"PMID {pmid} (PMC {pmc_id}) not found in downloaded files")
-
-    return nxml_paths
+        path = output_dir / f"{pmid}.xml"
+        if not path.exists():
+            pmcid = id_lookup(pmid, "pmid").get("pmcid")
+            xml = get_xml_s3(pmcid) if pmcid else None
+            if xml is None:
+                raise ValueError(f"No PMC XML found for PMID {pmid}")
+            output_dir.mkdir(parents=True, exist_ok=True)
+            path.write_text(xml)
+        paths.append(path)
+    return paths
 
 
 def get_clean_text(element):

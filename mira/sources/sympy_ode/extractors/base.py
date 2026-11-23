@@ -1,16 +1,22 @@
 import gc
 import json
 import logging
-import tarfile
 import tempfile
 import subprocess
 
 from pathlib import Path
+from urllib.parse import urlparse
+
+import requests
 from pypdf import PdfWriter
 
-from indra.literature.pubmed_client import download_package_for_pmid
+from indra.literature.pmc_client import (
+    get_latest_s3_version, get_metadata_s3, get_pdf_s3, get_xml_s3,
+    pmc_s3_base_url
+)
 
 from ..agent_pipeline import run_multi_agent_pipeline
+from ..scenario_extraction import extract_scenarios_from_paper
 
 logger = logging.getLogger(__name__)
 logging.getLogger("pypdf").setLevel(logging.ERROR)
@@ -89,6 +95,39 @@ class Extractor:
         """
         return ode
 
+    def find_tables(self):
+        """Return a list of tables found in the paper, if any.
+
+        Returns
+        -------
+        :
+            A list of :class:`PaperTable` objects, or an empty list if no tables
+            were found.
+        """
+        return []
+
+    def extract_parameters(self, client=None, template_model=None):
+        """Extract parameter Scenarios from the paper's tables.
+
+        Parameters
+        ----------
+        client :
+            The OpenAI client passed through to the pipeline.
+        template_model :
+            If given, table values are named after its parameters.
+
+        Returns
+        -------
+        :
+            A list of :class:`mira.metamodel.Scenario`, empty if the paper
+            has no relevant tables.
+        """
+        tables = self.find_tables()
+        if not tables:
+            logger.info(f"No tables found for pmid {self.pmid}")
+            return []
+        return extract_scenarios_from_paper(self.pmid, client, tables,
+                                            template_model)
 
 class PdfExtractor(Extractor):
     """Base for extractors that work from a downloaded PDF.
@@ -100,8 +139,7 @@ class PdfExtractor(Extractor):
     # Extraction methods this extractor supports; subclasses override.
     supported_methods = {"text"}
 
-    def __init__(self, pmid, pmc, paper_base, pmid_to_download_mapping,
-                 ode_extraction_method="text"):
+    def __init__(self, pmid, pmc, paper_base, ode_extraction_method="text"):
         super().__init__(pmid)
         if ode_extraction_method not in self.supported_methods:
             raise ValueError(
@@ -111,7 +149,6 @@ class PdfExtractor(Extractor):
             )
         self.pmc = pmc
         self.paper_base = paper_base
-        self.pmid_to_download_mapping = pmid_to_download_mapping
         self.ode_extraction_method = ode_extraction_method
         self.pdf_file = self._ensure_pdf()
         self._combined_pdf_file = None
@@ -124,11 +161,7 @@ class PdfExtractor(Extractor):
         nxml_files = list(extracted_subdirectory.glob("*.nxml"))
 
         if not nxml_files:
-            pmc_content_path = download_package_for_pmid(
-                self.pmid, self.paper_base, self.pmid_to_download_mapping
-            )
-            with tarfile.open(pmc_content_path, "r:gz") as tar:
-                tar.extractall(path=self.paper_base)
+            self._download_from_s3(extracted_subdirectory)
 
         try:
             nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
@@ -145,6 +178,37 @@ class PdfExtractor(Extractor):
                 "No equivalent pdf file for downloaded .nxml file"
             )
         return pdf_file
+
+    def _download_from_s3(self, out_dir):
+        """Download the paper's XML, PDF and media files from the PMC Cloud
+        S3 bucket into ``out_dir``, laid out like an extracted OA package
+        (the XML is saved as ``.nxml`` next to a PDF with the same stem).
+        """
+        version = get_latest_s3_version(self.pmc)
+        if version is None:
+            raise FileNotFoundError(f"{self.pmc} not found on PMC S3")
+        out_dir.mkdir(parents=True, exist_ok=True)
+        stem = f"{self.pmc}.{version}"
+
+        xml = get_xml_s3(self.pmc, version=version)
+        if xml is None:
+            raise FileNotFoundError(f"No xml for {stem} on PMC S3")
+        (out_dir / f"{stem}.nxml").write_text(xml, encoding="utf-8")
+        pdf = get_pdf_s3(self.pmc, version=version)
+        if pdf is None:
+            raise FileNotFoundError(f"No pdf for {stem} on PMC S3")
+        (out_dir / f"{stem}.pdf").write_bytes(pdf)
+
+        # Media (figures, supplementary files) are listed in the metadata
+        meta = get_metadata_s3(self.pmc, version=version) or {}
+        media_urls = meta.get("media_urls", [])
+        for s3_url in media_urls:
+            key = urlparse(s3_url).path.lstrip("/")
+            resp = requests.get(f"{pmc_s3_base_url}/{key}")
+            if resp.ok:
+                (out_dir / Path(key).name).write_bytes(resp.content)
+            else:
+                logger.warning(f"Could not download {key} from PMC S3")
 
     def _get_supplementary_pdf_file(self):
         """Return a single PDF combining the paper's supplementary

@@ -4,10 +4,8 @@ from setfit import SetFitModel
 
 from mira.sources.sympy_ode.paper_relevance_ranking.utils import (
     parse_nxml,
-    extract_and_get_nxml_paths,
-    download_papers,
+    get_xml_paths,
 )
-from ..paper_extraction import get_pmid_pmc_download_mapping
 
 HERE = Path(__file__).parent.resolve()
 NEGATIVE_PATH = HERE / "training_data" / "negative"
@@ -74,17 +72,8 @@ def main():
         "40845139",
     ]
 
-    pmid_to_download_mapping = get_pmid_pmc_download_mapping()
-
-    download_papers(positive_pmids, POSITIVE_PATH, pmid_to_download_mapping)
-    download_papers(negative_pmids, NEGATIVE_PATH, pmid_to_download_mapping)
-
-    positive_nxml_paths = extract_and_get_nxml_paths(
-        POSITIVE_PATH, positive_pmids, pmid_to_download_mapping
-    )
-    negative_nxml_paths = extract_and_get_nxml_paths(
-        NEGATIVE_PATH, negative_pmids, pmid_to_download_mapping
-    )
+    positive_nxml_paths = get_xml_paths(positive_pmids, POSITIVE_PATH)
+    negative_nxml_paths = get_xml_paths(negative_pmids, NEGATIVE_PATH)
 
     train_save_model(positive_nxml_paths, negative_nxml_paths)
 
