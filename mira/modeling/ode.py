@@ -133,6 +133,33 @@ class OdeModel:
         equations = sympy.Matrix([[lhs[i], sympy.Symbol('='), obs[i]] for i in range(len(lhs))])
         return equations
 
+    def get_sympy_code(self) -> str:
+        """Return Python code that defines the ODEs of this model in SymPy.
+
+        The code defines each variable as a function of time ``t`` and a
+        list of equations named ``odes``, the input format of
+        :func:`mira.sources.sympy_ode.template_model_from_sympy_odes`.
+        """
+        t = sympy.Symbol('t')
+        names = [self.vname_map[idx] for idx in range(len(self.vmap))]
+        params = list(self.pmap)
+        subs = {self.y[idx]: sympy.Function(name)(t)
+                for idx, name in enumerate(names)}
+        subs.update({self.p[idx]: sympy.Symbol(key)
+                     for key, idx in self.pmap.items()})
+        lines = ["from sympy import *", "", "t = symbols('t')",
+                 f"{', '.join(names)} = symbols('{' '.join(names)}', "
+                 "cls=Function)"]
+        if params:
+            lines.append(f"{', '.join(params)} = "
+                         f"symbols('{' '.join(params)}')")
+        lines += ["", "odes = ["]
+        for idx, name in enumerate(names):
+            rhs = self.kinetics[idx].subs(subs)
+            lines.append(f"    Eq({name}(t).diff(t), {rhs}),")
+        lines.append("]")
+        return "\n".join(lines) + "\n"
+
     def plot_simulation_results(self, times, res):
         """Plot the results of a simulation.
 

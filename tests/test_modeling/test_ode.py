@@ -8,6 +8,8 @@ import sympy
 from mira.metamodel import *
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel, simulate_ode_model
+from mira.sources.sympy_ode import template_model_from_sympy_odes
+from mira.examples.sir import sir_parameterized
 
 
 class TestODE(unittest.TestCase):
@@ -200,3 +202,30 @@ class TestODE(unittest.TestCase):
         om = OdeModel(model=Model(tm), initialized=True)
         with self.assertRaises(TimeoutError):
             om.simulate_model(numpy.linspace(0, 25, 100), timeout=0)
+
+    def test_sympy_code(self):
+        code = OdeModel(Model(sir_parameterized),
+                        initialized=False).get_sympy_code()
+        namespace = {}
+        exec(code, namespace)
+        tm = template_model_from_sympy_odes(namespace['odes'])
+        kinetics = OdeModel(Model(tm),
+                            initialized=False).get_interpretable_kinetics()
+        expected = OdeModel(Model(sir_parameterized),
+                            initialized=False).get_interpretable_kinetics()
+        self.assertEqual({tuple(row) for row in kinetics.tolist()},
+                         {tuple(row) for row in expected.tolist()})
+
+    def test_sympy_code_time_dependent(self):
+        tm = TemplateModel(
+            templates=[NaturalDegradation(
+                subject=Concept(name='X'),
+                rate_law=sympy.parse_expr('k * X * exp(-t)'))],
+            parameters={'k': Parameter(name='k', value=0.1)},
+            time=Time(name='t'))
+        code = OdeModel(Model(tm), initialized=False).get_sympy_code()
+        namespace = {}
+        exec(code, namespace)
+        x, t = namespace['X'], namespace['t']
+        self.assertEqual(namespace['odes'][0].rhs,
+                         -namespace['k'] * x(t) * sympy.exp(-t))
