@@ -790,7 +790,11 @@ class TemplateModel:
         return used_parameters
 
     def eliminate_unused_parameters(self):
-        """Remove parameters that are not used in rate laws."""
+        """Remove parameters that are not used in the model.
+
+        A parameter is used if it appears in a rate law, initial,
+        observable or parameter distribution.
+        """
         used_parameters = self.get_all_used_parameters()
         for k in list(self.parameters.keys()):
             if k not in used_parameters:
