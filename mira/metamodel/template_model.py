@@ -336,6 +336,29 @@ class Observable(Concept):
     def __repr__(self):
         return f"Observable({self.name}, {self.expression})"
 
+    @classmethod
+    def from_json(cls, data, locals_dict=None):
+        """Return an Observable from a dictionary.
+
+        Parameters
+        ----------
+        data : dict
+            Mapping of Observable attributes to values.
+        locals_dict : dict
+            Mapping of string symbols to their sympy equivalent.
+
+        Returns
+        -------
+        :
+            The newly created observable.
+        """
+        data = dict(data)
+        if data.get('units'):
+            data['units'] = Unit.from_json(data['units'])
+        data['expression'] = safe_parse_expr(data['expression'],
+                                             local_dict=locals_dict)
+        return cls(**data)
+
     def __str__(self):
         return self.__repr__()
 
@@ -395,6 +418,12 @@ class Time:
         if self.units:
             parts.append(f"units={self.units}")
         return f"Time({', '.join(parts)})"
+
+    @classmethod
+    def from_json(cls, data):
+        """Return a Time from a dictionary."""
+        units = Unit.from_json(data['units']) if data.get('units') else None
+        return cls(name=data['name'], units=units)
 
     def __str__(self):
         return self.__repr__()
@@ -761,7 +790,11 @@ class TemplateModel:
         return used_parameters
 
     def eliminate_unused_parameters(self):
-        """Remove parameters that are not used in rate laws."""
+        """Remove parameters that are not used in the model.
+
+        A parameter is used if it appears in a rate law, initial,
+        observable or parameter distribution.
+        """
         used_parameters = self.get_all_used_parameters()
         for k in list(self.parameters.keys()):
             if k not in used_parameters:
@@ -788,6 +821,83 @@ class TemplateModel:
                 redundant_parameter, preserved_parameter
             )
         self.parameters.pop(redundant_parameter)
+
+    def rename_parameter(self, old_name: str, new_name: str):
+        """Rename a parameter, including in rate laws, observables and
+        initials.
+
+        Parameters
+        ----------
+        old_name :
+            The name of the parameter to rename.
+        new_name :
+            The new name of the parameter.
+        """
+        if old_name not in self.parameters:
+            raise ValueError(f"Parameter {old_name} not found in model.")
+        for template in self.templates:
+            if template.rate_law:
+                template.rate_law = template.rate_law.subs(
+                    sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        param = self.parameters.pop(old_name)
+        param.name = new_name
+        self.parameters[new_name] = param
+        for initial in self.initials.values():
+            if initial.expression:
+                initial.substitute_parameter(old_name, sympy.Symbol(new_name))
+
+    def rename_concept(self, old_name: str, new_name: str):
+        """Rename a concept, including in rate laws, observables and
+        initials.
+
+        Parameters
+        ----------
+        old_name :
+            The name of the concept to rename.
+        new_name :
+            The new name of the concept.
+        """
+        if old_name not in self.get_concepts_name_map():
+            raise ValueError(f"Concept {old_name} not found in model.")
+        for template in self.templates:
+            for concept in template.get_concepts():
+                if concept.name == old_name:
+                    concept.name = new_name
+            template.rate_law = template.rate_law.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for initial in self.initials.values():
+            initial.expression = initial.expression.subs(
+                sympy.Symbol(old_name), sympy.Symbol(new_name))
+        for key, initial in copy.deepcopy(self.initials).items():
+            if initial.concept.name == old_name:
+                self.initials[key].concept.name = new_name
+                # If the key is same as the old name, we replace that too
+                if key == old_name:
+                    self.initials[new_name] = self.initials.pop(old_name)
+
+    def remove_concept(self, name: str):
+        """Remove a concept and all templates it appears in.
+
+        The concept is replaced with 0 in observables.
+
+        Parameters
+        ----------
+        name :
+            The name of the concept to remove.
+        """
+        self.templates = [
+            template for template in self.templates
+            if name not in {c.name for c in template.get_concepts()}
+        ]
+        for observable in self.observables.values():
+            observable.expression = observable.expression.subs(
+                sympy.Symbol(name), 0)
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
@@ -823,11 +933,19 @@ class TemplateModel:
                             local_symbols[
                                 concept_dict.get("name")
                             ] = sympy.Symbol(concept_dict.get("name"))
+        if data.get("time"):
+            time_name = data["time"]["name"]
+            local_symbols[time_name] = sympy.Symbol(time_name)
         # We can now use these symbols to deserialize rate laws
         templates = [
             Template.from_json(template, rate_symbols=local_symbols)
             for template in data["templates"]
         ]
+        observables = {
+            name: Observable.from_json(obs, locals_dict=local_symbols)
+            for name, obs in data.get("observables", {}).items()
+        }
+        time = Time.from_json(data["time"]) if data.get("time") else None
 
         #: A lookup from concept name in the model to the full
         #: concept object to be used for preparing initial values
@@ -854,9 +972,6 @@ class TemplateModel:
             else:
                 # If the data is not a float, assume it's JSON
                 # for a :class:`Initial` instance and parse it to Initial
-                local_symbols = {
-                    p.name: sympy.Symbol(p.name) for p in parameters.values()
-                }
                 initials[name] = Initial.from_json(
                     value, locals_dict=local_symbols
                 )
@@ -865,6 +980,8 @@ class TemplateModel:
             templates=templates,
             parameters=parameters,
             initials=initials,
+            observables=observables,
+            time=time,
             annotations=Annotations.from_json(data["annotations"]) if data.get("annotations") else None,
         )
 
@@ -1470,14 +1587,23 @@ class TemplateModel:
         """
         Set the initials of this model to the expression in the given dict.
 
+        An initial is added for a concept that does not have one yet.
+
         Parameters
         ----------
         initial_dict : dict
             Mapping of initial name to its new expression.
         """
+        concepts = self.get_concepts_name_map()
         for name, expression in initial_dict.items():
-            if self.initials and name in self.initials:
+            if name in self.initials:
                 self.initials[name].expression = expression
+            elif name in concepts:
+                self.initials[name] = Initial(
+                    concept=copy.deepcopy(concepts[name]),
+                    expression=expression)
+            else:
+                raise ValueError(f"No concept named {name} in the model.")
 
 
 def _iter_concepts(template_model: TemplateModel):

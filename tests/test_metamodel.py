@@ -10,6 +10,7 @@ import requests
 import sympy
 
 from mira.metamodel import *
+from mira.examples.sir import sir_parameterized
 from mira.metamodel import mathml_to_expression, expression_to_mathml, \
     UNIT_SYMBOLS
 from mira.sources.amr.petrinet import state_to_concept, \
@@ -338,6 +339,45 @@ def test_set_parameters():
     assert tm.parameters['d'].value == 8
     assert tm.parameters['e'].value == 10
 
+def test_observables_time_json():
+    tm = _d(sir_parameterized)
+    tm.observables['infected'] = \
+        Observable(name='infected',
+                   expression=sympy.Symbol('infected_population'))
+    tm.time = Time(name='t', units=Unit(expression=sympy.Symbol('day')))
+    tm2 = TemplateModel.from_json(tm.to_json())
+    assert tm2.observables['infected'].expression == \
+        sympy.Symbol('infected_population')
+    assert tm2.time.name == 't'
+    assert tm2.time.units.expression == sympy.Symbol('day')
+
+
+def test_initial_concepts_json():
+    s, i = sympy.symbols('S I')
+    tm = TemplateModel(
+        templates=[NaturalConversion(subject=Concept(name='S'),
+                                     outcome=Concept(name='I'),
+                                     rate_law=sympy.Symbol('k') * s)],
+        parameters={'k': Parameter(name='k', value=0.1)},
+        initials={'S': Initial(concept=Concept(name='S'),
+                               expression=1000 - i),
+                  'I': Initial(concept=Concept(name='I'), expression=1)})
+    tm2 = TemplateModel.from_json(tm.to_json())
+    assert tm2.initials['S'].expression == 1000 - i
+
+
+def test_set_initials():
+    tm = _d(sir_parameterized)
+    tm.initials.pop('immune_population')
+    tm.set_initials({'infected_population': sympy.Integer(5),
+                     'immune_population': sympy.Integer(0)})
+    assert tm.initials['infected_population'].expression == 5
+    assert tm.initials['immune_population'].concept.name == \
+        'immune_population'
+    with pytest.raises(ValueError):
+        tm.set_initials({'x': sympy.Integer(1)})
+
+
 def test_substitute_parameters():
     distr = Distribution(
         type='Normal',
@@ -371,3 +411,25 @@ def test_substitute_parameters():
     assert tm.parameters['k1'].distribution.parameters['std'] - 2 == 0
     tm.substitute_parameter('k3', 0.5)
     assert tm.templates[0].rate_law == 0.5 * sympy.Symbol('x')
+
+
+def test_rename_parameter():
+    tm = _d(sir_parameterized)
+    tm.rename_parameter('beta', 'b')
+    assert 'b' in tm.parameters
+    assert 'beta' not in tm.parameters
+    assert sympy.Symbol('b') in tm.templates[0].rate_law.free_symbols
+
+
+def test_rename_concept():
+    tm = _d(sir_parameterized)
+    tm.rename_concept('infected_population', 'I')
+    assert 'I' in tm.get_concepts_name_map()
+    assert 'I' in tm.initials
+    assert sympy.Symbol('I') in tm.templates[1].rate_law.free_symbols
+
+
+def test_remove_concept():
+    tm = _d(sir_parameterized)
+    tm.remove_concept('immune_population')
+    assert len(tm.templates) == 1
