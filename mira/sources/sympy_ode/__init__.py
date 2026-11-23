@@ -310,7 +310,8 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None,
             target_concept = target_concepts[target]
             term = G.nodes[target]['term']
             rate_law = (term.subs({f: sympy.Symbol(f.name)
-                        for f in term.atoms(Function)}))
+                        for f in term.atoms(Function)
+                        if hasattr(f, 'name')}))
             if not controllers:
                 template = NaturalConversion(subject=source_concept, outcome=target_concept,
                                              rate_law=rate_law)
