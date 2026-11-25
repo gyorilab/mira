@@ -43,6 +43,12 @@ ODE model generation and simulation (:py:mod:`mira.modeling.ode`)
     :members:
     :show-inheritance:
 
+PyGOM model generation (:py:mod:`mira.modeling.pygom`)
+------------------------------------------------------
+.. automodule:: mira.modeling.pygom
+    :members:
+    :show-inheritance:
+
 ACSets Petri net model generation (:py:mod:`mira.modeling.acsets.petri`)
 ------------------------------------------------------------------------
 .. automodule:: mira.modeling.acsets.petri
